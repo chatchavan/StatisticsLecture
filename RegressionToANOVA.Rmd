@@ -5,9 +5,9 @@ date: "October 6, 2017"
 runtime: shiny
 ---
 
-```{r setup}
-library(ggplot2)
-library(DT)
+```{r setup, echo=FALSE}
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(ggplot2, DT, dplyr, tidyr)
 ```
 
 # Linear regression
@@ -83,7 +83,7 @@ renderPlot({
 })
 
 renderUI({ 
-    errLines <- calcError(data1, b0, b1)  
+    errLines <- calcError(data1, input$b0, input$b1)  
     SS_R <- sum((errLines$yend - errLines$y)^2)
     withMathJax(sprintf("\\(SS\\_R\\) = %d", SS_R))
 })
