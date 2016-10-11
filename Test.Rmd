@@ -1,0 +1,57 @@
+---
+title: "Statistics for HCI"
+author: "Chat Wacharamanotham"
+date: "October 6, 2017"
+runtime: shiny
+---
+
+```{r setup}
+# These lines install necessary packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(ggplot2, DT, dplyr, tidyr)
+```
+
+You should see a table showing $x$ and $y$ below:
+```{r echo=FALSE}
+data1 <- data.frame(x = c(4, 4, 7, 7, 8, 9, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 16, 16, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 20, 20, 20, 20, 20, 22, 23, 24, 24, 24, 24, 25),
+                   y = c(2, 10, 4, 22, 16, 10, 18, 26, 34, 17, 28, 14, 20, 24, 28, 26, 34, 34, 46, 26, 36, 60, 80, 20, 26, 54, 32, 40, 32, 40, 50, 42, 56, 76, 84, 36, 46, 68, 32, 48, 52, 56, 64, 66, 54, 70, 92, 93, 120, 85))
+datatable(data1)
+```
+
+You should see two sliders which let you control the graph below.
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("b0", label = "\\(\\beta_0\\):",
+              min = -10, max = 10, value = -10),
+  
+  sliderInput("b1", label = "\\(\\beta_1\\):",
+              min = -10, max = 10, value = 5)
+)
+
+calcError <- function(data, b0, b1) {
+  data.frame(x = data$x, y = data$y, xend = data$x, yend = input$b0 + input$b1 * data$x)
+}
+
+renderPlot({
+  meanY <- mean(data1$y)
+  errLines <- calcError(data1, b0, b1)
+  ggplot(data1, aes(x = x, y = y)) +
+    geom_point() +
+    geom_abline(intercept = input$b0, slope = input$b1) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), linetype = "dotted", color = "red") +
+    geom_hline(yintercept=meanY, color = "darkgray") +
+    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+})
+
+renderUI({ 
+    meanY <- mean(data1$y)
+    errLines <- calcError(data1, input$b0, input$b1)  
+    SS_R <- sum((errLines$yend - errLines$y)^2)
+    SS_T <- sum((meanY - errLines$y)^2)
+    withMathJax(
+      p(sprintf("\\(SS\\_R\\) = %.2f", SS_R)),
+      p(sprintf("\\(SS\\_T\\) = %.2f", SS_T))
+    )
+})
+```
+
