@@ -8,6 +8,7 @@ runtime: shiny
 ```{r setup, echo=FALSE}
 if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
 p_load(ggplot2, DT, dplyr, tidyr)
+
 ```
 
 # Linear regression
@@ -63,7 +64,19 @@ inputPanel(
               min = -10, max = 10, value = -10),
   
   sliderInput("b1", label = "\\(\\beta_1\\):",
-              min = -10, max = 10, value = 5)
+              min = -10, max = 10, value = 5),
+  
+  sliderInput("baseSize", label = "baseSize:",
+              min = 10, max = 40, value = 25),
+  
+  sliderInput("pointSize", label = "pointSize:",
+              min = 1, max = 10, value = 3),
+  
+  sliderInput("lineSize", label = "lineSize:",
+              min = 1, max = 10, value = 2),
+  
+  sliderInput("grayedLineSize", label = "grayedLineSize:",
+              min = 1, max = 10, value = 3)
 )
 
 calcError <- function(data, b0, b1) {
@@ -71,13 +84,29 @@ calcError <- function(data, b0, b1) {
 }
 
 renderPlot({
+  theme_set(theme_dark(base_size = input$baseSize))  # plot size
+  
+  meanY <- mean(data1$y)
+  errLines <- calcError(data1, b0, b1)
+  ggplot(data1, aes(x = x, y = y)) + 
+    geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
+    geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), linetype = "dotted", color = "red", size = input$lineSize) +
+    geom_point(size = input$pointSize) +
+    xlim(c(0,30)) +
+    ylim(c(0,125))
+})
+
+renderPlot({
+  theme_set(theme_gray(base_size = input$baseSize))  # plot size
+  
   meanY <- mean(data1$y)
   errLines <- calcError(data1, b0, b1)
   ggplot(data1, aes(x = x, y = y)) +
-    geom_point() +
-    geom_abline(intercept = input$b0, slope = input$b1) +
+    geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
+    geom_point(size = input$pointSize) +
+    geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), linetype = "dotted", color = "red") +
-    geom_hline(yintercept=meanY, color = "darkgray") +
     xlim(c(0,30)) +
     ylim(c(0,125))
 })
