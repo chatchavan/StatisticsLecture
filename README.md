@@ -27,4 +27,4 @@ This repository contains the materials accompanying statistics lecture.
    ![A notebook screen]
    (Images/TestNotebookOutput.png)
 
-4. Check back on [this repository](https://github.com/chatchavan/StatisticsLecture) on 18 October, 2016, 18:00 for the latest version of the code.
+4. Check back on [this repository](https://github.com/chatchavan/StatisticsLecture) on 19 October, 2016, 6:00 for the latest version of the code.
