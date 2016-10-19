@@ -141,16 +141,38 @@ renderPlot({
 ```
 
 
+Actually, there is an algorithm to find the best line. This is call ordinary least square.
+
+```{r}
+m <- lm(y ~ x, data1)
+```
+
+```{r, echo=FALSE}
+b0 <- m$coefficients[1]
+b1 <- m$coefficients["x"]
+```
+
+Which gives us $\beta_0$ = `r sprintf("%.2f", b0)` and $\beta_1$ = `r sprintf("%.2f", b1)`. Let's plot this:
+```{r, echo=FALSE}
+renderPlot({
+  errLines <- calcError(data1, b0, b1)
+      
+  baseThemeSetup()
+  ggplot(data1, aes(x = x, y = y)) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
+                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
+    geom_point(size = input$pointSize) +
+    geom_abline(intercept = b0, slope = b1 , size = input$lineSize) +
+    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+}, width = shinyPlotWidth* 0.75, height = shinyPlotHeight* 0.75)
+```
+
 
 #Interactive 3
 ```{r, echo=FALSE}
 N <- nrow(data1)
 ```
 
-**Mean square error:** average error per data point $MS_R = \frac{SS_R}{df_R}$ ($df_R$: degrees of freedom. Here: $N - 1$: `r N - 1`.)
-
-**F-ratio:** ratio between the total mean square error $MS_T$ and the residual mean square error $MS_R$
-$F = \frac{MS_T}{MS_R}$
 ```{r, echo=FALSE}
 inputPanel(
   list(
@@ -164,7 +186,7 @@ inputPanel(
     renderUI({
       errLines <- calcError(data1, input$blk_b0, input$blk_b1)
       SS_R <- sum((errLines$yend - errLines$y)^2)
-      withMathJax(sprintf("\\(SS_R\\) = %.2f\n \\( MS_R\\) = %.2f", SS_R, SS_R / (N - 1)))
+      withMathJax(sprintf("\\(SS_R\\) = %.2f\n \\(MS_R \\)= %.2f", SS_R, SS_R / (N - 1)))
     })
     
   ),
@@ -191,26 +213,30 @@ inputPanel(
       
       SS_M <- SS_T - SS_R
       
-      withMathJax(sprintf("\\(SS_M\\) = %.2f\n", SS_M))
+      withMathJax(sprintf("\\(SS_M\\) = %.2f", SS_M))
     })
   )
 )
 
 # F-ratio
-# renderUI({
-#   errLines <- calcError(data1, input$blk_b0, input$blk_b1)
-#   SS_R <- sum((errLines$yend - errLines$y)^2)
-#   MS_R <- SS_R / N
-#   
-#   g_errLines <- calcError(data1, input$g_b0, 0)
-#   SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
-#   MS_T <- SS_T / N
-#   
-#   FValue <- MS_T / MS_R
-#   
-#   withMathJax(sprintf("\\(F = \\frac{MS_T}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
-#                       MS_T, MS_R, FValue))
-# })
+renderUI({
+  errLines <- calcError(data1, input$blk_b0, input$blk_b1)
+  SS_R <- sum((errLines$yend - errLines$y)^2)
+  
+  g_errLines <- calcError(data1, input$g_b0, 0)
+  SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+  
+  SS_M <- SS_T - SS_R
+  
+  df_M <- 1
+  MS_M <- SS_M / df_M
+  MS_R <- SS_R / (N - df_M)
+
+  FValue <- MS_M / MS_R
+
+  withMathJax(sprintf("\\(F = \\frac{MS_T}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
+                      MS_M, MS_R, FValue))
+})
 
 plotModel <- renderPlot({
   errLines <- calcError(data1, input$blk_b0, input$blk_b1)
@@ -244,37 +270,9 @@ fluidRow(splitLayout(cellWidths = c("50%", "50%"), plotModel, plotNull))
 
 
 
-Actually, there is an algorithm to find the best line. This is call ordinary least square.
 
 ```{r}
-m <- lm(y ~ x, data1)
-```
-
-```{r, echo=FALSE}
-b0 <- m$coefficients[1]
-b1 <- m$coefficients["x"]
-```
-
-Which gives us $\beta_0$ = `r sprintf("%.2f", b0)` and $\beta_1$ = `r sprintf("%.2f", b1)`. Let's plot this:
-```{r, echo=FALSE}
-renderPlot({
-  errLines <- calcError(data1, b0, b1)
-      
-  baseThemeSetup()
-  ggplot(data1, aes(x = x, y = y)) +
-    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
-    geom_point(size = input$pointSize) +
-    geom_abline(intercept = b0, slope = b1 , size = input$lineSize) +
-    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
-}, width = shinyPlotWidth* 0.75, height = shinyPlotHeight* 0.75)
-```
-
-
-```{r}
-summary(m)
-m0 <- lm(y ~ 1, data1)
-anova(m0, m)
+# summary(m)
 anova(m)
 ```
 
