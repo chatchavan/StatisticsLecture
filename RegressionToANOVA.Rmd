@@ -1,15 +1,78 @@
 ---
 title: "Statistics for HCI"
 author: "Chat Wacharamanotham"
-date: "October 6, 2017"
+date: "October 19, 2017"
 runtime: shiny
 ---
 
-```{r setup, echo=FALSE}
+<style type="text/css">
+
+body{ /* Normal  */
+   font-size: 24px;
+}
+td {  /* Table  */
+   font-size: 24px;
+}
+h1 { /* Header 1 */
+ font-size: 28px;
+ color: DarkBlue;
+}
+h2 { /* Header 2 */
+ font-size: 22px;
+ color: DarkBlue;
+}
+h3 { /* Header 3 */
+ font-size: 18px;
+ color: DarkBlue;
+}
+code.r{ /* Code block */
+  font-size: 24px;
+}
+pre { /* Code block */
+  font-size: 24px
+}
+</style>
+
+
+
+```{r setup, echo=FALSE, include = FALSE}
 if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
 p_load(ggplot2, DT, dplyr, tidyr)
 
 ```
+
+# Display controls
+Look & feel parameters
+```{r, echo=FALSE}
+shinyPlotWidth <- 800
+shinyPlotHeight <- 600
+inputPanel(
+  sliderInput("baseSize", label = "baseSize:",
+              min = 10, max = 40, value = 31),
+  
+  sliderInput("pointSize", label = "pointSize:",
+              min = 1, max = 10, value = 3),
+  
+  sliderInput("lineSize", label = "lineSize:",
+              min = 1, max = 10, value = 2),
+  
+  sliderInput("grayedLineSize", label = "grayedLineSize:",
+              min = 1, max = 10, value = 3),
+ 
+  sliderInput("dashedLineSize", label = "dashedLineSize:",
+              min = 1, max = 10, value = 2)
+)
+
+baseThemeSetup <- function() {
+  theme_set(theme_dark(base_size = input$baseSize)) 
+}
+
+```
+
+shinyPlotWidth: `r shinyPlotWidth` px
+shinyPlotHeight: `r shinyPlotHeight` px
+
+----
 
 # Linear regression
 
@@ -58,64 +121,47 @@ ggplot(data1, aes(x = x, y = y)) +
   geom_abline(intercept = b0, slope = b1)
 ```
 
+
+
+
+#Interactive 1
+Coefficients and residual
 ```{r, echo=FALSE}
 inputPanel(
   sliderInput("b0", label = "\\(\\beta_0\\):",
-              min = -10, max = 10, value = -10),
+              min = -20, max = 30, value = -10),
   
   sliderInput("b1", label = "\\(\\beta_1\\):",
-              min = -10, max = 10, value = 5),
+              min = -7, max = 7, value = 5),
   
-  sliderInput("baseSize", label = "baseSize:",
-              min = 10, max = 40, value = 25),
-  
-  sliderInput("pointSize", label = "pointSize:",
-              min = 1, max = 10, value = 3),
-  
-  sliderInput("lineSize", label = "lineSize:",
-              min = 1, max = 10, value = 2),
-  
-  sliderInput("grayedLineSize", label = "grayedLineSize:",
-              min = 1, max = 10, value = 3)
+  # show sum of square error
+  renderUI({ 
+      errLines <- calcError(data1, input$b0, input$b1)  
+      SS_R <- sum((errLines$yend - errLines$y)^2)
+      withMathJax(sprintf("Sum of squared residuals: \\(SSR\\) = %d", SS_R))
+  })
 )
 
 calcError <- function(data, b0, b1) {
   data.frame(x = data$x, y = data$y, xend = data$x, yend = input$b0 + input$b1 * data$x)
 }
 
+
+
 renderPlot({
-  theme_set(theme_dark(base_size = input$baseSize))  # plot size
   
   meanY <- mean(data1$y)
   errLines <- calcError(data1, b0, b1)
+  
+  baseThemeSetup()
   ggplot(data1, aes(x = x, y = y)) + 
-    geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
+    #geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
     geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
-    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), linetype = "dotted", color = "red", size = input$lineSize) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), 
+                 linetype = "dotted", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
-    xlim(c(0,30)) +
-    ylim(c(0,125))
-})
-
-renderPlot({
-  theme_set(theme_gray(base_size = input$baseSize))  # plot size
-  
-  meanY <- mean(data1$y)
-  errLines <- calcError(data1, b0, b1)
-  ggplot(data1, aes(x = x, y = y)) +
-    geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
-    geom_point(size = input$pointSize) +
-    geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
-    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), linetype = "dotted", color = "red") +
-    xlim(c(0,30)) +
-    ylim(c(0,125))
-})
-
-renderUI({ 
-    errLines <- calcError(data1, input$b0, input$b1)  
-    SS_R <- sum((errLines$yend - errLines$y)^2)
-    withMathJax(sprintf("\\(SS\\_R\\) = %d", SS_R))
-})
+    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+}, width = shinyPlotWidth, height = shinyPlotHeight)
 ```
 
 
@@ -146,6 +192,7 @@ ggplot(data1, aes(x = x, y = y)) +
   geom_point() +
   geom_abline(intercept = b0, slope = b1)
 ```
+
 Looks better, isn't it?
 
 
