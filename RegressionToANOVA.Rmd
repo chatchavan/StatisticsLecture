@@ -102,6 +102,8 @@ Suppose we have a dataset of $x$ and $y$, we can plot them out. We can see how t
 data1 <- data.frame(x = c(4, 4, 7, 7, 8, 9, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 16, 16, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 20, 20, 20, 20, 20, 22, 23, 24, 24, 24, 24, 25),
                    y = c(2, 10, 4, 22, 16, 10, 18, 26, 34, 17, 28, 14, 20, 24, 28, 26, 34, 34, 46, 26, 36, 60, 80, 20, 26, 54, 32, 40, 32, 40, 50, 42, 56, 76, 84, 36, 46, 68, 32, 48, 52, 56, 64, 66, 54, 70, 92, 93, 120, 85))
 #datatable(data1)
+
+N <- nrow(data1)
 ```
 
 ```{r, echo=FALSE}
@@ -169,9 +171,7 @@ renderPlot({
 
 
 #Interactive 3
-```{r, echo=FALSE}
-N <- nrow(data1)
-```
+
 
 ```{r, echo=FALSE}
 inputPanel(
@@ -234,7 +234,7 @@ renderUI({
 
   FValue <- MS_M / MS_R
 
-  withMathJax(sprintf("\\(F = \\frac{MS_T}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
+  withMathJax(sprintf("\\(F = \\frac{MS_M}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
                       MS_M, MS_R, FValue))
 })
 
