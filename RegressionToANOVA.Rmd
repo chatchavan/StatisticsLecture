@@ -41,62 +41,22 @@ p_load(ggplot2, DT, dplyr, tidyr)
 
 ```
 
-# Display controls
-Look & feel parameters
 ```{r, echo=FALSE}
 shinyPlotWidth <- 800
 shinyPlotHeight <- 600
-inputPanel(
-  sliderInput("baseSize", label = "baseSize:",
-              min = 10, max = 40, value = 31),
-  
-  sliderInput("pointSize", label = "pointSize:",
-              min = 1, max = 10, value = 3),
-  
-  sliderInput("lineSize", label = "lineSize:",
-              min = 1, max = 10, value = 2),
-  
-  sliderInput("grayedLineSize", label = "grayedLineSize:",
-              min = 1, max = 10, value = 3),
- 
-  sliderInput("dashedLineSize", label = "dashedLineSize:",
-              min = 1, max = 10, value = 2),
-  sliderInput("textSize", label = "textSize:",
-              min = 7, max = 20, value = 11)
-)
-
-baseThemeSetup <- function() {
-  theme_set(theme_dark(base_size = input$baseSize)) 
-}
-
 ```
 
-shinyPlotWidth: `r shinyPlotWidth` px
-shinyPlotHeight: `r shinyPlotHeight` px
+
+
 
 ----
 
-# Linear regression
+#Interactive 1
 
 Recall the linear equation below?
 $$y = \beta_0 + \beta_1x$$
 $\beta_0$ is the intercept to the y-axis and $\beta_1$ is the slope. Suppose that we have a linear equation with the parameters below, we can plot this equation on the following graph.
-```{r}
-beta0 <- 25 # y-intercept
-beta1 <- 3 # slope
-twoPoints <- data.frame(x = c(0, 1), y = c(beta0, (beta0 + beta1 * 1)))
-ggplot(twoPoints, aes(x = x, y = y)) +
-  geom_blank() +
-  geom_abline(intercept = beta0, slope = beta1) +
-  xlim(c(0,30)) +
-  ylim(c(0,125)) +
-  geom_point(data = twoPoints) +
-  geom_text(data = twoPoints, aes(label= paste0("(", x, ",", y, ")")), angle = 60, hjust = 0, vjust = 0)
-```
 
-#Interactive 1
-Linear equation
-$$y = \beta_0 + \beta_1x$$
 ```{r, echo=FALSE}
 inputPanel(
   sliderInput("beta0", label = "\\(\\beta_0\\):",
@@ -133,44 +93,18 @@ renderUI({
 })
 
 ```
-
-
-What you can interpret from this graph is that when $x$ is zero, $y$ is `r beta0`. Yes! the $\beta_0$ is exactly the value of $y$ when $x$ is zero. Also, when $x$ increases one unit (shown: from zero to one), $y$ increases by `r beta1`, which is the value of the slope. These two basic concepts will be useful later on.
-
-
-# Linear model
-Suppose we have a dataset of $x$ and $y$ like below:
-```{r}
-data1 <- data.frame(x = c(4, 4, 7, 7, 8, 9, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 16, 16, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 20, 20, 20, 20, 20, 22, 23, 24, 24, 24, 24, 25),
-                   y = c(2, 10, 4, 22, 16, 10, 18, 26, 34, 17, 28, 14, 20, 24, 28, 26, 34, 34, 46, 26, 36, 60, 80, 20, 26, 54, 32, 40, 32, 40, 50, 42, 56, 76, 84, 36, 46, 68, 32, 48, 52, 56, 64, 66, 54, 70, 92, 93, 120, 85))
-datatable(data1)
-```
-
-We can show this data on a scatter plot.
-```{r}
-ggplot(data1, aes(x = x, y = y)) +
-  geom_point() +
-  xlim(c(0,30)) +
-  ylim(c(0,125))
-```
-
-You might notice that there seem to be a trend in this data. As $x$ increses, $y$ seems to increase as well. In fact, we may explain this trend with a line like below.
-
-```{r}
-b0 <- -10
-b1 <- 5
-ggplot(data1, aes(x = x, y = y)) +
-  geom_point() +
-  geom_abline(intercept = b0, slope = b1)
-```
+These two basic concepts will be useful later on.
 
 
 #Interactive 2
-Coefficients and residual
+Suppose we have a dataset of $x$ and $y$, we can plot them out. We can see how the data differ from our line by calculate **the sum of square error**. We call this Residual sum of square $SS\_R$.
 ```{r, echo=FALSE}
 data1 <- data.frame(x = c(4, 4, 7, 7, 8, 9, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 16, 16, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 20, 20, 20, 20, 20, 22, 23, 24, 24, 24, 24, 25),
                    y = c(2, 10, 4, 22, 16, 10, 18, 26, 34, 17, 28, 14, 20, 24, 28, 26, 34, 34, 46, 26, 36, 60, 80, 20, 26, 54, 32, 40, 32, 40, 50, 42, 56, 76, 84, 36, 46, 68, 32, 48, 52, 56, 64, 66, 54, 70, 92, 93, 120, 85))
+#datatable(data1)
+```
 
+```{r, echo=FALSE}
 calcError <- function(data, b0, b1) {
   data.frame(x = data$x, y = data$y, xend = data$x, yend = b0 + b1 * data$x)
 }
@@ -213,7 +147,7 @@ renderPlot({
 N <- nrow(data1)
 ```
 
-**Mean square error:** average error per data point $MS_R = \frac{SS_R}{N}$ ($N$ is the number of data points, which is `r N`.)
+**Mean square error:** average error per data point $MS_R = \frac{SS_R}{df_R}$ ($df_R$: degrees of freedom. Here: $N - 1$: `r N - 1`.)
 
 **F-ratio:** ratio between the total mean square error $MS_T$ and the residual mean square error $MS_R$
 $F = \frac{MS_T}{MS_R}$
@@ -222,48 +156,61 @@ inputPanel(
   list(
     HTML("Black line:"),
     sliderInput("blk_b0", label = "\\(\\beta_0\\):",
-              min = -20, max = 30, value = -10),
+              min = -20, max = 30, value = -17),
     sliderInput("blk_b1", label = "\\(\\beta_1\\):",
-              min = -7, max = 7, value = 5),
+              min = -7, max = 7, value = 4),
     
     # show sum of square error
     renderUI({
       errLines <- calcError(data1, input$blk_b0, input$blk_b1)
       SS_R <- sum((errLines$yend - errLines$y)^2)
-      withMathJax(sprintf("\\(SS_R\\) = %.2f\n \\( MS_R\\) = %.2f", SS_R, SS_R / N))
+      withMathJax(sprintf("\\(SS_R\\) = %.2f\n \\( MS_R\\) = %.2f", SS_R, SS_R / (N - 1)))
     })
     
   ),
   list(
     HTML("Gray line:"),
     sliderInput("g_b0", label = "\\(\\beta_0\\):",
-              min = 0, max = 80, value = 20),
+              min = 0, max = 80, value = 40),
     HTML("\\(\\beta_1\\): 0"),
     
     # show sum of square error
     renderUI({
       errLines <- calcError(data1, input$g_b0, 0)
       SS_T <- sum((errLines$yend - errLines$y)^2)
-      withMathJax(sprintf("\\(SS_T\\) = %.2f\n \\( MS_T\\) = %.2f", SS_T, SS_T / N))
+      withMathJax(sprintf("\\(SS_T\\) = %.2f\n", SS_T))
+    })
+  ),
+  list(
+    renderUI({
+      errLines <- calcError(data1, input$blk_b0, input$blk_b1)
+      SS_R <- sum((errLines$yend - errLines$y)^2)
+      
+      g_errLines <- calcError(data1, input$g_b0, 0)
+      SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+      
+      SS_M <- SS_T - SS_R
+      
+      withMathJax(sprintf("\\(SS_M\\) = %.2f\n", SS_M))
     })
   )
 )
 
 # F-ratio
-renderUI({
-  errLines <- calcError(data1, input$blk_b0, input$blk_b1)
-  SS_R <- sum((errLines$yend - errLines$y)^2)
-  MS_R <- SS_R / N
-  
-  g_errLines <- calcError(data1, input$g_b0, 0)
-  SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
-  MS_T <- SS_T / N
-  
-  FValue <- MS_T / MS_R
-  
-  withMathJax(sprintf("\\(F = \\frac{MS_T}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
-                      MS_T, MS_R, FValue))
-})
+# renderUI({
+#   errLines <- calcError(data1, input$blk_b0, input$blk_b1)
+#   SS_R <- sum((errLines$yend - errLines$y)^2)
+#   MS_R <- SS_R / N
+#   
+#   g_errLines <- calcError(data1, input$g_b0, 0)
+#   SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+#   MS_T <- SS_T / N
+#   
+#   FValue <- MS_T / MS_R
+#   
+#   withMathJax(sprintf("\\(F = \\frac{MS_T}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
+#                       MS_T, MS_R, FValue))
+# })
 
 plotModel <- renderPlot({
   errLines <- calcError(data1, input$blk_b0, input$blk_b1)
@@ -297,34 +244,70 @@ fluidRow(splitLayout(cellWidths = c("50%", "50%"), plotModel, plotNull))
 
 
 
-Hmm. This line doesn't seem to explain the data well. How do you know? Because the actual data points seem to be faraway from the line. 
-
-```{r}
-errLines <- data.frame(x = data1$x, y = data1$y, xend = data1$x, yend = b0 + b1 * data1$x)
-ggplot(data1, aes(x = x, y = y)) +
-  geom_point() +
-  geom_abline(intercept = b0, slope = b1) +
-  geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), linetype = "dotted", color = "red") +
-  xlim(c(0,30)) +
-  ylim(c(0,125))
-SS_R <- sum((errLines$yend - errLines$y)^2)
-```
-
 Actually, there is an algorithm to find the best line. This is call ordinary least square.
 
 ```{r}
 m <- lm(y ~ x, data1)
+```
+
+```{r, echo=FALSE}
 b0 <- m$coefficients[1]
 b1 <- m$coefficients["x"]
 ```
 
-Which gives us $\beta_0$ = `r b0` and $\beta_1$ = `r b1`. Let's plot this
-```{r}
-ggplot(data1, aes(x = x, y = y)) +
-  geom_point() +
-  geom_abline(intercept = b0, slope = b1)
+Which gives us $\beta_0$ = `r sprintf("%.2f", b0)` and $\beta_1$ = `r sprintf("%.2f", b1)`. Let's plot this:
+```{r, echo=FALSE}
+renderPlot({
+  errLines <- calcError(data1, b0, b1)
+      
+  baseThemeSetup()
+  ggplot(data1, aes(x = x, y = y)) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
+                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
+    geom_point(size = input$pointSize) +
+    geom_abline(intercept = b0, slope = b1 , size = input$lineSize) +
+    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+}, width = shinyPlotWidth* 0.75, height = shinyPlotHeight* 0.75)
 ```
 
-Looks better, isn't it?
+
+```{r}
+summary(m)
+m0 <- lm(y ~ 1, data1)
+anova(m0, m)
+anova(m)
+```
 
 
+-----
+
+# Display controls
+Look & feel parameters
+
+* shinyPlotWidth: `r shinyPlotWidth` px
+* shinyPlotHeight: `r shinyPlotHeight` px
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("baseSize", label = "baseSize:",
+              min = 10, max = 40, value = 31),
+  
+  sliderInput("pointSize", label = "pointSize:",
+              min = 1, max = 10, value = 3),
+  
+  sliderInput("lineSize", label = "lineSize:",
+              min = 1, max = 10, value = 2),
+  
+  sliderInput("grayedLineSize", label = "grayedLineSize:",
+              min = 1, max = 10, value = 3),
+ 
+  sliderInput("dashedLineSize", label = "dashedLineSize:",
+              min = 1, max = 10, value = 2),
+  sliderInput("textSize", label = "textSize:",
+              min = 7, max = 20, value = 11)
+)
+
+baseThemeSetup <- function() {
+  theme_set(theme_dark(base_size = input$baseSize)) 
+}
+
+```
