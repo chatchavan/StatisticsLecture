@@ -277,6 +277,45 @@ anova(m)
 ```
 
 
+#Interactive 4
+$F$-distribution. The red line is the 95th percentile. This means that only 5% of F values fall to the right of the red line.
+```{r, echo=FALSE}
+
+inputPanel(
+  sliderInput("df1", label = "\\(df_1\\):",
+              min = 1, max = 10, value = 1),
+
+  sliderInput("df2", label = "\\(df_2\\):",
+              min = 1, max = 100, value = 50)
+)
+
+renderPlot({
+  df1 <- input$df1
+  df2 <- input$df2
+  FValues <- rf(10000, df1, df2)
+  
+  critF <- qf(.95, df1=df1, df2=df2) 
+  
+  ggplot(as.data.frame(FValues), aes(x = FValues)) +
+    geom_blank() + 
+    stat_function(fun = df, args = list(df1 = df1, df2 = df2), size = input$lineSize) +
+    geom_vline(xintercept=critF, color = "red", size = input$lineSize) +
+    coord_cartesian(ylim = c(0,1)) +
+    scale_y_continuous(name="Density")
+})
+
+# df1 <- 1
+# df2 <- N-1
+# FValues <- rf(10000, df1, df2)
+# 
+# x <- seq(0,10, 0.1)
+# curve(df(x, df1 = df1, df2 = df2), from = 0, to = 20)
+# 
+# ggplot(as.data.frame(FValues), aes(x = FValues)) + geom_density() + stat_function(fun = df, args = list(x = seq(0,10, 0.1), df1 = df1, df2 = df2),
+#     color = "blue", lty = "dotted")
+```
+
+
 -----
 
 # Display controls
