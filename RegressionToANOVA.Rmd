@@ -60,7 +60,9 @@ inputPanel(
               min = 1, max = 10, value = 3),
  
   sliderInput("dashedLineSize", label = "dashedLineSize:",
-              min = 1, max = 10, value = 2)
+              min = 1, max = 10, value = 2),
+  sliderInput("textSize", label = "textSize:",
+              min = 7, max = 20, value = 11)
 )
 
 baseThemeSetup <- function() {
@@ -92,6 +94,47 @@ ggplot(twoPoints, aes(x = x, y = y)) +
   geom_text(data = twoPoints, aes(label= paste0("(", x, ",", y, ")")), angle = 60, hjust = 0, vjust = 0)
 ```
 
+#Interactive 1
+Linear equation
+$$y = \beta_0 + \beta_1x$$
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("beta0", label = "\\(\\beta_0\\):",
+              min = -20, max = 30, value = 5),
+
+  sliderInput("beta1", label = "\\(\\beta_1\\):",
+              min = -7, max = 7, value = 5)
+  
+)
+
+renderPlot({
+  b0 <- as.numeric(input$beta0)
+  b1 <- as.numeric(input$beta1)
+  twoPoints <- data.frame(x = c(0, 1), y = c(b0, (b0 + b1 * 1)))
+
+  baseThemeSetup()
+  ggplot(twoPoints, aes(x = x, y = y)) +
+    geom_blank() +
+    geom_abline(intercept = b0, slope = b1, size = input$lineSize) +
+    geom_point(data = twoPoints, size = input$pointSize) +
+    geom_text(data = twoPoints, aes(label= paste0("(", x, ",", y, ")")),
+               angle = 60, hjust = 0, vjust = 0, size = input$textSize)+
+    coord_cartesian(xlim= c(0,10), ylim = c(0, 40))
+}, width = shinyPlotWidth, height = shinyPlotHeight)
+
+renderUI({
+  b0 <- as.numeric(input$beta0)
+  b1 <- as.numeric(input$beta1)
+  list(
+  withMathJax(sprintf("\\( \\beta_0 \\) is the y-intercept: when \\( x \\) is zero, \\( y \\) is %d", b0)),
+  br(),
+  withMathJax(sprintf("\\( \\beta_0 \\) is the slope: as \\( x \\) increases one unit, \\( y \\) increases %d units", b1))
+  )
+})
+
+```
+
+
 What you can interpret from this graph is that when $x$ is zero, $y$ is `r beta0`. Yes! the $\beta_0$ is exactly the value of $y$ when $x$ is zero. Also, when $x$ increases one unit (shown: from zero to one), $y$ increases by `r beta1`, which is the value of the slope. These two basic concepts will be useful later on.
 
 
@@ -120,9 +163,6 @@ ggplot(data1, aes(x = x, y = y)) +
   geom_point() +
   geom_abline(intercept = b0, slope = b1)
 ```
-
-
-
 
 
 #Interactive 2
