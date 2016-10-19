@@ -136,7 +136,7 @@ renderPlot({
     #geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
     geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                 linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                 linetype = "solid", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
 }, width = shinyPlotWidth, height = shinyPlotHeight)
@@ -162,7 +162,7 @@ renderPlot({
   baseThemeSetup()
   ggplot(data1, aes(x = x, y = y)) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                       linetype = "solid", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     geom_abline(intercept = b0, slope = b1 , size = input$lineSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
@@ -245,7 +245,7 @@ plotModel <- renderPlot({
   ggplot(data1, aes(x = x, y = y)) +
     geom_abline(intercept = input$blk_b0, slope = input$blk_b1, size = input$lineSize) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                 linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                 linetype = "solid", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
   
@@ -258,7 +258,7 @@ plotNull <- renderPlot({
       ggplot(data1, aes(x = x, y = y)) +
           geom_hline(yintercept=input$g_b0, color = "darkgray", size = input$grayedLineSize) +
           geom_segment(data = errLines_g, aes(x = x, y = y, xend = xend, yend = yend),
-                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                       linetype = "solid", color = "red", size = input$dashedLineSize) +
           geom_point(size = input$pointSize) +
           coord_cartesian(xlim= c(0,30), ylim = c(0,125))
       
@@ -312,7 +312,7 @@ renderPlot({
 # curve(df(x, df1 = df1, df2 = df2), from = 0, to = 20)
 # 
 # ggplot(as.data.frame(FValues), aes(x = FValues)) + geom_density() + stat_function(fun = df, args = list(x = seq(0,10, 0.1), df1 = df1, df2 = df2),
-#     color = "blue", lty = "dotted")
+#     color = "blue", lty = "solid")
 ```
 
 
