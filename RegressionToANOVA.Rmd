@@ -316,6 +316,105 @@ renderPlot({
 ```
 
 
+
+#Interactive 5
+```{r, echo=FALSE}
+data2 <- data.frame(x = sample(1:30, 50, replace = TRUE), y = sample(1:120, 50, replace = TRUE))
+inputPanel(
+  list(
+    HTML("Black line:"),
+    sliderInput("blk_b0", label = "\\(\\beta_0\\):",
+              min = -20, max = 30, value = -17),
+    sliderInput("blk_b1", label = "\\(\\beta_1\\):",
+              min = -7, max = 7, value = 4),
+    
+    # show sum of square error
+    renderUI({
+      errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+      SS_R <- sum((errLines$yend - errLines$y)^2)
+      withMathJax(sprintf("\\(SS_R\\) = %.2f\n \\(MS_R \\)= %.2f", SS_R, SS_R / (N - 1)))
+    })
+    
+  ),
+  list(
+    HTML("Gray line:"),
+    sliderInput("g_b0", label = "\\(\\beta_0\\):",
+              min = 0, max = 80, value = 40),
+    HTML("\\(\\beta_1\\): 0"),
+    
+    # show sum of square error
+    renderUI({
+      errLines <- calcError(data2, input$g_b0, 0)
+      SS_T <- sum((errLines$yend - errLines$y)^2)
+      withMathJax(sprintf("\\(SS_T\\) = %.2f\n", SS_T))
+    })
+  ),
+  list(
+    renderUI({
+      errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+      SS_R <- sum((errLines$yend - errLines$y)^2)
+      
+      g_errLines <- calcError(data1, input$g_b0, 0)
+      SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+      
+      SS_M <- SS_T - SS_R
+      
+      withMathJax(sprintf("\\(SS_M\\) = %.2f", SS_M))
+    })
+  )
+)
+
+# F-ratio
+renderUI({
+  errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+  SS_R <- sum((errLines$yend - errLines$y)^2)
+  
+  g_errLines <- calcError(data2, input$g_b0, 0)
+  SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+  
+  SS_M <- SS_T - SS_R
+  
+  df_M <- 1
+  MS_M <- SS_M / df_M
+  MS_R <- SS_R / (N - df_M)
+
+  FValue <- MS_M / MS_R
+
+  withMathJax(sprintf("\\(F = \\frac{MS_M}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
+                      MS_M, MS_R, FValue))
+})
+
+plotModel <- renderPlot({
+  errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+  
+  baseThemeSetup()
+  ggplot(data2, aes(x = x, y = y)) +
+    geom_abline(intercept = input$blk_b0, slope = input$blk_b1, size = input$lineSize) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
+                 linetype = "solid", color = "red", size = input$dashedLineSize) +
+    geom_point(size = input$pointSize) +
+    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+  
+}, width = shinyPlotWidth * 0.75, height = shinyPlotHeight* 0.75)
+
+plotNull <- renderPlot({
+      errLines_g <- calcError(data2, input$g_b0, 0)
+      
+      baseThemeSetup()
+      ggplot(data2, aes(x = x, y = y)) +
+          geom_hline(yintercept=input$g_b0, color = "darkgray", size = input$grayedLineSize) +
+          geom_segment(data = errLines_g, aes(x = x, y = y, xend = xend, yend = yend),
+                       linetype = "solid", color = "red", size = input$dashedLineSize) +
+          geom_point(size = input$pointSize) +
+          coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+      
+    }, width = shinyPlotWidth* 0.75, height = shinyPlotHeight* 0.75)
+
+
+fluidRow(splitLayout(cellWidths = c("50%", "50%"), plotModel, plotNull))
+```
+
+
 -----
 
 # Display controls
