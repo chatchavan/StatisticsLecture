@@ -124,19 +124,20 @@ ggplot(data1, aes(x = x, y = y)) +
 
 
 
-#Interactive 1
+
+#Interactive 2
 Coefficients and residual
 ```{r, echo=FALSE}
 inputPanel(
   sliderInput("b0", label = "\\(\\beta_0\\):",
               min = -20, max = 30, value = -10),
-  
+
   sliderInput("b1", label = "\\(\\beta_1\\):",
               min = -7, max = 7, value = 5),
-  
+
   # show sum of square error
-  renderUI({ 
-      errLines <- calcError(data1, input$b0, input$b1)  
+  renderUI({
+      errLines <- calcError(data1, input$b0, input$b1)
       SS_R <- sum((errLines$yend - errLines$y)^2)
       withMathJax(sprintf("Sum of squared residuals: \\(SSR\\) = %d", SS_R))
   })
@@ -149,15 +150,15 @@ calcError <- function(data, b0, b1) {
 
 
 renderPlot({
-  
+
   meanY <- mean(data1$y)
-  errLines <- calcError(data1, b0, b1)
-  
+  errLines <- calcError(data1, input$b0, input$b1)
+
   baseThemeSetup()
-  ggplot(data1, aes(x = x, y = y)) + 
+  ggplot(data1, aes(x = x, y = y)) +
     #geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
     geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
-    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend), 
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
                  linetype = "dotted", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
