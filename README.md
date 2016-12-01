@@ -3,8 +3,8 @@ This repository contains the materials accompanying statistics lecture.
 
 #Preparation
 1. Install the following software
-   * [R 3.3.1](https://www.r-project.org/)
-   * [RStudio v1.0.15 Preview](https://www.rstudio.com/products/rstudio/download/preview/) We will use the R Notebook feature for the exercises in-class.
+   * [R 3.3.2](https://stat.ethz.ch/CRAN/)
+   * [RStudio v1.0.44 or newer](https://www.rstudio.com/products/rstudio/download3/)
 
 2. Test R Markdown
    * Open the project file `Statistics lecture.Rproj` in Rstudio
@@ -27,4 +27,4 @@ This repository contains the materials accompanying statistics lecture.
    ![A notebook screen]
    (Images/TestNotebookOutput.png)
 
-4. Check back on [this repository](https://github.com/chatchavan/StatisticsLecture) on 19 October, 2016, 6:00 for the latest version of the code.
+4. Check back on [this repository](https://github.com/chatchavan/StatisticsLecture) on 6 December, 2016, 6:00 AM for the latest version of the code.
