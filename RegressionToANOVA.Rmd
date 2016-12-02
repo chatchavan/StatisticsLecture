@@ -102,6 +102,8 @@ Suppose we have a dataset of $x$ and $y$, we can plot them out. We can see how t
 data1 <- data.frame(x = c(4, 4, 7, 7, 8, 9, 10, 10, 10, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 16, 16, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 20, 20, 20, 20, 20, 22, 23, 24, 24, 24, 24, 25),
                    y = c(2, 10, 4, 22, 16, 10, 18, 26, 34, 17, 28, 14, 20, 24, 28, 26, 34, 34, 46, 26, 36, 60, 80, 20, 26, 54, 32, 40, 32, 40, 50, 42, 56, 76, 84, 36, 46, 68, 32, 48, 52, 56, 64, 66, 54, 70, 92, 93, 120, 85))
 #datatable(data1)
+
+N <- nrow(data1)
 ```
 
 ```{r, echo=FALSE}
@@ -134,7 +136,7 @@ renderPlot({
     #geom_hline(yintercept=meanY, color = "darkgray", size = input$grayedLineSize) +
     geom_abline(intercept = input$b0, slope = input$b1, size = input$lineSize) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                 linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                 linetype = "solid", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
 }, width = shinyPlotWidth, height = shinyPlotHeight)
@@ -160,7 +162,7 @@ renderPlot({
   baseThemeSetup()
   ggplot(data1, aes(x = x, y = y)) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                       linetype = "solid", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     geom_abline(intercept = b0, slope = b1 , size = input$lineSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
@@ -169,9 +171,7 @@ renderPlot({
 
 
 #Interactive 3
-```{r, echo=FALSE}
-N <- nrow(data1)
-```
+
 
 ```{r, echo=FALSE}
 inputPanel(
@@ -234,7 +234,7 @@ renderUI({
 
   FValue <- MS_M / MS_R
 
-  withMathJax(sprintf("\\(F = \\frac{MS_T}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
+  withMathJax(sprintf("\\(F = \\frac{MS_M}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
                       MS_M, MS_R, FValue))
 })
 
@@ -245,7 +245,7 @@ plotModel <- renderPlot({
   ggplot(data1, aes(x = x, y = y)) +
     geom_abline(intercept = input$blk_b0, slope = input$blk_b1, size = input$lineSize) +
     geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
-                 linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                 linetype = "solid", color = "red", size = input$dashedLineSize) +
     geom_point(size = input$pointSize) +
     coord_cartesian(xlim= c(0,30), ylim = c(0,125))
   
@@ -258,7 +258,7 @@ plotNull <- renderPlot({
       ggplot(data1, aes(x = x, y = y)) +
           geom_hline(yintercept=input$g_b0, color = "darkgray", size = input$grayedLineSize) +
           geom_segment(data = errLines_g, aes(x = x, y = y, xend = xend, yend = yend),
-                       linetype = "dotted", color = "red", size = input$dashedLineSize) +
+                       linetype = "solid", color = "red", size = input$dashedLineSize) +
           geom_point(size = input$pointSize) +
           coord_cartesian(xlim= c(0,30), ylim = c(0,125))
       
@@ -274,6 +274,144 @@ fluidRow(splitLayout(cellWidths = c("50%", "50%"), plotModel, plotNull))
 ```{r}
 # summary(m)
 anova(m)
+```
+
+
+#Interactive 4
+$F$-distribution. The red line is the 95th percentile. This means that only 5% of F values fall to the right of the red line.
+```{r, echo=FALSE}
+
+inputPanel(
+  sliderInput("df1", label = "\\(df_1\\):",
+              min = 1, max = 10, value = 1),
+
+  sliderInput("df2", label = "\\(df_2\\):",
+              min = 1, max = 100, value = 50)
+)
+
+renderPlot({
+  df1 <- input$df1
+  df2 <- input$df2
+  FValues <- rf(10000, df1, df2)
+  
+  critF <- qf(.95, df1=df1, df2=df2) 
+  
+  ggplot(as.data.frame(FValues), aes(x = FValues)) +
+    geom_blank() + 
+    stat_function(fun = df, args = list(df1 = df1, df2 = df2), size = input$lineSize) +
+    geom_vline(xintercept=critF, color = "red", size = input$lineSize) +
+    coord_cartesian(ylim = c(0,1)) +
+    scale_y_continuous(name="Density")
+})
+
+# df1 <- 1
+# df2 <- N-1
+# FValues <- rf(10000, df1, df2)
+# 
+# x <- seq(0,10, 0.1)
+# curve(df(x, df1 = df1, df2 = df2), from = 0, to = 20)
+# 
+# ggplot(as.data.frame(FValues), aes(x = FValues)) + geom_density() + stat_function(fun = df, args = list(x = seq(0,10, 0.1), df1 = df1, df2 = df2),
+#     color = "blue", lty = "solid")
+```
+
+
+
+#Interactive 5
+```{r, echo=FALSE}
+data2 <- data.frame(x = sample(1:30, 50, replace = TRUE), y = sample(1:120, 50, replace = TRUE))
+inputPanel(
+  list(
+    HTML("Black line:"),
+    sliderInput("blk_b0", label = "\\(\\beta_0\\):",
+              min = -20, max = 30, value = -17),
+    sliderInput("blk_b1", label = "\\(\\beta_1\\):",
+              min = -7, max = 7, value = 4),
+    
+    # show sum of square error
+    renderUI({
+      errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+      SS_R <- sum((errLines$yend - errLines$y)^2)
+      withMathJax(sprintf("\\(SS_R\\) = %.2f\n \\(MS_R \\)= %.2f", SS_R, SS_R / (N - 1)))
+    })
+    
+  ),
+  list(
+    HTML("Gray line:"),
+    sliderInput("g_b0", label = "\\(\\beta_0\\):",
+              min = 0, max = 80, value = 40),
+    HTML("\\(\\beta_1\\): 0"),
+    
+    # show sum of square error
+    renderUI({
+      errLines <- calcError(data2, input$g_b0, 0)
+      SS_T <- sum((errLines$yend - errLines$y)^2)
+      withMathJax(sprintf("\\(SS_T\\) = %.2f\n", SS_T))
+    })
+  ),
+  list(
+    renderUI({
+      errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+      SS_R <- sum((errLines$yend - errLines$y)^2)
+      
+      g_errLines <- calcError(data1, input$g_b0, 0)
+      SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+      
+      SS_M <- SS_T - SS_R
+      
+      withMathJax(sprintf("\\(SS_M\\) = %.2f", SS_M))
+    })
+  )
+)
+
+# F-ratio
+renderUI({
+  errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+  SS_R <- sum((errLines$yend - errLines$y)^2)
+  
+  g_errLines <- calcError(data2, input$g_b0, 0)
+  SS_T <- sum((g_errLines$yend - g_errLines$y)^2)
+  
+  SS_M <- SS_T - SS_R
+  
+  df_M <- 1
+  MS_M <- SS_M / df_M
+  MS_R <- SS_R / (N - df_M)
+
+  FValue <- MS_M / MS_R
+
+  withMathJax(sprintf("\\(F = \\frac{MS_M}{MS_R} = \\frac{%.2f}{%.2f} = %.2f \\)",
+                      MS_M, MS_R, FValue))
+})
+
+plotModel <- renderPlot({
+  errLines <- calcError(data2, input$blk_b0, input$blk_b1)
+  
+  baseThemeSetup()
+  ggplot(data2, aes(x = x, y = y)) +
+    geom_abline(intercept = input$blk_b0, slope = input$blk_b1, size = input$lineSize) +
+    geom_segment(data = errLines, aes(x = x, y = y, xend = xend, yend = yend),
+                 linetype = "solid", color = "red", size = input$dashedLineSize) +
+    geom_point(size = input$pointSize) +
+    coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+  
+}, width = shinyPlotWidth * 0.75, height = shinyPlotHeight* 0.75)
+
+plotNull <- renderPlot({
+      errLines_g <- calcError(data2, input$g_b0, 0)
+      
+      baseThemeSetup()
+      ggplot(data2, aes(x = x, y = y)) +
+          geom_hline(yintercept=input$g_b0, color = "darkgray", size = input$grayedLineSize) +
+          geom_segment(data = errLines_g, aes(x = x, y = y, xend = xend, yend = yend),
+                       linetype = "solid", color = "red", size = input$dashedLineSize) +
+          geom_point(size = input$pointSize) +
+          coord_cartesian(xlim= c(0,30), ylim = c(0,125))
+      
+    }, width = shinyPlotWidth* 0.75, height = shinyPlotHeight* 0.75)
+
+
+fluidRow(splitLayout(cellWidths = c("50%", "50%"), plotModel, plotNull))
 ```
 
 
