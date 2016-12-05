@@ -179,6 +179,15 @@ suppressWarnings(plot_grid(pTCT, pMode, nrow = 2)) # suppress spurious warning f
 ```
 
 ##Median
+```{r, echo = FALSE}
+shinyAppDir(
+  "apps/01_descriptives",
+  options=list(
+    width="100%", height=300
+  )
+)
+```
+
 
 ##Mean
 
