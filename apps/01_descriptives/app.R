@@ -1,64 +1,103 @@
+library(shiny)
+library(ggplot2)
+library(ggvis)
+# options(shiny.trace = FALSE)
+
+# calculate descriptive statistics
+findModes<-function(x){
+  xtab<-table(x)
+  modes<-xtab[max(xtab)==xtab]
+  themodes<-names(modes)
+  mode(themodes) <- typeof(x[1])
+  mout<-list(values=themodes)
+  return(mout)
+}
+
+
+
 ui <- basicPage(
-  plotOutput("plotScatter", click = "plot_click"),
-  plotOutput("plotHist"),
-  radioButtons("cls", "Class:", choices = list("Red" = -1, "Blue" = 1), selected = 1, inline = TRUE), 
+  plotOutput("plotScatter", click = "plot_click", width = "400px", height = "200px"),
+  ggvisOutput("plotHist"),
+  verbatimTextOutput("statOutput"),
+  sliderInput("binwidth", "Histogram bin width:", 1, 8, 1, 0.5),
   radioButtons("oneOrMany", "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
-  sliderInput("spread", "Spread:", 0, 5, 1, 0.1)
+  sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1)
 )
+
 
 server <- function(input, output) {
   
-  x1 <- c(3, 10, 15, 3, 4, 7, 1, 12, 8, 18, 20, 4, 4, 5, 10)   #x
-  x2 <- c(4, 10, 12, 17, 15, 20, 14, 3, 4, 15, 12, 5, 5, 6, 2) #y
-  cls <- c(-1, 1, -1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, -1, 1)   #class
+  x <- c(3, 10, 15, 3, 4, 7, 1, 12)
+  y <- c(4, 10, 12, 17, 15, 20, 14, 3)
   
   # initialize reactive values with existing data
-  val <- reactiveValues( clickx = NULL, clicky = NULL, data = cbind (x1, x2, cls))
+  val <- reactiveValues(data = cbind (x, y), 
+                        statMean = NULL, 
+                        statMedian = NULL, 
+                        statMode = NULL)
   
-  observeEvent(input$updateData, {
-    if (input$updateData > 0) {
-      val$data <- rbind(val$data, cbind(input$plot_click$x, input$plot_click$y, as.numeric(input$cls)))
-    }
-  })
-  
-  
+  # observe click on the scatterplot
   observeEvent(input$plot_click, {
     if (input$oneOrMany == 1) {
-      val$clickx <- c(val$clickx, input$plot_click$x)
-      val$clicky <- c(val$clicky, input$plot_click$y)    
-      val$data <- rbind(val$data, cbind(input$plot_click$x, input$plot_click$y, as.numeric(input$cls) ))
+      val$data <- rbind(val$data, cbind(input$plot_click$x, input$plot_click$y ))
     } else {
       
       xRand <- rnorm(input$oneOrMany, mean = input$plot_click$x, sd = input$spread)
       yRand <- rnorm(input$oneOrMany, mean = input$plot_click$y, sd = input$spread)
-      val$clickx <- c(val$clickx, xRand)
-      val$clicky <- c(val$clicky, yRand)
-      val$data <- rbind(val$data, cbind(xRand, yRand, rep(as.numeric(input$cls), input$oneOrMany)  ))
+      val$data <- rbind(val$data, cbind(xRand, yRand))
     }
   })        
   
+  # render scatterplot
   output$plotScatter <- renderPlot({
-    p <- ggplot(data = NULL, aes(x=val$data[,1], y=val$data[,2], color = ifelse(val$data[,3] > 0, "Class 1","Class -1")))
-    p <- p + geom_point()
-    p <- p + xlab("x1")  
-    p <- p + ylab("x2") 
-    p <- p + scale_color_manual(name="Class Labels", values=c('#f8766d','#00BFC4'))
-    p <- p + guides(color = guide_legend(override.aes = list(linetype = 0 )), 
-                    linetype = guide_legend())
-    p <- p + theme_bw() 
-    p
-  })
-  
-  output$plotHist <- renderPlot({
-    p <- ggplot(data = NULL, aes(x=val$data[,1])) +
-      geom_histogram(binwidth=1, colour = "black")
+    p <- ggplot(data = NULL, aes(x=val$data[,1], y=val$data[,2])) +
+      geom_point() +
+      theme_bw() +
+      theme(legend.position="none") +
+      xlab("x") +
+      ylab("y")
+      
     p
   })
   
   
-  # output$data <- renderPrint({
-  #   val$data
-  # })
+  # render histogram (and calculate statistics)
+  hisVis <- reactive({
+    histData <- data.frame(x = val$data[,1])
+    
+    val$statMean <- mean(histData$x)
+    val$statMedian <- median(histData$x)
+    val$statMode <- findModes(histData$x)$values
+    
+    # pack descriptive statistics for plotting
+    statData <- data.frame(
+      value = c(val$statMean, val$statMedian, val$statMode),
+      stat = c("mean", "median", rep("mode", length(val$statMode)) ),
+      color = c("blue", "green", rep("orange", length(val$statMode)))
+    )
+    
+    # plot histogram
+    histData %>%
+      ggvis(~x) %>% 
+      add_axis("x", title = "x") %>%
+      layer_histograms(width = input$binwidth, fill := "lightgray", stroke := NA) %>%
+      layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
+      set_options(width = 400, height = 200) %>%
+      hide_legend('fill')
+  })
+  hisVis %>% bind_shiny("plotHist")
+  
+  
+  # text output
+  output$statOutput <- renderText({
+    val$data
+    outText <- sprintf("Mean (Blue): %.2f\nMedian (Green): %.2f\nMode(s) (Orange): %s", 
+            isolate(val$statMean),
+            isolate(val$statMedian),
+            paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "))
+    outText
+  })
+  
   
 }
 

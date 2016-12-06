@@ -15,7 +15,6 @@ p_load(ggplot2,
        knitr, 
        httpuv, 
        shiny, 
-       modeest, 
        scatterD3, 
        ggvis,
        cowplot)
@@ -183,7 +182,7 @@ suppressWarnings(plot_grid(pTCT, pMode, nrow = 2)) # suppress spurious warning f
 shinyAppDir(
   "apps/01_descriptives",
   options=list(
-    width="100%", height=300
+    width="500px", height="700px"
   )
 )
 ```
