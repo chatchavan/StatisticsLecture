@@ -16,6 +16,7 @@ findModes<-function(x){
 
 
 ui <- basicPage(
+  p("Click anywhere on this plot to add a data point. (See settings below for more.)"),
   plotOutput("plotScatter", click = "plot_click", width = "400px", height = "200px"),
   ggvisOutput("plotHist"),
   ggvisOutput("plotSamples"),
@@ -34,6 +35,9 @@ server <- function(input, output) {
   
   x <- c(3, 10, 15, 3, 4, 7, 1, 12)
   y <- c(4, 10, 12, 17, 15, 20, 14, 3)
+  
+  sampleCount <- 1000 # TODO: allow adjustment
+  obsCount <- 30 # TODO: allow adjustment
   
   # initialize reactive values with existing data
   val <- reactiveValues(data = cbind (x = x, y = y), 
@@ -136,10 +140,6 @@ server <- function(input, output) {
   sampleVis <- reactive({
     sampleDf <- val$sampleDf
     meanValDf <- val$meanValDf
-    # 
-    # if (is.null(sampleDf))
-    #   return(ggvis(data.frame(x = c(0, 1))))
-    # 
     
     plotRange <- input$sampleWindow:(input$sampleWindow + 10)
     obsIdx <- vapply(((plotRange - 1) * obsCount) + 1, seq, rep(1.0, obsCount), length.out = obsCount)[]
@@ -173,8 +173,6 @@ server <- function(input, output) {
     input$sampleBtn
     
     # draw samples
-    sampleCount <- 1000 # TODO: allow adjustment
-    obsCount <- 30 # TODO: allow adjustment
     sampleRowIdxs <- matrix(sample.int(nrow(val$data), obsCount * sampleCount, replace = TRUE), nrow = sampleCount)
     sampleVals <- matrix(val$data[sampleRowIdxs], nrow = sampleCount)
     sampleDf <- data.frame(x = as.numeric(sampleVals), SampleId = rep(1:sampleCount, each = obsCount))
