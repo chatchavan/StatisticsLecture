@@ -190,18 +190,18 @@ server <- function(input, output) {
     meanValDf %>%
       ggvis(~Mean) %>% 
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE) %>%
-      add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means") %>%
+      add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
       hide_legend('fill') %>%
       scale_numeric("x", domain = c(-1, 16)) %>%
     
       # standard deviation of the sample means
-      layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = -1, y2 = 1, fill := "red", stroke := NA) %>%
+      layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = -1, y2 = 1, fill := "green", stroke := NA) %>%
       
       # distribution of means
       layer_histograms(width = 0.1, fill := "red", fillOpacity := 0.3, stroke := NA) %>%
       
       # mean of the sample means (sample mean)
-      layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "red")
+      layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "green")
       
       
   }) 
