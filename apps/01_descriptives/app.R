@@ -21,7 +21,12 @@ ui <- basicPage(
   verbatimTextOutput("statOutput"),
   sliderInput("binwidth", "Histogram bin width:", 1, 8, 1, 0.5),
   radioButtons("oneOrMany", "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
-  sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1)
+  sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1),
+  downloadButton('downloadData', 'Download data'),
+  fileInput('file1', 'Upload data:',
+            accept=c('text/csv', 
+                     'text/comma-separated-values,text/plain', 
+                     '.csv'))
 )
 
 
@@ -31,7 +36,7 @@ server <- function(input, output) {
   y <- c(4, 10, 12, 17, 15, 20, 14, 3)
   
   # initialize reactive values with existing data
-  val <- reactiveValues(data = cbind (x, y), 
+  val <- reactiveValues(data = cbind (x = x, y = y), 
                         statMean = NULL, 
                         statMedian = NULL, 
                         statMode = NULL)
@@ -39,12 +44,12 @@ server <- function(input, output) {
   # observe click on the scatterplot
   observeEvent(input$plot_click, {
     if (input$oneOrMany == 1) {
-      val$data <- rbind(val$data, cbind(input$plot_click$x, input$plot_click$y ))
+      val$data <- rbind(val$data, cbind(x = input$plot_click$x, y = input$plot_click$y ))
     } else {
       
       xRand <- rnorm(input$oneOrMany, mean = input$plot_click$x, sd = input$spread)
       yRand <- rnorm(input$oneOrMany, mean = input$plot_click$y, sd = input$spread)
-      val$data <- rbind(val$data, cbind(xRand, yRand))
+      val$data <- rbind(val$data, cbind(x = xRand, y = yRand))
     }
   })        
   
@@ -61,8 +66,20 @@ server <- function(input, output) {
   })
   
   
+  # handle file upload
+  handleUpload <- reactive({
+    inFile <- input$file1
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    val$data <- read.csv(inFile$datapath)  
+  })
+  
   # render histogram (and calculate statistics)
   hisVis <- reactive({
+    handleUpload()
+    
     histData <- data.frame(x = val$data[,1])
     
     val$statMean <- mean(histData$x)
@@ -98,6 +115,13 @@ server <- function(input, output) {
     outText
   })
   
+  # handle download button
+  output$downloadData <- downloadHandler(
+    filename = "data.csv",
+    content = function(file) {
+      write.csv(val$data, file, row.names = F, na = "")
+    }
+  )
   
 }
 
