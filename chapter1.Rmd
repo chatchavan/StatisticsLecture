@@ -1,0 +1,39 @@
+
+#Purpose
+This series of statistics and experimental design lectures is designed for an introductory class in HCI.
+It aims to help students scaffold a mental model of how statistics works and why it makes sense.
+At the end of this lecture series, students should be able to read and make educated judgement about statistics that are used in HCI literature.
+
+
+#Concepts from the previous lecture
+Three types of knowledge:
+  
+  * **Descriptive:** accurate description of what is happening
+* **Relational:** relationship between multiple variables
+* **Causative:** causes of a situation or a set of event
+
+Sampling:
+  
+  * **Population:** All individuals of interest
+* **Sampling:** Specific individuals who participate in the study
+
+Variables involved in an experiment:
+  
+  * **Independent variables:** The variables that are manipulated in order to observe their effects.
+* **Dependent variables:** The variables that are measured and compared. Changing independent variables are expected to influence the changes of the dependent variables.
+* **Extraneous variables:** The variables that are prevented from intervening in the cause-effect relationship between the independent variables and the dependent variables.
+
+
+#Scales
+Each variable that we manipulate or measure is in one of the following *scales of measurement:*
+  
+  * **Nominal scales:** These are a qualitative categories. (Some calls this scale a **categorical scale**) For example, gender $\in$ {male, female}, input device $\in$ {Mouse, Keyboard} study subject $\in$ {Math, Science, Language, Arts}. There is no natural order.
+* **Ordinal scales:** An ordinal scales has a natural *order* Therefore, it is possible to rank values in this scale. For example, shirt size $\in$ {small, medium, large} or an answer from a Likert item $\in$ {strongly disagree, disagree, neutral, agree, strongly agree}. It is possible to order the levels in this scale. The difference between each level does not have any arithmatical meaning. In a Likert item, for example, one cannot say that the difference between "disagree" and "neutral" does not necessarily equal to the difference between "neutral" and "agree".
+* **Interval scales:** Values in an interval scale is organized as a sequence of equal intervals. For example, temperature in degrees Celsius: the difference between 1 and 2 degrees Celsius equals to the difference between 2 and 3 degrees Celsius. However, for this scale, the value zero is assigned at arbitrary point. For example, at 0 degrees Celsius does not mean that there is no temperature. Variables in the interval scale that have arbitrary zero point is pretty rare.
+* **Ratio scales:** A ratio scale is an interval scale that has a meaningful zero point. The zero point represents a total absence of the property described by the scale, for example, task completion time in seconds (TCT), error rate in percents, temperature in Kelvin. In ratio scales, it is possible to describe a difference in ratio, e.g., an individual who took 10 seconds to complete a task (10 more than 0) is twice slower than another who requires 5 seconds (5 more than 0).
+
+The interval and the ratio scales differs only at the definition of the zero point. Thus, it's possible that one unit of measurement can be treated differently. For example, measuring the task completion time in second results in a ratio scale. Measuring the *difference of the task completion time from the average* is only result in an interval scale. This is because "10 seconds faster than the average" is not twice slower as "5 seconds faster than the average".
+
+##Showing data in different scales
+
+Suppose we have the following data:
