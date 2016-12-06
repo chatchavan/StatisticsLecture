@@ -1,5 +1,5 @@
 ---
-title: "Playground"
+title: "Statistics 1"
 output: html_document
 runtime: shiny
 ---
@@ -22,14 +22,13 @@ p_load(ggplot2,
 theme_set(theme_gray()) # disable cowplot white theme
 ```
 
-<!---
 ```{r child = 'chapter1.Rmd'}
 ```
---->
+
 
 ```{r, echo=FALSE}
 n <- 30
-satLevels <- c("Strongly dissatisfied", "Dissatisfied", "Neutral", "Satrisfied", "Strongly satisfied")
+satLevels <- c("Strongly dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Strongly satisfied")
 df <- data.frame(
   UserId=1:n, 
   Major=sample(c("Math", "Science", "Language", "Arts"), n, replace=T),
@@ -80,28 +79,13 @@ pSatisfaction
 ### Ratio data: task completion time
 For ratio data, like task completion time, there are a lot of distinct numbers, some differs only at decimal places. Therefore, it's not useful to use stacked dot plot. Instead, we use the **histogram**. A histogram has defines *bins* which is usually equal intervals. Data points are groupped by the bins. The number of data points in each bin is represented by the height of each bar. Below, the histogram (grey) is superimposed with the raw data dots (unstacked, in blue).
 
+#### Demo 1: Bin width of histogram
 Changing the bin width may change how the histogram looks. Try this out with the slider below the histogram
 
 ```{r, echo=FALSE}
 iTCTBase <- df %>% 
   ggvis(~TaskCompletionTime) %>% 
   scale_numeric("x", domain = c(0, max(df$TaskCompletionTime) + 2), nice = FALSE) 
-
-# pTCTWidget <- function() {
-#   shinyApp(
-#     ui = fluidPage(
-#           uiOutput("p_ui"),
-#           ggvisOutput("pTCT")
-#          ), #fluid page  # ui
-#     
-#     server = function(input, output, session) {
-#       pTCT %>%
-#         bind_shiny("pTCT", "p_ui") 
-#     }, # server
-#     options = list(height = 200)
-#   ) #shinyAPP
-# }
-# pTCTWidget()
 ```
 
 
@@ -141,82 +125,36 @@ plot_grid(
 )
 ```
 
-For interval data, since it may be rare that the data are exactly at the same place. model calculation usually based on estimating the probability density of the data.
-
-
-```{r, echo = FALSE}
-tct.mode <- modeest::mlv(df$TaskCompletionTime, method = "naive")
-# plot(tct.mode)
-
-pTCT  <- ggplot(df, aes(x=TaskCompletionTime)) +
-  geom_histogram(binwidth=1, colour = "black") +
-  geom_point(aes(y=0, x = TaskCompletionTime), alpha = 0.5, color="blue") + 
-  scale_x_continuous(
-    limits = c(0, max(df$TaskCompletionTime) + 2),
-    breaks = 0:(max(df$TaskCompletionTime) + 2)
-    ) +
-  theme(panel.grid.minor = element_blank())
-
-
-
-# TODO: once ggvis supports drawing horizontal line, change the plot below to ggvis
-pMode <- ggplot(df, aes(x=TaskCompletionTime)) +
-  geom_density() +
-  geom_point(aes(y=0, x = TaskCompletionTime), alpha = 0.5, color="blue") + 
-  geom_vline(xintercept=tct.mode$M, color = "red") + 
-  annotation_custom(
-    textGrob(sprintf("Mode(s): %s", paste(format(tct.mode$M, digits = 4), collapse = ", "))), 
-    xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) +
-  scale_x_continuous(
-    limits = c(0, max(df$TaskCompletionTime) + 2),
-    breaks = 0:(max(df$TaskCompletionTime) + 2)
-    ) +
-  theme(panel.grid.minor = element_blank())
-
-suppressWarnings(plot_grid(pTCT, pMode, nrow = 2)) # suppress spurious warning from geom_bar
-
-```
-
 ##Median
+
+Median is the middle data point from the sorted data. When there are even number of data points, the median is the average between the two data points at the center.
+
+##Mean
+Mean is the sum of all data points divided by the number of data points.
+
+##Demo 2: Central tendencies
+The following demo shows the relationship between mean, median, and mode(s).
 ```{r, echo = FALSE}
 shinyAppDir(
   "apps/01_descriptives",
   options=list(
-    width="500px", height="700px"
+    width="500px", height="1000px"
   )
 )
 ```
 
+#Central limit theorem
+Regardless of the shape of the parent population, the sampling distribution of means derived from a large number of random samples drawn from that parent distribution will exhibit a normal distribution.
+
+##Demo 3: Central Limit Theorem
+(NOTE: If you don't see four graphs after clicking "Sample 1000 times", run this demo in RStudio from: `apps/02_centralLimitTheorem/app.R`)
 ```{r, echo = FALSE}
 shinyAppDir(
   "apps/02_centralLimitTheorem",
   options=list(
-    width="500px", height="700px"
+    width="500px", height="1100px"
   )
 )
 ```
 
 
-##Mean
-
-Try out the relationship between mean, median, and mode in [Plop It!](http://www.shodor.org/interactivate/activities/PlopIt/)
-
-
-
-#Inferring from the data
-Here, we are inferring about the population (contrast to *describing* as above).
-
-
-
-#Temp
-
-[Plot interactions](https://shiny.rstudio.com/gallery/plot-interaction-advanced.html)
-[ggvis](http://ggvis.rstudio.com/cookbook.html)
-
-
-
-[scatterd3](https://cran.r-project.org/web/packages/scatterD3/vignettes/introduction.html)
-```{r}
-scatterD3(data = mtcars, x = wt, y = mpg, fixed = TRUE, 
-          lines = data.frame(slope = 1, intercept = 0))
-```
