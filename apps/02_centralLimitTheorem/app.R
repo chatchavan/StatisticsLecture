@@ -16,28 +16,36 @@ findModes<-function(x){
 
 
 ui <- basicPage(
-  p("Click anywhere on this plot to add a data point. (See settings below for more.)"),
-  plotOutput("plotScatter", click = "plot_click", width = "400px", height = "200px"),
-  ggvisOutput("plotHist"),
-  ggvisOutput("plotSamples"),
-  ggvisOutput("plotSampleHist"),
-  actionButton("sampleBtn", "Sample 1000 times"),
-  sliderInput("sampleWindow", "Showing from sample:", 1, 980, 1, 20),
-  downloadButton('downloadData', 'Download data'),
-  fileInput('file1', 'Upload data:',
-            accept=c('text/csv', 
-                     'text/comma-separated-values,text/plain', 
-                     '.csv'))
+  sidebarLayout(position = "right",
+    sidebarPanel(
+      sliderInput("sampleCount", "How many times to sample?:", 10, 5000, 1000, 10),
+      sliderInput("obsCount", "How many observations in each sample?:", 5, 50, 30, 1),
+      actionButton("sampleBtn", "Draw samples"),
+      hr(),
+      sliderInput("sampleWindow", "Showing from sample:", 1, 980, 1, 20),
+      downloadButton('downloadData', 'Download data'),
+      fileInput('file1', 'Upload data:',
+        accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
+    ),
+    mainPanel(
+      p("Click anywhere on this plot to add twenty data points."),
+      plotOutput("plotScatter", click = "plot_click", width = "400px", height = "150px"),
+      ggvisOutput("plotHist"),
+      ggvisOutput("plotSamples"),
+      ggvisOutput("plotSampleHist")
+    )
+  )
+  
+  
+  
 )
 
 
-server <- function(input, output) {
+server <- function(input, output,session) {
   
   x <- c(3, 10, 15, 3, 4, 7, 1, 12)
   y <- c(4, 10, 12, 17, 15, 20, 14, 3)
   
-  sampleCount <- 1000 # TODO: allow adjustment
-  obsCount <- 30 # TODO: allow adjustment
   
   # initialize reactive values with existing data
   val <- reactiveValues(data = cbind (x = x, y = y), 
@@ -111,7 +119,7 @@ server <- function(input, output) {
       layer_histograms(width = 0.1, fill := "lightgray", stroke := NA) %>%
       layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
       layer_paths(data = statSDDf, x = ~x, y = 0, stroke := "blue") %>%
-      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE) %>%
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       hide_legend('fill')
   })
   hisVis %>% bind_shiny("plotHist")
@@ -150,7 +158,7 @@ server <- function(input, output) {
     barDf <- barDf[barDf$SampleId %in% plotRange,]
     
     # observation indices
-    obsIdx <- vapply(((plotRange - 1) * obsCount) + 1, seq, rep(1.0, obsCount), length.out = obsCount)[]
+    obsIdx <- vapply(((plotRange - 1) * input$obsCount) + 1, seq, rep(1.0, input$obsCount), length.out = input$obsCount)[]
     
     # actual plot
     sampleDf[obsIdx,] %>%
@@ -171,7 +179,7 @@ server <- function(input, output) {
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
       add_axis("x", title = "Observations (blue) and mean of each sample (red)") %>%
       hide_legend("stroke") %>%
-      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE)
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas")
     
     
   }) 
@@ -189,7 +197,7 @@ server <- function(input, output) {
     
     meanValDf %>%
       ggvis(~Mean) %>% 
-      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE) %>%
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
       hide_legend('fill') %>%
       scale_numeric("x", domain = c(-1, 16)) %>%
@@ -206,20 +214,24 @@ server <- function(input, output) {
       
   }) 
   
+  # update sample navigation slider
+  observeEvent(input$sampleCount, {
+    updateSliderInput(session, "sampleWindow", max = input$sampleCount - 9)
+  })
+  
   
   # handle sampling
-  observeEvent(input$sampleBtn, {
-    input$sampleBtn
+  observeEvent(c(input$sampleCount, input$obsCount, input$sampleBtn), {
     
     # draw samples
-    sampleRowIdxs <- matrix(sample.int(nrow(val$data), obsCount * sampleCount, replace = TRUE), nrow = sampleCount)
-    sampleVals <- matrix(val$data[sampleRowIdxs], nrow = sampleCount)
-    sampleDf <- data.frame(x = as.numeric(sampleVals), SampleId = rep(1:sampleCount, each = obsCount))
+    sampleRowIdxs <- matrix(sample.int(nrow(val$data), input$obsCount * input$sampleCount, replace = TRUE), nrow = input$sampleCount)
+    sampleVals <- matrix(val$data[sampleRowIdxs], nrow = input$sampleCount)
+    sampleDf <- data.frame(x = as.numeric(sampleVals), SampleId = rep(1:input$sampleCount, each = input$obsCount))
     
     # calculate mean and SD of each sample (sample distribution)
     meanVals <- apply(sampleVals, 1, mean)
     sdVals <- apply(sampleVals, 1, sd)
-    meanValDf <- data.frame(Mean = meanVals, SD = sdVals, SampleId = 1:sampleCount)
+    meanValDf <- data.frame(Mean = meanVals, SD = sdVals, SampleId = 1:input$sampleCount)
     
     # calculate the interval for plotting SD
     meanValDf$barMin <- meanValDf$Mean - meanValDf$SD
