@@ -23,6 +23,7 @@ ui <- basicPage(
       actionButton("sampleBtn", "Draw samples"),
       hr(),
       sliderInput("sampleWindow", "Showing from sample:", 1, 980, 1, 20),
+      hr(),
       downloadButton('downloadData', 'Download data'),
       fileInput('file1', 'Upload data:',
         accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
@@ -102,25 +103,37 @@ server <- function(input, output,session) {
     
     # pack descriptive statistics for plotting
     statData <- data.frame(
-      value = c(val$statMean, val$statMedian, val$statMode),
-      stat = c("mean", "median", rep("mode", length(val$statMode)) ),
-      color = c("blue", "green", rep("orange", length(val$statMode)))
+      value = c(val$statMean), #, val$statMedian, val$statMode),
+      stat = c("mean"), #, "median", rep("mode", length(val$statMode)) ),
+      color = c("blue") #, "green", rep("orange", length(val$statMode)))
     )
     statSDDf <- data.frame(
       x <- c(val$statMean - val$statSD, val$statMean + val$statSD),
       y <- c(1, 1)
     )
+    meanVbarDf <- data.frame(x = val$statMean - 0.01, x2 =val$statMean + 0.01)
     
     # plot histogram
     histData %>%
       ggvis(~x) %>% 
       add_axis("x", title = "x") %>%
       scale_numeric("x", domain = c(-1, 16)) %>%
-      layer_histograms(width = 0.1, fill := "lightgray", stroke := NA) %>%
-      layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
-      layer_paths(data = statSDDf, x = ~x, y = 0, stroke := "blue") %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
-      hide_legend('fill')
+      hide_legend('fill') %>%
+      
+      # histogram of the population
+      layer_histograms(width = 1, fill := "lightgray", stroke := NA) %>%
+      
+      
+      # population mean
+      layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
+      layer_rects(data = meanVbarDf, x = ~x, x2 = ~x2, y := 0, y2 = 0, stroke := "blue") %>%
+      
+      
+      # population SD
+      layer_paths(data = statSDDf, x = ~x, y = 0, stroke := "blue")
+      
+      
   })
   hisVis %>% bind_shiny("plotHist")
   
@@ -195,6 +208,9 @@ server <- function(input, output,session) {
     sdRight <- sampleMeanDf$SampleMean + sdOfSampleMeans
     sdDf <- data.frame(x = sdLeft, x2 = sdRight)
     
+    meanVbarDf <- data.frame(x = sampleMeanDf$SampleMean - 0.01, x2 = sampleMeanDf$SampleMean + 0.01)
+    
+    
     meanValDf %>%
       ggvis(~Mean) %>% 
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
@@ -209,7 +225,8 @@ server <- function(input, output,session) {
       layer_histograms(width = 0.1, fill := "red", fillOpacity := 0.3, stroke := NA) %>%
       
       # mean of the sample means (sample mean)
-      layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "green")
+      layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "green") %>%
+      layer_rects(data = meanVbarDf, x = ~x, x2 = ~x2, y := 0, y2 = 0, stroke := "green")
       
       
   }) 
