@@ -28,3 +28,5 @@ This repository contains the materials accompanying statistics lecture.
    (Images/TestNotebookOutput.png)
 
 4. Check back on [this repository](https://github.com/chatchavan/StatisticsLecture) on 6 December, 2016, 6:00 AM for the latest version of the code.
+
+5. * Open the `statistics1.Rmd` and click the green play button. This will install additional necessary packages.
