@@ -111,7 +111,7 @@ server <- function(input, output) {
       layer_histograms(width = 0.1, fill := "lightgray", stroke := NA) %>%
       layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
       layer_paths(data = statSDDf, x = ~x, y = 0, stroke := "blue") %>%
-      set_options(width = 400, height = 200) %>%
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE) %>%
       hide_legend('fill')
   })
   hisVis %>% bind_shiny("plotHist")
@@ -156,11 +156,11 @@ server <- function(input, output) {
     sampleDf[obsIdx,] %>%
       ggvis(~x, ~SampleId) %>%
       
-      # mean of each sample
-      layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
-      
       # observations
       layer_points(fill := "lightblue", fillOpacity := 0.5) %>%
+      
+      # mean of each sample
+      layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
       
       # SD of each sample
       layer_rects(data = barDf, x = ~x, x2 = ~x2, y = ~y, y2 = ~y2, fill := "red", stroke := NA) %>%
@@ -171,7 +171,7 @@ server <- function(input, output) {
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
       add_axis("x", title = "Observations (blue) and mean of each sample (red)") %>%
       hide_legend("stroke") %>%
-      set_options(width = 400, height = 200)
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE)
     
     
   }) 
@@ -192,6 +192,7 @@ server <- function(input, output) {
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE) %>%
       add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means") %>%
       hide_legend('fill') %>%
+      scale_numeric("x", domain = c(-1, 16)) %>%
     
       # standard deviation of the sample means
       layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = -1, y2 = 1, fill := "red", stroke := NA) %>%
