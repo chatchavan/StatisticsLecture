@@ -187,6 +187,15 @@ shinyAppDir(
 )
 ```
 
+```{r, echo = FALSE}
+shinyAppDir(
+  "apps/02_centralLimitTheorem",
+  options=list(
+    width="500px", height="700px"
+  )
+)
+```
+
 
 ##Mean
 
