@@ -16,17 +16,23 @@ findModes<-function(x){
 
 
 ui <- basicPage(
-  plotOutput("plotScatter", click = "plot_click", width = "400px", height = "200px"),
-  ggvisOutput("plotHist"),
-  verbatimTextOutput("statOutput"),
-  sliderInput("binwidth", "Histogram bin width:", 1, 8, 1, 0.5),
-  radioButtons("oneOrMany", "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
-  sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1),
-  downloadButton('downloadData', 'Download data'),
-  fileInput('file1', 'Upload data:',
-            accept=c('text/csv', 
-                     'text/comma-separated-values,text/plain', 
-                     '.csv'))
+  sidebarLayout(position = "right",
+    sidebarPanel(
+      sliderInput("binwidth", "Histogram bin width:", 0.1, 8, 1, 0.1),
+      hr(),
+      radioButtons("oneOrMany", "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
+      sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1),
+      hr(),
+      downloadButton('downloadData', 'Download data'),
+      fileInput('file1', 'Upload data:',
+                accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
+    ),
+    mainPanel(
+      plotOutput("plotScatter", click = "plot_click", width = "400px", height = "200px"),
+      ggvisOutput("plotHist"),
+      verbatimTextOutput("statOutput")
+    )
+  )
 )
 
 
@@ -60,6 +66,7 @@ server <- function(input, output) {
       geom_point() +
       theme_bw() +
       theme(legend.position="none") +
+      xlim(-1, 16) +
       xlab("x") +
       ylab("y")
       
@@ -90,25 +97,43 @@ server <- function(input, output) {
     
     # pack descriptive statistics for plotting
     statData <- data.frame(
-      value = c(val$statMean, val$statMedian, val$statMode),
-      stat = c("mean", "median", rep("mode", length(val$statMode)) ),
-      color = c("blue", "green", rep("orange", length(val$statMode)))
+      value = val$statMode,
+      stat = rep("mode", length(val$statMode) ),
+      color = rep("orange", length(val$statMode))
     )
     statSDDf <- data.frame(
       x <- c(val$statMean - val$statSD, val$statMean + val$statSD),
       y <- c(1, 1)
     )
     
+    # for plotting vertical bars
+    statVars <- c(val$statMean, val$statMedian)
+    statVbarDf <- data.frame(
+      x = statVars - 0.01, x2 = statVars + 0.01, stroke = c("blue", "green"))
     
     # plot histogram
     histData %>%
       ggvis(~x) %>% 
+      scale_numeric("x", domain = c(-1, 16)) %>%
       add_axis("x", title = "x") %>%
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
+      hide_legend('fill') %>%
+      
+      # data histogram
       layer_histograms(width = input$binwidth, fill := "lightgray", stroke := NA) %>%
-      layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
+      
+      # mean and median are shown as vertical lines
+      layer_rects(data = statVbarDf, x = ~x, x2 = ~x2, y := 0, y2 = 0, stroke := ~stroke) %>%
+      
+      # SD is shown as horizontal line
       layer_paths(data = statSDDf, x = ~x, y = 0, stroke := "blue") %>%
-      set_options(width = 400, height = 200) %>%
-      hide_legend('fill')
+      
+      # modes are shown as dots
+      layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color)
+      
+      
+      
+      
   })
   hisVis %>% bind_shiny("plotHist")
   
@@ -116,7 +141,7 @@ server <- function(input, output) {
   # text output
   output$statOutput <- renderText({
     val$data
-    outText <- sprintf("Mean (Blue): %.2f\nMedian (Green): %.2f\nMode(s) (Orange): %s\n\nSD (half of the blue line): %.2f", 
+    outText <- sprintf("Mean (Blue vertical line):\t%.2f\nMedian (Green vertical line):\t%.2f\nMode(s) (Orange dots):\t%s\n\nSD (half of the horizontal blue line): %.2f", 
             isolate(val$statMean),
             isolate(val$statMedian),
             paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "),

@@ -134,12 +134,12 @@ Mean is the sum of all data points divided by the number of data points.
 
 ##Demo 2: Central tendencies
 The following demo shows the relationship between mean, median, and mode(s).
+(NOTE: If you don't see four graphs after clicking "Sample 1000 times", run this demo in RStudio from: `apps/01_descriptives/app.R`)
 ```{r, echo = FALSE}
 shinyAppDir(
   "apps/01_descriptives",
-  options=list(
-    width="500px", height="1000px"
-  )
+  options=list(height="900px")
+  
 )
 ```
 
@@ -151,8 +151,7 @@ Regardless of the shape of the parent population, the sampling distribution of m
 ```{r, echo = FALSE}
 shinyAppDir(
   "apps/02_centralLimitTheorem",
-  options=list(
-    width="500px", height="1100px"
+  options=list(height="800px"
   )
 )
 ```
