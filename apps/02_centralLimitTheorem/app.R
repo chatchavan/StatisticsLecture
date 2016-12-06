@@ -1,7 +1,6 @@
 library(shiny)
 library(ggplot2)
 library(ggvis)
-library(tidyr)
 options(shiny.trace = FALSE)
 
 # calculate descriptive statistics
@@ -157,17 +156,14 @@ server <- function(input, output) {
     sampleDf[obsIdx,] %>%
       ggvis(~x, ~SampleId) %>%
       
-      # observations
-      layer_points(fill := "lightblue") %>%
-      
       # mean of each sample
       layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
       
+      # observations
+      layer_points(fill := "lightblue", fillOpacity := 0.5) %>%
+      
       # SD of each sample
-      layer_text(data = barDf, x = ~x, y = ~SampleId, text := "|", stroke := "red") %>%
-      # TODO: bug in ggvis that layer_lines doesn't work with a custom data frame, also layer_lines order by x
-      # layer_lines(data = barDf, x = ~x, y = ~SampleId, stroke := "red") %>%
-      # scale_ordinal("stroke", range = rep("blue", length(levels(val$barDf[val$barDf$SampleId %in% plotRange,]$SampleId)))) %>%
+      layer_rects(data = barDf, x = ~x, x2 = ~x2, y = ~y, y2 = ~y2, fill := "red", stroke := NA) %>%
       
       
       # other plot parameters
@@ -185,14 +181,28 @@ server <- function(input, output) {
   sampleHistVis <- reactive({
     meanValDf <- val$meanValDf
     sampleMeanDf <- val$sampleMeanDf
+    
+    sdOfSampleMeans <- sd(meanValDf$Mean)
+    sdLeft <- sampleMeanDf$SampleMean - sdOfSampleMeans
+    sdRight <- sampleMeanDf$SampleMean + sdOfSampleMeans
+    sdDf <- data.frame(x = sdLeft, x2 = sdRight)
+    
     meanValDf %>%
       ggvis(~Mean) %>% 
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE) %>%
       add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means") %>%
-      layer_histograms(width = 0.1, fill := "red", fillOpacity := 0.5, stroke := NA) %>%
-      layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill = "blue") %>%
-      set_options(width = 400, height = 200) %>%
-      hide_legend('fill')
+      hide_legend('fill') %>%
+    
+      # standard deviation of the sample means
+      layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = -1, y2 = 1, fill := "red", stroke := NA) %>%
+      
+      # distribution of means
+      layer_histograms(width = 0.1, fill := "red", fillOpacity := 0.3, stroke := NA) %>%
+      
+      # mean of the sample means (sample mean)
+      layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "red")
+      
+      
   }) 
   
   
@@ -213,7 +223,11 @@ server <- function(input, output) {
     # calculate the interval for plotting SD
     meanValDf$barMin <- meanValDf$Mean - meanValDf$SD
     meanValDf$barMax <- meanValDf$Mean + meanValDf$SD
-    barDf <- (meanValDf[,c("SampleId", "barMin", "barMax")] %>% gather(SampleId, x))[, c(1,3)]
+    barDf <- meanValDf[,c("SampleId", "barMin", "barMax")]
+    names(barDf)[names(barDf) %in% c("barMin", "barMax")] <- c("x", "x2")
+    barWidth <- 0.1
+    barDf$y2 <- barDf$SampleId - (barWidth / 2)
+    barDf$y <- barDf$SampleId +  (barWidth / 2)
     
     
     # calculate the sample mean (mean of means)
