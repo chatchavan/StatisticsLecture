@@ -39,7 +39,8 @@ server <- function(input, output) {
   val <- reactiveValues(data = cbind (x = x, y = y), 
                         statMean = NULL, 
                         statMedian = NULL, 
-                        statMode = NULL)
+                        statMode = NULL,
+                        statSD = NULL)
   
   # observe click on the scatterplot
   observeEvent(input$plot_click, {
@@ -83,6 +84,7 @@ server <- function(input, output) {
     histData <- data.frame(x = val$data[,1])
     
     val$statMean <- mean(histData$x)
+    val$statSD <- sd(histData$x)
     val$statMedian <- median(histData$x)
     val$statMode <- findModes(histData$x)$values
     
@@ -92,6 +94,11 @@ server <- function(input, output) {
       stat = c("mean", "median", rep("mode", length(val$statMode)) ),
       color = c("blue", "green", rep("orange", length(val$statMode)))
     )
+    statSDDf <- data.frame(
+      x <- c(val$statMean - val$statSD, val$statMean + val$statSD),
+      y <- c(1, 1)
+    )
+    
     
     # plot histogram
     histData %>%
@@ -99,6 +106,7 @@ server <- function(input, output) {
       add_axis("x", title = "x") %>%
       layer_histograms(width = input$binwidth, fill := "lightgray", stroke := NA) %>%
       layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color) %>%
+      layer_paths(data = statSDDf, x = ~x, y = 0, stroke := "blue") %>%
       set_options(width = 400, height = 200) %>%
       hide_legend('fill')
   })
@@ -108,10 +116,11 @@ server <- function(input, output) {
   # text output
   output$statOutput <- renderText({
     val$data
-    outText <- sprintf("Mean (Blue): %.2f\nMedian (Green): %.2f\nMode(s) (Orange): %s", 
+    outText <- sprintf("Mean (Blue): %.2f\nMedian (Green): %.2f\nMode(s) (Orange): %s\n\nSD (half of the blue line): %.2f", 
             isolate(val$statMean),
             isolate(val$statMedian),
-            paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "))
+            paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "),
+            isolate(val$statSD))
     outText
   })
   
