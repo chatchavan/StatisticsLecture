@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(ggvis)
+library(tidyr)
 options(shiny.trace = FALSE)
 
 # calculate descriptive statistics
@@ -47,6 +48,7 @@ server <- function(input, output) {
                         statSD = NULL,
                         sampleDf = NULL,
                         meanValDf = NULL,
+                        barDf = NULL,
                         sampleMeanDf = NULL)
   
   # observe click on the scatterplot
@@ -140,18 +142,44 @@ server <- function(input, output) {
   sampleVis <- reactive({
     sampleDf <- val$sampleDf
     meanValDf <- val$meanValDf
+    barDf <- val$barDf
     
-    plotRange <- input$sampleWindow:(input$sampleWindow + 10)
+    plotRange <- input$sampleWindow:(input$sampleWindow + 9)
+    
+    # for SD
+    meanValDf <- meanValDf[plotRange,]
+    barDf <- barDf[barDf$SampleId %in% plotRange,]
+    
+    # observation indices
     obsIdx <- vapply(((plotRange - 1) * obsCount) + 1, seq, rep(1.0, obsCount), length.out = obsCount)[]
+    
+    # actual plot
     sampleDf[obsIdx,] %>%
       ggvis(~x, ~SampleId) %>%
+      
+      # observations
+      layer_points(fill := "lightblue") %>%
+      
+      # mean of each sample
+      layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
+      
+      # SD of each sample
+      layer_text(data = barDf, x = ~x, y = ~SampleId, text := "|", stroke := "red") %>%
+      # TODO: bug in ggvis that layer_lines doesn't work with a custom data frame, also layer_lines order by x
+      # layer_lines(data = barDf, x = ~x, y = ~SampleId, stroke := "red") %>%
+      # scale_ordinal("stroke", range = rep("blue", length(levels(val$barDf[val$barDf$SampleId %in% plotRange,]$SampleId)))) %>%
+      
+      
+      # other plot parameters
       scale_numeric("x", domain = c(-1, 16)) %>%
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
       add_axis("x", title = "Observations (blue) and mean of each sample (red)") %>%
-      layer_points(fill := "lightblue") %>%
-      layer_points(data = meanValDf[plotRange,], x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
+      hide_legend("stroke") %>%
       set_options(width = 400, height = 200)
+    
+    
   }) 
+  
   
   # plot histogram of samples
   sampleHistVis <- reactive({
@@ -177,9 +205,16 @@ server <- function(input, output) {
     sampleVals <- matrix(val$data[sampleRowIdxs], nrow = sampleCount)
     sampleDf <- data.frame(x = as.numeric(sampleVals), SampleId = rep(1:sampleCount, each = obsCount))
     
-    # calculate mean of each sample (sample distribution)
+    # calculate mean and SD of each sample (sample distribution)
     meanVals <- apply(sampleVals, 1, mean)
-    meanValDf <- data.frame(Mean = meanVals, SampleId = 1:sampleCount)
+    sdVals <- apply(sampleVals, 1, sd)
+    meanValDf <- data.frame(Mean = meanVals, SD = sdVals, SampleId = 1:sampleCount)
+    
+    # calculate the interval for plotting SD
+    meanValDf$barMin <- meanValDf$Mean - meanValDf$SD
+    meanValDf$barMax <- meanValDf$Mean + meanValDf$SD
+    barDf <- (meanValDf[,c("SampleId", "barMin", "barMax")] %>% gather(SampleId, x))[, c(1,3)]
+    
     
     # calculate the sample mean (mean of means)
     sampleMean <- mean(meanVals)
@@ -189,6 +224,7 @@ server <- function(input, output) {
     val$sampleDf <- sampleDf
     val$meanValDf <- meanValDf
     val$sampleMeanDf <- sampleMeanDf
+    val$barDf <- barDf
     
     # start the vis
     sampleVis %>% bind_shiny("plotSamples")
