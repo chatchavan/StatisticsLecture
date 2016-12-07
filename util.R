@@ -1,3 +1,4 @@
+# compile R markdown
 rmarkdownOutput <- function(rmdPath) {
   withMathJax(
     HTML(
@@ -6,4 +7,14 @@ rmarkdownOutput <- function(rmdPath) {
       )
     )
   )
+}
+
+# calculate descriptive statistics
+findModes <- function(x){
+  xtab <- table(x)
+  modes <- xtab[max(xtab)==xtab]
+  themodes <- names(modes)
+  mode(themodes)  <-  typeof(x[1])
+  mout <- list(values=themodes)
+  return(mout)
 }

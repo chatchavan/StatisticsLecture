@@ -1,0 +1,15 @@
+---
+title: "centralLimitTheorem"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In research studies, we *sample* the *population*. Each sample comprises multiple *observations*. From each sample, we can calculate its mean and its SD. The behavior of these means an SDs (of many many samples) behaves in a curios way.
+
+## Observe
+The population is shown on the top-most plot, and the population histogram and mean is shown in the second plot.
+
+For this simulation, you can modify the population by clicking on the graph like before. 

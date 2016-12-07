@@ -1,21 +1,23 @@
-library(shiny)
-library(ggplot2)
-library(ggvis)
-options(shiny.trace = FALSE)
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(shiny,
+  knitr,
+  markdown,
+  ggplot2, 
+  grid,
+  DT,
+  dplyr, 
+  tidyr, 
+  knitr, 
+  httpuv, 
+  ggvis)
 
-# calculate descriptive statistics
-findModes<-function(x){
-  xtab<-table(x)
-  modes<-xtab[max(xtab)==xtab]
-  themodes<-names(modes)
-  mode(themodes) <- typeof(x[1])
-  mout<-list(values=themodes)
-  return(mout)
-}
+# options(shiny.trace = FALSE)
 
+source("../../util.R")
 
 
 ui <- basicPage(
+  rmarkdownOutput("../../Instructions/centralLimitTheorem.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
       sliderInput("sampleCount", "How many times to sample?:", 10, 5000, 1000, 10),
