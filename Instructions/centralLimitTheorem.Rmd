@@ -7,9 +7,30 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In research studies, we *sample* the *population*. Each sample comprises multiple *observations*. From each sample, we can calculate its mean and its SD. The behavior of these means an SDs (of many many samples) behaves in a curios way.
+In research studies, we *sample* the *population*. Each sample comprises multiple *observations*. From each sample, we can calculate its mean and its SD. The behavior of these means an SDs (of many many samples) behaves in a curious way.
 
 ## Observe
-The population is shown on the top-most plot, and the population histogram and mean is shown in the second plot.
+The population is shown on the top-most plot, and the population histogram and mean is shown in the second plot. In this simulation, you can modify the population by clicking on the graph like before. 
 
-For this simulation, you can modify the population by clicking on the graph like before. 
+In the third plot, grey dots are observations. Each row is  a sample (a set of observations). We sample many times. The number of times we sample and the number of observations can be adjusted on the panel to the right. The red diamond shows the **mean of each sample**. (Note that this differs from the population mean.) The red lines are 2 SDs centered at the mean of each sample.
+
+The means in the third plot are collected down to the fourth plot. The *distribution of means* is shown in the red histogram. We can calculate mean and SD of this *distribution of means* as shown in green dot and bar at the bottom. The green dot is called **sample mean** and the green line is called **standard error of means (SE)**.
+
+## Try
+
+* Try making the population weird and see how the green dot behave.
+   * Put two clumps on the extreme.
+   * Make the population fall on a very narrow range
+* Check the length of an SD (third plot, red horizontal line) relative to the SE (fourth plot, green thick horizontal line)
+  * Which one is smaller?
+  * Try changing the number of sample and see if there's any changes in SD and SE.
+  * Try changing the number of observation per sample and see if there's any changes in SD and SE.
+* Try using small number of observations (the second slider). Look at how the mean of each sample (red diamonds) are located relative to:
+  * the population mean and SD (blue dot and blue line) 
+  * the sample mean and SE (green dot and green line)
+  
+## Question
+* How does the sample mean and SE behave with respect to the different population?
+* If we have only one sample, what do we have to be cautious of?
+* In which situation would one (or a few) SD of samples (red line) be a good estimate for the SD of the population (blue line)?
+* In which situations that the sample mean doesn't accurately represent the population?
