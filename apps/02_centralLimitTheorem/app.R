@@ -1,21 +1,23 @@
-library(shiny)
-library(ggplot2)
-library(ggvis)
-options(shiny.trace = FALSE)
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(shiny,
+  knitr,
+  markdown,
+  ggplot2, 
+  grid,
+  DT,
+  dplyr, 
+  tidyr, 
+  knitr, 
+  httpuv, 
+  ggvis)
 
-# calculate descriptive statistics
-findModes<-function(x){
-  xtab<-table(x)
-  modes<-xtab[max(xtab)==xtab]
-  themodes<-names(modes)
-  mode(themodes) <- typeof(x[1])
-  mout<-list(values=themodes)
-  return(mout)
-}
+# options(shiny.trace = FALSE)
 
+source("../../util.R")
 
 
 ui <- basicPage(
+  rmarkdownOutput("../../Instructions/centralLimitTheorem.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
       sliderInput("sampleCount", "How many times to sample?:", 10, 5000, 1000, 10),
@@ -23,6 +25,8 @@ ui <- basicPage(
       actionButton("sampleBtn", "Draw samples"),
       hr(),
       sliderInput("sampleWindow", "Showing from sample:", 1, 980, 1, 20),
+      hr(),
+      sliderInput("xRange", "Range of x-axis:", -20, 20, c(-1, 16), 0.5),
       hr(),
       downloadButton('downloadData', 'Download data'),
       fileInput('file1', 'Upload data:',
@@ -72,7 +76,7 @@ server <- function(input, output,session) {
       geom_point() +
       theme_bw() +
       theme(legend.position="none") +
-      xlim(-1, 16) +
+      xlim(input$xRange[1], input$xRange[2]) +
       xlab("x") +
       ylab("y")
       
@@ -117,7 +121,7 @@ server <- function(input, output,session) {
     histData %>%
       ggvis(~x) %>% 
       add_axis("x", title = "x") %>%
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      scale_numeric("x", domain = input$xRange) %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       hide_legend('fill') %>%
       
@@ -178,7 +182,7 @@ server <- function(input, output,session) {
       ggvis(~x, ~SampleId) %>%
       
       # observations
-      layer_points(fill := "lightblue", fillOpacity := 0.5) %>%
+      layer_points(fill := "lightgray", fillOpacity := 0.5) %>%
       
       # mean of each sample
       layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
@@ -188,7 +192,7 @@ server <- function(input, output,session) {
       
       
       # other plot parameters
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      scale_numeric("x", domain = input$xRange) %>%
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
       add_axis("x", title = "Observations (blue) and mean of each sample (red)") %>%
       hide_legend("stroke") %>%
@@ -214,7 +218,7 @@ server <- function(input, output,session) {
     meanValDf %>%
       ggvis(~Mean) %>% 
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
-      add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
+      add_axis("x", title = "Red histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
       hide_legend('fill') %>%
       scale_numeric("x", domain = c(-1, 16)) %>%
     

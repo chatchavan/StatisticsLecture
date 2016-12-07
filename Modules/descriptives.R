@@ -1,60 +1,47 @@
+#===============================================================================
+# descriptive statistics
 
-if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
-p_load(shiny,
-  knitr,
-  markdown,
-  ggplot2, 
-  grid,
-  DT,
-  dplyr, 
-  tidyr, 
-  knitr, 
-  httpuv, 
-  ggvis)
-
-# options(shiny.trace = FALSE)
-
-source("../../util.R")
-
-
-ui <- basicPage(
-  rmarkdownOutput("../../Instructions/descriptives.Rmd"),
-  sidebarLayout(position = "right",
-    sidebarPanel(
-      radioButtons("oneOrMany", "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
-      sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1),
-      hr(),
-      sliderInput("binwidth", "Histogram bin width:", 0.1, 8, 1, 0.1),
-      hr(),
-      sliderInput("xRange", "Range of x-axis:", -20, 20, c(-1, 16), 0.5),
-      hr(),
-      downloadButton('downloadData', 'Download data'),
-      fileInput('file1', 'Upload data:',
-                accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
-    ),
-    mainPanel(
-      plotOutput("plotScatter", click = "plot_click", width = "400px", height = "200px"),
-      ggvisOutput("plotHist"),
-      verbatimTextOutput("statOutput")
+## module ui
+descriptivesUI <- function(id) {
+  ns <- NS(id)
+  
+  tagList(
+    sidebarLayout(position = "right",
+      sidebarPanel(
+        radioButtons(ns("oneOrMany"), "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
+        sliderInput(ns("spread"), "Spread (when adding >1 one point):", 0, 5, 1, 0.1),
+        hr(),
+        sliderInput(ns("binwidth"), "Histogram bin width:", 0.1, 8, 1, 0.1),
+        hr(),
+        downloadButton(ns("downloadData"), "Download data"),
+        fileInput(ns("file1"), "Upload data:",
+          accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+      ),
+      mainPanel(
+        plotOutput(ns("plotScatter"), click = ns("scatterClick"), width = "400px", height = "200px"),
+        ggvisOutput(ns("plotHist")),
+        verbatimTextOutput(ns("statOutput"))
+      )
     )
   )
-)
+}
 
-
-server <- function(input, output) {
+## module server
+descriptives <- function(input, output, session) {
+  ns <- session$ns
   
   x <- c(3, 10, 15, 3, 4, 7, 1, 12)
   y <- c(4, 10, 12, 17, 15, 20, 14, 3)
   
   # initialize reactive values with existing data
   val <- reactiveValues(data = cbind (x = x, y = y), 
-                        statMean = NULL, 
-                        statMedian = NULL, 
-                        statMode = NULL,
-                        statSD = NULL)
+    statMean = NULL, 
+    statMedian = NULL, 
+    statMode = NULL,
+    statSD = NULL)
   
   # observe click on the scatterplot
-  observeEvent(input$plot_click, {
+  observeEvent(ns("scatterClick"), {
     if (input$oneOrMany == 1) {
       val$data <- rbind(val$data, cbind(x = input$plot_click$x, y = input$plot_click$y ))
     } else {
@@ -71,10 +58,10 @@ server <- function(input, output) {
       geom_point() +
       theme_bw() +
       theme(legend.position="none") +
-      xlim(input$xRange[1], input$xRange[2]) +
+      xlim(-1, 16) +
       xlab("x") +
       ylab("y")
-      
+    
     p
   })
   
@@ -119,7 +106,7 @@ server <- function(input, output) {
     # plot histogram
     histData %>%
       ggvis(~x) %>% 
-      scale_numeric("x", domain = input$xRange) %>%
+      scale_numeric("x", domain = c(-1, 16)) %>%
       add_axis("x", title = "x") %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       hide_legend('fill') %>%
@@ -135,22 +122,18 @@ server <- function(input, output) {
       
       # modes are shown as dots
       layer_points(data = statData, x = ~value, y = 0, fillOpacity := 0.8, fill := ~color)
-      
-      
-      
-      
   })
-  hisVis %>% bind_shiny("plotHist")
+  hisVis %>% bind_shiny(ns("plotHist"))
   
   
   # text output
   output$statOutput <- renderText({
     val$data
     outText <- sprintf("Mean (Blue vertical line):\t%.2f\nMedian (Green vertical line):\t%.2f\nMode(s) (Orange dots):\t%s\n\nSD (half of the horizontal blue line): %.2f", 
-            isolate(val$statMean),
-            isolate(val$statMedian),
-            paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "),
-            isolate(val$statSD))
+      isolate(val$statMean),
+      isolate(val$statMedian),
+      paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "),
+      isolate(val$statSD))
     outText
   })
   
@@ -161,7 +144,5 @@ server <- function(input, output) {
       write.csv(val$data, file, row.names = F, na = "")
     }
   )
-  
-}
 
-shinyApp(ui, server)
+}

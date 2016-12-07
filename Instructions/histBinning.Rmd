@@ -1,0 +1,30 @@
+---
+title: "Histogram binning"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+A histogram shows how a dataset is distributed. The data is groupped into bins, and the frequency of data in each bin is represented by the height of each bar.
+
+## Try
+
+Try changing the bin width and notice the following changes:
+
+* The range of the vertical axis
+* The height of the tallest bar
+* The width of each bar
+
+Try changing the number of data rows and notice the following changes (or the lack thereof):
+
+* The number of rows in the table
+* The range of the vertical axis of the histogram
+* The height of the tallest bar of the histogram
+* The overall shape of the histogram
+
+Try small number of rows (e.g., 5) and change the bin width. Notice how fast the shape changes. Repeat with the large number of rows.
+
+## Questions
+
+What are things to consider when you inspect a dataset?
