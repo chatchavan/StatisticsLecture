@@ -8,23 +8,13 @@ This repository contains the materials accompanying statistics lecture.
 
 2. Test R Markdown
    * Open the project file `Statistics lecture.Rproj` in Rstudio
-   * In RStudio, you will find the `files` panel, which is usually at the bottom right corner. Select `Test.Rmd` to open the file in the editor.
+   * In RStudio, you will find the `files` panel, which is usually at the bottom right corner. Select `statistics1.R` to open the file in the editor.
    * In the editor, click `Run Document` in the toolbar.
    * During the first run, RStudio will ask you to install required packages such as `knitr`. Please install them.
-   * After the installation is completed, RStudio will execute the code and show you the output on a separate window. You should expect to see:
-      - a data table
-      - two sliders
-      - a graph
-   * Changing the sliders should change the line in the graph
+   * After the installation is completed, RStudio will execute the code and show you the output on your browser. You should expect to see the screen like the image below.
+   * Changing the sliders should change the data in the table
 
-   ![Example output from `Test.Rmd`]
-   (Images/TestOutput.png)
+   ![Example output from `statistics1.R`]
+   (Images/Stat1screen.png)
 
-3. Test R Notebook
-   * Open the `TestNotebook.Rmd`
-   * On the top-right corner of each chunk of code, click the green play button. This will run the chunk and produce output right inside the editor like the figure below.
-
-   ![A notebook screen]
-   (Images/TestNotebookOutput.png)
-
-4. Check back on [this repository](https://github.com/chatchavan/StatisticsLecture) on 6 December, 2016, 6:00 AM for the latest version of the code.
+3. Check back in this repository for the next part of the simulator before the lecture next week (13.12.16)
