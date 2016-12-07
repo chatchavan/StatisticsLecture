@@ -1,27 +1,32 @@
-library(shiny)
-library(ggplot2)
-library(ggvis)
+
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(shiny,
+  knitr,
+  markdown,
+  ggplot2, 
+  grid,
+  DT,
+  dplyr, 
+  tidyr, 
+  knitr, 
+  httpuv, 
+  ggvis)
+
 # options(shiny.trace = FALSE)
 
-# calculate descriptive statistics
-findModes<-function(x){
-  xtab<-table(x)
-  modes<-xtab[max(xtab)==xtab]
-  themodes<-names(modes)
-  mode(themodes) <- typeof(x[1])
-  mout<-list(values=themodes)
-  return(mout)
-}
-
+source("../../util.R")
 
 
 ui <- basicPage(
+  rmarkdownOutput("../../Instructions/descriptives.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
-      sliderInput("binwidth", "Histogram bin width:", 0.1, 8, 1, 0.1),
-      hr(),
       radioButtons("oneOrMany", "Add:", choices = list("one point" = 1, "20 points" = 20), selected = 1, inline = TRUE),
       sliderInput("spread", "Spread (when adding >1 one point):", 0, 5, 1, 0.1),
+      hr(),
+      sliderInput("binwidth", "Histogram bin width:", 0.1, 8, 1, 0.1),
+      hr(),
+      sliderInput("xRange", "Range of x-axis:", -20, 20, c(-1, 16), 0.5),
       hr(),
       downloadButton('downloadData', 'Download data'),
       fileInput('file1', 'Upload data:',
@@ -66,7 +71,7 @@ server <- function(input, output) {
       geom_point() +
       theme_bw() +
       theme(legend.position="none") +
-      xlim(-1, 16) +
+      xlim(input$xRange[1], input$xRange[2]) +
       xlab("x") +
       ylab("y")
       
@@ -114,7 +119,7 @@ server <- function(input, output) {
     # plot histogram
     histData %>%
       ggvis(~x) %>% 
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      scale_numeric("x", domain = input$xRange) %>%
       add_axis("x", title = "x") %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       hide_legend('fill') %>%

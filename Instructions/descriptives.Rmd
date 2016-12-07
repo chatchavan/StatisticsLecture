@@ -1,0 +1,51 @@
+---
+title: "descriptives"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Because our short-term memory is limited, we usually describe the data with a handful of characteristics: *descriptive statistics*. Two of the characteristics are interesting: their location and how much we are certain about the location.
+
+Locations can be indicated by these statistics:
+
+* **Mean:** the layman *average* 
+* **Median:** sort the data ascendingly and pick the middle
+* **Mode:** pile the same values together, and the highest pile is the mode. (There may be many highest piles.)
+
+If we use mean to talk about our data, we can express how certain we are about the data with the *standard deviation* (SD). The larger the SD, the more spread our data from the mean.
+
+## Observe
+
+Below, you have a canvas and a histogram. Clicking anywhere on the canvas adds a data point. The histogram updates according to the data in the canvas. You can add many (20) data points in one click by adjust the setting on panel on the right. There, you also can adjust how large the spread of these 20 new data points are.
+
+In the histogram, mean (blue vertical line), median (green vertical line), and mode(s) (orange dots) are shown. The SD is shown in the horizontal blue line extending from the mean. (each side = 1 SD)
+
+## Try
+
+* Adding a lot of data points near one location. 
+   * Notice the direction that the mean moves.
+   * Notice how the width of the SD changes.
+   * Notice how much data are clumped around the mean within the distance of SD.
+   * Notice how the mode moves.
+* Now try adding several data points faraway from the clump. Add one data point at the time.
+   * Notice how the mean and the median move.
+* Clear the data (by refreshing your web browser). Then, add two lumps, one at the left end, another at the right end of the canvas.
+   * Notice the value of mean, median, and SD
+* Clear the data again, now add several data points, one at a time, on the  location close to each other.
+   * Notice how the histogram changes.
+   * Notice how the mode(s) change numercially (on the lower panel) changes.
+   * Notice how the modes graphically, and how they are positioned with respect to the peaks of the histogram.
+   * Try changing the bin width of the histogram
+* Suppose and energy drink will make you type faster (e.g., for your programming homework) on average by 4 WPM, SD = 3 WPM. Use the simulator to create the following scenarios. Then, make a decision whether you see this energy drink beneficial or not.
+  * When the data points are clump together
+  * When there are two clumps
+  * When there are two clumps at the opposite side of zero (Use the slider "Range of x-axis" to shift the canvas.)
+   
+## Questions
+
+* Which statistics doesn't change much when there're a few outliers?
+* If the data points clumps in many locations, is mean still a good representative?
+* If we only look at the numerical results, what might we miss?
