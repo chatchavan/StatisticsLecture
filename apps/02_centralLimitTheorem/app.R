@@ -24,6 +24,8 @@ ui <- basicPage(
       hr(),
       sliderInput("sampleWindow", "Showing from sample:", 1, 980, 1, 20),
       hr(),
+      sliderInput("xRange", "Range of x-axis:", -20, 20, c(-1, 16), 0.5),
+      hr(),
       downloadButton('downloadData', 'Download data'),
       fileInput('file1', 'Upload data:',
         accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
@@ -72,7 +74,7 @@ server <- function(input, output,session) {
       geom_point() +
       theme_bw() +
       theme(legend.position="none") +
-      xlim(-1, 16) +
+      xlim(input$xRange[1], input$xRange[2]) +
       xlab("x") +
       ylab("y")
       
@@ -117,7 +119,7 @@ server <- function(input, output,session) {
     histData %>%
       ggvis(~x) %>% 
       add_axis("x", title = "x") %>%
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      scale_numeric("x", domain = input$xRange) %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       hide_legend('fill') %>%
       
@@ -188,7 +190,7 @@ server <- function(input, output,session) {
       
       
       # other plot parameters
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      scale_numeric("x", domain = input$xRange) %>%
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
       add_axis("x", title = "Observations (blue) and mean of each sample (red)") %>%
       hide_legend("stroke") %>%
