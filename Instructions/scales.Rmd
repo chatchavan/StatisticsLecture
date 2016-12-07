@@ -1,0 +1,25 @@
+---
+title: "Scales"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Scales
+
+* **Nominal scales:** Qualitative categories that has no natural order.
+* **Ordinal scales:** Has a natural *order*, but the difference between each level does not have any arithmatical meaning.
+* **Interval scales:** Values are organized as a sequence of equal intervals, but the "zero" is assigned at arbitrary point.
+* **Ratio scales:** These are interval scales with a meaningful zero point (= total absence).
+
+## Questions
+
+The table shows an example data that could be generated from a user study. The `UserId` column is a unique identifier for each of the study participants.
+
+* What is the scale of each variable?
+
+Try different types of graph for each variable. 
+
+* Which types of graphs are suitable for each of the scale?

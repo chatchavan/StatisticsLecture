@@ -1,0 +1,28 @@
+---
+title: "basicPlots"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+There are many ways to visualize data. Each has its own strengths and weaknesses.
+
+## Observation
+
+Inspect the graphs below. Note the following:
+
+* The labels on the horizontal and the vertical axis. (Also, their absence in some axes)
+* What does each mark's property (e.g., the number of dots, the height of the bars) represent?
+
+Use the slider to change the number of row in the dataset and observe how each plot changes.
+
+## Questions
+
+* Which plots show the data honestly?
+* Which pairs of plot looks similar, but their meaning can be very different, depending on the axis label?
+* Which plots are scalable when there are a lot of data points?
+* Which plots are easy to compare the values between groups?
+  * How do you compare these groups?
+  * If the number of data points change dramatically (e.g., 10 vs. 100), will you use the same strategy to visually compare?
+* Which plots are easy determine the ratio of each groups to the total?  
