@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 There are many ways to visualize data. Each has its own strengths and weaknesses.
 
-## Observation
+## Observe
 
 Inspect the graphs below. Note the following:
 

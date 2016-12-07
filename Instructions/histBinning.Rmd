@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 A histogram shows how a dataset is distributed. The data is groupped into bins, and the frequency of data in each bin is represented by the height of each bar.
 
-## Experiment
+## Try
 
 Try changing the bin width and notice the following changes:
 
