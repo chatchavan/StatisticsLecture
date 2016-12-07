@@ -2,7 +2,7 @@ rmarkdownOutput <- function(rmdPath) {
   withMathJax(
     HTML(
       markdownToHTML(
-        knit(rmdPath, quiet = TRUE)
+        knit(rmdPath, output = tempfile(), quiet = TRUE)
       )
     )
   )
