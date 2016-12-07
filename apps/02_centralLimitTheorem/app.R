@@ -178,7 +178,7 @@ server <- function(input, output,session) {
       ggvis(~x, ~SampleId) %>%
       
       # observations
-      layer_points(fill := "lightblue", fillOpacity := 0.5) %>%
+      layer_points(fill := "lightgray", fillOpacity := 0.5) %>%
       
       # mean of each sample
       layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
@@ -214,7 +214,7 @@ server <- function(input, output,session) {
     meanValDf %>%
       ggvis(~Mean) %>% 
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
-      add_axis("x", title = "Histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
+      add_axis("x", title = "Red histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
       hide_legend('fill') %>%
       scale_numeric("x", domain = c(-1, 16)) %>%
     
