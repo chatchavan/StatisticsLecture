@@ -220,7 +220,7 @@ server <- function(input, output,session) {
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
       add_axis("x", title = "Red histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
       hide_legend('fill') %>%
-      scale_numeric("x", domain = c(-1, 16)) %>%
+      scale_numeric("x", domain = input$xRange) %>%
     
       # standard deviation of the sample means
       layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = -1, y2 = 1, fill := "green", stroke := NA) %>%
