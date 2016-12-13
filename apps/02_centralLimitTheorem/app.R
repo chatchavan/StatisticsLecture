@@ -194,7 +194,7 @@ server <- function(input, output,session) {
       # other plot parameters
       scale_numeric("x", domain = input$xRange) %>%
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
-      add_axis("x", title = "Observations (blue) and mean of each sample (red)") %>%
+      add_axis("x", title = "Observations (grey) and mean of each sample (red)") %>%
       hide_legend("stroke") %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas")
     
