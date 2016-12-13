@@ -1,0 +1,22 @@
+---
+title: "tDistribution-2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Since Gosset was working at Guinness around that period, he had to publish his work under psudonym "Student". 
+Later Ronald Fisher (another big name in statistics) collaborated with Gosset and use the last letter of the pseudonym, "t" 
+to denote the name of the statistics and the distribution. Hence, the name *t-statistics* and *t-distribution*.
+
+The shape of the t-distribution is determined by the degrees of freedom, which is proportional to the number of observations (here in particular = the number of observations - 1).
+
+
+## Try
+
+* Use the "x" slider to highlight the area.
+   * What is the total area under the curve?
+* Try changing the degrees of freedom.
+   * When does the t-distribution seem to behave like the Normal distribution?
