@@ -20,7 +20,7 @@ source("../../util.R")
 
 ui <- basicPage(
   useShinyjs(),
-  rmarkdownOutput("../../Instructions/confidenceInterval.Rmd"),
+  rmarkdownOutput("../../Instructions/intervalEstimates.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
       sliderInput("sampleCount", "How many times to sample?:", 10, 500, 100, 10),

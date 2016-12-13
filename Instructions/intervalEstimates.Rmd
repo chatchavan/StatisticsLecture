@@ -1,11 +1,13 @@
 ---
-title: "confidenceInterval"
+title: "intervalEstimate"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+# Interval Estimates
+
 In previous lecture, we tried the central limit theorem in the simulation. Basically, we took many samples from the population and, for each sample, calculate mean of the observations. When we average these means (green vertical line in the 4th plot), the result usually close to the mean of the population (blue vertical line in the 2nd plot). For this reason, we usually use the mean of each sample as a **point estimate** for the population mean.
 
 However, from the previous simulation, we also know that the mean of each sample could be far from the mean of the population. (<span style="color:green">The green horizontal line in the 4th plot</span> is the SD of the pile of means.) Instead of relying on a point, we will reduce our chance of being wrong by speculating the interval in which the population mean will be in. In other words, we are calculating  one of the following **interval estimates**:
