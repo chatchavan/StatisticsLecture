@@ -1,32 +1,44 @@
 ---
-title: "centralLimitTheorem"
+title: "confidenceInterval"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-In previous lecture, we tried the central limit theorem in the simulation. Basically, we took many samples from the population and, for each sample, calculate mean of the observations. When we average these means, the result usually close to the mean of the population. For this reason, we usually use the mean of each sample as a **point estimate** for the population mean.
+In previous lecture, we tried the central limit theorem in the simulation. Basically, we took many samples from the population and, for each sample, calculate mean of the observations. When we average these means (green vertical line in the 4th plot), the result usually close to the mean of the population (blue vertical line in the 2nd plot). For this reason, we usually use the mean of each sample as a **point estimate** for the population mean.
 
-However, from the previous simulation, we also know that the mean of each sample could be far from the mean of the population. Instead of relying on a point, we will reduce our chance of being wrong by speculating the interval in which the population mean will be in. In other words, we are calculating  one of the following **interval estimates**:
+However, from the previous simulation, we also know that the mean of each sample could be far from the mean of the population. (<span style="color:green">The green horizontal line in the 4th plot</span> is the SD of the pile of means.) Instead of relying on a point, we will reduce our chance of being wrong by speculating the interval in which the population mean will be in. In other words, we are calculating  one of the following **interval estimates**:
 
 * *Standard deviation (SD)* is a descriptive statistics that can be calculated from the samples.
-* *Standard error (SE)* is the SD of the pile of means.
+* *Standard error (SE)*
 * *Confidence interval (CI)*
 
 
 ## Observe
 This simulation builds on top of the previous simulation. Now, you can change the type of the interval estimate on the right panel. This will be shown as the red horizontal line on the third plot.
 
-Also, there's the fifth plot showing an overview of all intervals. You can think of this plot as a zoomed-out version of the third plot. The blue vertical line shows the *population mean*, which is the same as the second plot. The grey lines are the intervals as in the third plot.
+Also, there's the fifth plot showing an overview of all intervals. You can think of this plot as a zoomed-out version of the third plot. The blue vertical line shows the *population mean*, which is the same as the second plot. The grey lines are the intervals which are the same as in the third plot.
 
 ## Try
 
-* Select the "standard deviation" type
-   *
+* Change the interval estimate type.
+   * Do the intervals change position?
+   * Which of the intervals have the similar range as <span style="color:green">the green horizontal line in the 4th plot</span>?
+   * What is the <span style="color:green">the green horizontal line in the 4th plot</span>? (Hint: see above)
+
+* For each of the interval estimate types, try changing the number of observations and note the length.
+   * As you make more observations in each sample, the precision of the interval estimate should improve. Which of the interval seems to improve with more observations?
+
+   
+* Try setting the number of times to sample (the first slider) to 100 
+   * Change the % confidence level to different levels.
+   * For each level, click "Draw samples"
+   * Check the number of intervals that doesn't capture the population mean (also shown in red)
+   * How does the % confidence level relate to the number of intervals?
   
 ## Question
-* How does the sample mean and SE behave with respect to the different population?
-* If we have only one sample, what do we have to be cautious of?
-* In which situation would one (or a few) SD of samples (red line) be a good estimate for the SD of the population (blue line)?
-* In which situations that the sample mean doesn't accurately represent the population?
+
+* In the real world, we will have only one sample to work with. Which interval calculated from this sample is a useful indicator of the mean of the population? Why?
+
+Even if we use this interval estimate, we still have to be cautious. Because the interval that we calculated may be one of the red ones.

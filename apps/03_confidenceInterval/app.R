@@ -198,7 +198,7 @@ server <- function(input, output,session) {
       ggvis(~x, ~SampleId) %>%
       
       # observations
-      layer_points(fill := "lightgray", fillOpacity := 0.5, size := 10) %>%
+      layer_points(fill := "lightgray", fillOpacity := 0.8, size := 10) %>%
       
       # mean of each sample
       layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "grey", fillOpacity := 1.0) %>%
@@ -249,8 +249,8 @@ server <- function(input, output,session) {
       
       # other plot parameters
       scale_numeric("x", domain = input$xRange) %>%
-      add_axis("y", title = "Sample ID", format = "#")  %>%
-      add_axis("x", title = paste(xTitle, "\n(red intervals don't cover population mean)")) %>%
+      add_axis("y", title = "Sample ID", format = "#", grid = FALSE)  %>%
+      add_axis("x", title = xTitle) %>%
       hide_legend("stroke") %>%
       hide_legend("fill") %>%
       set_options(width = 400, height = 400, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas")
@@ -271,7 +271,8 @@ server <- function(input, output,session) {
     meanValDf %>%
       ggvis(~Mean) %>% 
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
-      add_axis("x", title = "Grey histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
+      add_axis("x", title = "Green dot: Mean of the means and its SD") %>%
+      add_axis("y", title = "Count of means") %>% 
       hide_legend('fill') %>%
       scale_numeric("x", domain = input$xRange) %>%
     
@@ -279,7 +280,7 @@ server <- function(input, output,session) {
       layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = 0, y2 = 0, stroke := "green") %>%
       
       # distribution of means
-      layer_histograms(width = 0.1, fill := "grey", fillOpacity := 0.3, stroke := NA) %>%
+      layer_histograms(width = 0.1, fill := "grey", fillOpacity := 0.5, stroke := NA) %>%
       
       # mean of the sample means (sample mean)
       layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "green") %>%
