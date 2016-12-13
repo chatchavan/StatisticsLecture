@@ -223,7 +223,7 @@ server <- function(input, output,session) {
       scale_numeric("x", domain = input$xRange) %>%
     
       # standard deviation of the sample means
-      layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = -1, y2 = 1, fill := "green", stroke := NA) %>%
+      layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = 0, y2 = 0, stroke := "green") %>%
       
       # distribution of means
       layer_histograms(width = 0.1, fill := "red", fillOpacity := 0.3, stroke := NA) %>%
