@@ -49,7 +49,9 @@ ui <- basicPage(
       ggvisOutput("plotHist"),
       ggvisOutput("plotSamples"),
       ggvisOutput("plotSampleHist"),
-      ggvisOutput("plotSampleIntervals")
+      ggvisOutput("plotSampleIntervals"),
+      p(textOutput("nonCaptureCount", inline = TRUE),
+        " intervals that doesn't capture the population mean (shown in red)")
     )
   )
   
@@ -76,6 +78,7 @@ server <- function(input, output,session) {
                         sdBarDf = NULL,
                         seBarDf = NULL,
                         ciBarDf = NULL,
+                        nonCaptureCount = NULL,
                         sampleMeanDf = NULL)
   
   # observe click on the scatterplot
@@ -161,15 +164,10 @@ server <- function(input, output,session) {
   
   
   # text output
-  output$statOutput <- renderText({
-    val$data
-    outText <- sprintf("Mean (Blue): %.2f\nMedian (Green): %.2f\nMode(s) (Orange): %s", 
-            isolate(val$statMean),
-            isolate(val$statMedian),
-            paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "),
-            isolate(val$statSD))
-    outText
+  output$nonCaptureCount <- renderText({
+    val$nonCaptureCount
   })
+  
   
   # handle download button
   output$downloadData <- downloadHandler(
@@ -231,6 +229,7 @@ server <- function(input, output,session) {
     barDf$fill <- ifelse(exclPopMean, "red", "grey")
     barDf$y <- barDf$y + ifelse(exclPopMean, 0.2, 0)
     barDf$y2 <- barDf$y2 - ifelse(exclPopMean, 0.2, 0)
+    val$nonCaptureCount <- length(which(exclPopMean))
 
     # bar title
     barNames <- c("sdBarDf" = "Standard deviation", 
