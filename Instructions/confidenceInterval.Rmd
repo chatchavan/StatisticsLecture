@@ -1,0 +1,32 @@
+---
+title: "centralLimitTheorem"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+In previous lecture, we tried the central limit theorem in the simulation. Basically, we took many samples from the population and, for each sample, calculate mean of the observations. When we average these means, the result usually close to the mean of the population. For this reason, we usually use the mean of each sample as a **point estimate** for the population mean.
+
+However, from the previous simulation, we also know that the mean of each sample could be far from the mean of the population. Instead of relying on a point, we will reduce our chance of being wrong by speculating the interval in which the population mean will be in. In other words, we are calculating  one of the following **interval estimates**:
+
+* *Standard deviation (SD)* is a descriptive statistics that can be calculated from the samples.
+* *Standard error (SE)* is the SD of the pile of means.
+* *Confidence interval (CI)*
+
+
+## Observe
+This simulation builds on top of the previous simulation. Now, you can change the type of the interval estimate on the right panel. This will be shown as the red horizontal line on the third plot.
+
+Also, there's the fifth plot showing an overview of all intervals. You can think of this plot as a zoomed-out version of the third plot. The blue vertical line shows the *population mean*, which is the same as the second plot. The grey lines are the intervals as in the third plot.
+
+## Try
+
+* Select the "standard deviation" type
+   *
+  
+## Question
+* How does the sample mean and SE behave with respect to the different population?
+* If we have only one sample, what do we have to be cautious of?
+* In which situation would one (or a few) SD of samples (red line) be a good estimate for the SD of the population (blue line)?
+* In which situations that the sample mean doesn't accurately represent the population?
