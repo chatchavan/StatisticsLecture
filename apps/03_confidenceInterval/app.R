@@ -66,6 +66,7 @@ server <- function(input, output,session) {
   
   # initialize reactive values with existing data
   val <- reactiveValues(data = cbind (x = x, y = y), 
+                        isPlotInitialized = FALSE,
                         statMean = NULL, 
                         statMedian = NULL, 
                         statMode = NULL,
@@ -327,9 +328,13 @@ server <- function(input, output,session) {
     
     
     # start the vis
-    sampleVis %>% bind_shiny("plotSamples")
-    sampleHistVis %>% bind_shiny("plotSampleHist")
-    sampleIntervalsVis %>% bind_shiny("plotSampleIntervals")
+    if (!val$isPlotInitialized)
+    {
+      sampleVis %>% bind_shiny("plotSamples")
+      sampleHistVis %>% bind_shiny("plotSampleHist")
+      sampleIntervalsVis %>% bind_shiny("plotSampleIntervals")  
+      val$isPlotInitialized <- TRUE
+    }
   })
   
   # handle confidence percent change
@@ -341,9 +346,6 @@ server <- function(input, output,session) {
     
     # update reactive values
     val$ciBarDf <- ciBarDf
-    
-    # update vis
-    sampleIntervalsVis %>% bind_shiny("plotSampleIntervals")
   })
   
   
