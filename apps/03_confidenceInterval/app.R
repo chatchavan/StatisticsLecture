@@ -23,7 +23,7 @@ ui <- basicPage(
   rmarkdownOutput("../../Instructions/confidenceInterval.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
-      sliderInput("sampleCount", "How many times to sample?:", 10, 1000, 100, 10),
+      sliderInput("sampleCount", "How many times to sample?:", 10, 500, 100, 10),
       sliderInput("obsCount", "How many observations in each sample?:", 5, 50, 30, 1),
       actionButton("sampleBtn", "Draw samples"),
       hr(),
@@ -330,7 +330,6 @@ server <- function(input, output,session) {
     sampleVis %>% bind_shiny("plotSamples")
     sampleHistVis %>% bind_shiny("plotSampleHist")
     sampleIntervalsVis %>% bind_shiny("plotSampleIntervals")
-    # sampleHistRescaledVis %>% bind_shiny("plotSampleHistRescaledVis")
   })
   
   # handle confidence percent change
