@@ -243,10 +243,11 @@ server <- function(input, output,session) {
   
   # handle sampling
   observeEvent(c(input$sampleCount, input$obsCount, input$sampleBtn), {
+    data <- isolate(val$data)
     
     # draw samples
-    sampleRowIdxs <- matrix(sample.int(nrow(val$data), input$obsCount * input$sampleCount, replace = TRUE), nrow = input$sampleCount)
-    sampleVals <- matrix(val$data[sampleRowIdxs], nrow = input$sampleCount)
+    sampleRowIdxs <- matrix(sample.int(nrow(data), input$obsCount * input$sampleCount, replace = TRUE), nrow = input$sampleCount)
+    sampleVals <- matrix(data[sampleRowIdxs], nrow = input$sampleCount)
     sampleDf <- data.frame(x = as.numeric(sampleVals), SampleId = rep(1:input$sampleCount, each = input$obsCount))
     
     # calculate mean and SD of each sample (sample distribution)
