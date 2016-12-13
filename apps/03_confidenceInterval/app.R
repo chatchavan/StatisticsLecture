@@ -81,7 +81,10 @@ server <- function(input, output,session) {
   observeEvent(input$plot_click, {
       xRand <- rnorm(20, mean = input$plot_click$x, sd = 1)
       yRand <- rnorm(20, mean = input$plot_click$y, sd = 1)
-      val$data <- rbind(val$data, cbind(x = xRand, y = yRand))
+      data <- rbind(val$data, cbind(x = xRand, y = yRand))
+      data <- tail(data, 200) # cap at 200 data points
+      
+      val$data <- data
   })        
   
   # render scatterplot
