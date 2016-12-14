@@ -23,6 +23,9 @@ ui <- basicPage(
   rmarkdownOutput("../../Instructions/inference.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
+      sliderInput("benchmarkX", "Benchmark value:", 0, 15, 0, 1),
+      hr(),
+      
       sliderInput("obsCount", "How many observations?:", 5, 50, 30, 1),
       actionButton("sampleBtn", "Draw a sample"),
       hr(),
@@ -30,7 +33,7 @@ ui <- basicPage(
       sliderInput("confPercent", "% confidence:", 1, 99.99, 95, 1),
       hr(),
       
-      sliderInput("benchmarkX", "Benchmark value:", 0, 15, 0, 1),
+      
       
       downloadButton('downloadData', 'Download data'),
       fileInput('file1', 'Upload data:',
@@ -41,9 +44,7 @@ ui <- basicPage(
       ggvisOutput("plotSample"),
       ggvisOutput("plotCI"),
       "Typical output from statistical software:",
-      verbatimTextOutput("tTest"),
-      "Reporting:",
-      verbatimTextOutput("report")
+      verbatimTextOutput("tTest")
     )
   )
   
@@ -162,7 +163,7 @@ server <- function(input, output,session) {
   })
   
   # handle sampling
-  observeEvent(c(input$obsCount, input$sampleBtn, input$confPercent), {
+  observeEvent(c(input$obsCount, input$sampleBtn), {
     data <- isolate(val$data)
     
     # draw samples
@@ -174,7 +175,7 @@ server <- function(input, output,session) {
   })
   
   # handle confidence interval
-  observeEvent(c(input$obsCount, input$sampleBtn, input$confPercent), {
+  observeEvent(c(input$obsCount, input$sampleBtn, input$confPercent, input$benchmarkX), {
     aSample <- val$sample
     
     # calculate statistics for the samples
@@ -188,9 +189,6 @@ server <- function(input, output,session) {
     output$tTest <- renderPrint({
       tTestResults
     })  
-    output$report <- renderPrint({
-      "TODO"
-    })
     
     # start the vis
     if (!val$isPlotInitialized)

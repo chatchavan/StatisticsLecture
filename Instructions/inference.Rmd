@@ -7,3 +7,70 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Inference
+
+With the knowledge about confidence interval, we can now infer about the population based on the data from our sample.
+Basically, when we have a 95% confidence interval of mean from a study, we believe that:
+
+<span style="color:red">if we conduct the same study many many times</span>, 95% of the intervals obtained from this study will capture the population mean.
+
+In the real world, we will be able to conduct only a few studies. 
+Therefore, each of confidence intervals should be taken with caution:
+The population mean may be outside the particular confidence interval that we calculated from our particular sample.
+
+Nevertheless, the confidence interval gives us a rough knowledge of the location of the population mean:
+
+* We will place our belief high for the locations in side the confidence interval.
+* Around the edge of our interval, our belief drops smoothly.
+* Our belief gradually lower for the locations further away, but never zero.
+
+This rough knowledge already allow us to make a statement between our belief in the the population mean compared to a benchmark value.
+The distance of the benchmark to the confidence interval suggests the likelihood.
+The size of the confidence interval suggests whether the sample we have gives us a relatively high or low precision.
+
+## *p* value
+
+Conventionally, we use a particular % confidence interval when reporting statistics.
+In fields with small sample size such as HCI, we typically use 95% confidence interval.
+(In nuclear physics, they might use 99.999% confidence interval.)
+Such convention born out of convenience of communicating the interval in number or graph. (In the olden days, computers that are good enought to draw a continuous distribution are hard to access.)
+
+Once we have a particular level of cut-off, we can calculate the associated probability according to the t distribution that fit our samples.
+This probability value is called ** *p* value**.
+However, since we calculate this probability from only one sample, which might *not* yield a confidence interval that captures the population mean, it is not really a true probability.
+We should regard a *p* value as **the degree of which the sample compatible with <span style="color:red">our model</span> about the population**.
+
+<span style="color:red">Our model</span> about the population consists of the following assumptions:
+
+* The population can be reasonably represented by **one** population mean.
+* The sample we have is representative.
+* The 95% cut-off is appropriate to the task at hand.
+
+Such assumptions are the reasons that *p* values are problematic.
+Additionally, we conventinoally say that the difference between the population mean and the benchmark is **statistically significant** if p-value is less than 0.05.
+(1 - 0.95 = 0.05)
+This arbitrary cut-off results in a dichotomous thinking (statistically significant or not) that overlooks the continous nature of the probability distribution.
+
+Many scientific communities are now moving away from such dichotomous decisions toward showing data graphically and describe confidence intervals.
+Advanced methods such as Bayesian analysis and bootstrapping also candidates that will replace dichotomous decisions.
+
+## Observe
+
+* In the first plot below, there is a population (that you can click to add points). 
+   * The blue line shows the true mean of the population.
+   * The green line shows a benchmark value, which you can control with a slider on the right.
+* The second plot shows the sample drawn from the population. You can also control the number of observations with a slider.
+* The third plot shows the mean and the confidence interval from this sample. The level of the interval can also be controlled by a slider.
+   * If the confidence interval does not include the population mean, it will be drawn in red. (In the real life, you wouldn't know if a confidence interval is red or not.)
+* The last one is the output from the function `t.test` in R. It shows all statistical information necessary for reporting.
+
+## Try
+
+* Pressing "Draw a sample" button many many times. Observe that some samples yields an interval that doesn't capture the population mean. These intervals are drawn in red.
+* Change the number of observation to high (e.g., 50) or low (e.g., 5). Press "Draw a sample" many many times.
+   * How does the length of the confidence interval relate to the number of observations?
+* Change the % confidence and press "Draw a sample" many many times.
+   * How does the frequency that the red intervals occurs relate to the % confidence?
+* Move the benchmark value around.
+   * How does the distance between the benchmark and the interval reflected on the p-value?
+* Try setting the benchmark near the edge of the confidence interval. Try drawing sample many many times. Observe how p-value changes.
+   * Is the decision to determine if a result is "statistically signficant" or not based on p-value < .05 reliable?
