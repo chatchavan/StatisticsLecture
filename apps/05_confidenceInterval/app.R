@@ -20,7 +20,7 @@ source("../../util.R")
 
 ui <- basicPage(
   useShinyjs(),
-  rmarkdownOutput("../../Instructions/confidenceInterval.Rmd"),
+  rmarkdownOutput("../../Instructions/confidenceInterval-1.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
       sliderInput("sampleCount", "How many times to sample?:", 10, 500, 100, 10),
@@ -31,8 +31,19 @@ ui <- basicPage(
       plotOutput("plotScatter", click = "plot_click", width = "400px", height = "150px"),
       ggvisOutput("plotHist"),
       ggvisOutput("plotSampleHist"),
-      ggvisOutput("plotSampleHistRescaledVis"),
-      "*: Each of the mean is centered around the population mean (corresponding to zero in this plot) and scaled by the SE of each sample."
+      ggvisOutput("plotNormMean")
+      # "*: Each of the mean is centered around the population mean (corresponding to zero in this plot) and scaled by the SE of each sample."
+    )
+  ),
+  rmarkdownOutput("../../Instructions/confidenceInterval-2.Rmd"),
+  sidebarLayout(position = "right",
+    sidebarPanel(
+      sliderInput("tArea", "Area under the blue line:", 0, 0.999, 0.95, 0.05)
+    ),
+    mainPanel(
+      ggvisOutput("plotTAreas"),
+      ggvisOutput("plotCINorm"),
+      ggvisOutput("plotCI")
     )
   )
 )
@@ -42,6 +53,8 @@ server <- function(input, output,session) {
   
   x <- c(3, 10, 15, 3, 4, 7, 1, 12)
   y <- c(4, 10, 12, 17, 15, 20, 14, 3)
+  normXRange <- c(-5, 5)
+  normXResolution <- 0.01
   
   
   # initialize reactive values with existing data
@@ -57,6 +70,7 @@ server <- function(input, output,session) {
                         seBarDf = NULL,
                         ciBarDf = NULL,
                         nonCaptureCount = NULL,
+                        normMeanVis = NULL,
                         sampleMeanDf = NULL)
   
   # observe click on the scatterplot
@@ -168,7 +182,7 @@ server <- function(input, output,session) {
   })
   
   # plot histogram of rescaled samples
-  sampleHistRescaledVis <- reactive({
+  normMeanVis <- reactive({
     meanValDf <- val$meanValDf
     
     # adjust location and scale
@@ -186,9 +200,8 @@ server <- function(input, output,session) {
     
     
     # generate the t location-scale distribution
-    plotRange <- c(-3, 3)
-    dtX <- seq(plotRange[1], plotRange[2], 0.01)
-    dtY <- dt(dtX, df = input$obsCount)
+    dtX <- seq(normXRange[1], normXRange[2], normXResolution)
+    dtY <- dt(dtX, df = input$obsCount - 1)
     dtDf <- data.frame(x = dtX, y = dtY)
     
     # for plotting mean
@@ -197,13 +210,13 @@ server <- function(input, output,session) {
       y = 0
     )
     
-    
-    bins %>%
+    # plot (and save to reactive variable for reuse)
+    val$normMeanVis <- bins %>%
       ggvis(x = ~x_, y = ~prob) %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
-      add_axis("x", title = "Normalized means*") %>%
+      add_axis("x", title = "Normalized means") %>%
       add_axis("y", title = "Relative frequency density") %>% 
-      scale_numeric("x", domain = plotRange, nice = FALSE, clamp = TRUE) %>%
+      scale_numeric("x", domain = normXRange, nice = FALSE, clamp = TRUE) %>%
       hide_legend('fill') %>%
 
       # distribution of means
@@ -219,6 +232,65 @@ server <- function(input, output,session) {
       layer_points(data = statData, x = ~x, y = ~y, fillOpacity := 0.8, fill := "blue") %>%
       layer_rects(data = statData, x = ~x, x2 = ~x, y := 0, y2 = 0, stroke := "blue")
   
+    val$normMeanVis
+  })
+  
+  tAreaVis <- reactive({
+    tDOF <- input$obsCount - 1
+    tX <- seq(normXRange[1], normXRange[2], normXResolution)
+    tY <-  dt(tX, df = tDOF)
+    tArea <- input$tArea
+    tVals <- sort(qt(c(tArea, 1 - tArea) , df = tDOF))
+    selected <- ifelse(tX < tVals[1] | tX > tVals[2], FALSE, TRUE)
+    fill <- ifelse(selected, "blue", NA)
+    distDf <- data.frame(x = tX, y = tY, selected = selected, fill = fill)
+    
+    selDf <- distDf[which(distDf$selected == TRUE),]
+    
+    val$normMeanVis %>% 
+      layer_ribbons(data = distDf, x = ~x, y = ~y, y2 = 0, fill := "white", fillOpacity := 0.8) %>%
+      layer_ribbons(data = selDf, x = ~x, y = ~y, y2 = 0, fill := "lightblue", fillOpacity := 0.6) %>%
+      hide_legend("fill")
+  })
+  
+  tCINormVis <- reactive({
+    tDOF <- input$obsCount - 1
+    tArea <- input$tArea
+    tVals <- sort(qt(c(tArea, 1 - tArea) , df = tDOF))
+    ciDf <- data.frame(x = 0, ci = tVals)
+    
+    ciDf %>%
+      ggvis() %>%
+      set_options(width = 400, height = 100, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas",
+        padding = padding(10, 10, 40, 43)) %>%
+      add_axis("x", title = "Interval in the 'Normalized means' scale", grid = FALSE) %>%
+      add_axis("y", ticks = 0, grid = FALSE) %>%
+      scale_numeric("x", domain = normXRange, nice = FALSE, clamp = TRUE) %>%
+      scale_numeric("y", domain = c(-2, 2), nice = FALSE, clamp = TRUE) %>%
+      hide_legend('fill') %>%
+      layer_paths(x = ~ci, y = 0, stroke := "lightblue", strokeWidth := 2) %>% 
+      layer_points(x = ~x, y = 0, shape := "diamond", fill := "grey")
+  })
+  
+  tCIVis <- reactive({
+    tDOF <- input$obsCount - 1
+    tArea <- input$tArea
+    tVals <- sort(qt(c(tArea, 1 - tArea) , df = tDOF))
+    aMean <- val$meanValDf$Mean[1]
+    aSE <- val$meanValDf$SD[1] / sqrt(input$obsCount)
+    ciDf <- data.frame(x = aMean, ci = c(aMean - tVals * aSE, aMean - tVals * aSE))
+    
+    ciDf %>%
+      ggvis() %>%
+      set_options(width = 400, height = 100, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas",
+        padding = padding(10, 10, 40, 43)) %>%
+      add_axis("x", title = "Interval in the original scale", grid = FALSE) %>%
+      add_axis("y", ticks = 0, grid = FALSE) %>%
+      scale_numeric("x", domain = c(-1, 16), nice = FALSE, clamp = TRUE) %>%
+      scale_numeric("y", domain = c(-2, 2), nice = FALSE, clamp = TRUE) %>%
+      hide_legend('fill') %>%
+      layer_paths(x = ~ci, y = 0, stroke := "grey", strokeWidth := 2) %>% 
+      layer_points(x = ~x, y = 0, shape := "diamond", fill := "grey")
   })
   
   # handle sampling
@@ -257,7 +329,10 @@ server <- function(input, output,session) {
     if (!val$isPlotInitialized)
     {
       sampleHistVis %>% bind_shiny("plotSampleHist")
-      sampleHistRescaledVis %>% bind_shiny("plotSampleHistRescaledVis")
+      normMeanVis %>% bind_shiny("plotNormMean")
+      tAreaVis %>% bind_shiny("plotTAreas")
+      tCINormVis %>% bind_shiny("plotCINorm")
+      tCIVis %>% bind_shiny("plotCI")
       val$isPlotInitialized <- TRUE
     }
   })
