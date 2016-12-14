@@ -12,9 +12,9 @@ In previous lecture, we tried the central limit theorem in the simulation. Basic
 
 However, from the previous simulation, we also know that the mean of each sample could be far from the mean of the population. (<span style="color:green">The green horizontal line in the 4th plot</span> is the SD of the pile of means.) Instead of relying on a point, we will reduce our chance of being wrong by speculating the interval in which the population mean will be in. In other words, we are calculating  one of the following **interval estimates**:
 
-* *Standard deviation (SD)* is a descriptive statistics that can be calculated from the samples.
-* *Standard error (SE)*
-* *Confidence interval (CI)*
+* *Standard deviation (SD)* is a descriptive statistics that can be calculated from the samples: $\sqrt{\frac{1}{n-1} \sum_{i=1}^n (x_i - \overline{x})^2}$
+* *Standard error (SE)* is a scaled SD: $\frac{\bar{x} - \mu}{SD/\sqrt{n}}$
+* *Confidence interval (CI)* is a scaled SE according to the t-score of the selected probability level. 
 
 
 ## Observe
@@ -41,6 +41,6 @@ Also, there's the fifth plot showing an overview of all intervals. You can think
   
 ## Question
 
-* In the real world, we will have only one sample to work with. Which interval calculated from this sample is a useful indicator of the mean of the population? Why?
-
-Even if we use this interval estimate, we still have to be cautious. Because the interval that we calculated may be one of the red ones.
+* In the real world, we will have only one sample (a set of observations) to work with. 
+   * Which interval calculated from this sample is a useful indicator of the mean of the population? Why?
+   * Is it possible that the interval (calculated from our one sample) doesn't catch the population mean?

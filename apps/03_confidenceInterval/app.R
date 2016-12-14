@@ -278,7 +278,7 @@ server <- function(input, output,session) {
     tVals <- sort(qt(c(tArea, 1 - tArea) , df = tDOF))
     aMean <- val$meanValDf$Mean[1]
     aSE <- val$meanValDf$SD[1] / sqrt(input$obsCount)
-    ciDf <- data.frame(x = aMean, ci = c(aMean - tVals * aSE, aMean - tVals * aSE))
+    ciDf <- data.frame(x = aMean, ci = c(aMean + tVals[1] * aSE, aMean + tVals[2] * aSE))  #  NOTE: since we got the two sides of the t values, we only add "+" for both lower and upper CI
     
     ciDf %>%
       ggvis() %>%
