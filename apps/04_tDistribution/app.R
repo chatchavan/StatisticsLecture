@@ -39,7 +39,7 @@ ui <- basicPage(
   sidebarLayout(position = "right",
     sidebarPanel(
       sliderInput("tDOF", "Degrees of freedom:", 1, 100, 1, 1),
-      sliderInput("xSel", "x:", -5, 5, -1.64, 0.1)
+      sliderInput("xSel", "t-score (for t-distribution) or z-score (for Normal distribution):", -5, 5, -1.64, 0.1)
     ),
     mainPanel(
       ggvisOutput("plotTvsNorm"),
@@ -92,13 +92,13 @@ server <- function(input, output, session) {
     zoomX <- input$zoomX
     zoomY <- input$zoomY
     output$plotGossetZoom <- renderPlot({
-      truehist(studentZ, prob = TRUE, col = "lightgrey", xlim = zoomX, ylim = zoomY, xlab = "Gosset statistics")
+      truehist(studentZ, prob = TRUE, col = "lightgrey", xlim = zoomX, ylim = zoomY, xlab = "Gosset statistics", ylab = "density")
       curve(dt(x, df = tDOF), add = TRUE, col = "lightblue", lwd = 3)
       curve(dnorm(x), add = TRUE, col = "red", lty = 2)
     })
     
     # plot
-    truehist(studentZ, prob = TRUE, col = "lightgrey", xlim = c(-5, 5), ylim = c(0,1), xlab = "Gosset statistics")
+    truehist(studentZ, prob = TRUE, col = "lightgrey", xlim = c(-5, 5), ylim = c(0,1), xlab = "Gosset statistics", ylab = "density")
     curve(dt(x, df = tDOF), add = TRUE, col = "lightblue", lwd = 3)
     curve(dnorm(x), add = TRUE, col = "red", lty = 2)
     rect(zoomX[1], zoomY[1], zoomX[2], zoomY[2], border = "orange")

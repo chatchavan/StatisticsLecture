@@ -19,14 +19,15 @@ Therefore, he simluated this by manually drawing 750 random samples from a table
 To appreciate this work, you should check out [pages of his notebook](http://www.medicine.mcgill.ca/epidemiology/hanley/Student/750samplesOf4/).
 Fortunately, we can have the computer do that for us.
 
-For each sample Gosset calculated a statistic: $(\bar{x} - \mu)/SD$, where 
+For each sample Gosset calculated a statistic: 
+$$\frac{\bar{x} - \mu}{SD}$$
 
 * $\bar{x}$ is the mean of each sample
 * $\mu$ is the mean of the population (3000 people), and 
-* $SD$ is the SD of each sample.
+* $SD$ is the standard deviation of each sample, which is $\sqrt{\frac{1}{n-1} \sum_{i=1}^n (x_i - \overline{x})^2}$. ($n$ is the number of observations)
 
 In plain words, it is the difference between the mean of each sample and the population mean, scaled by the SD of each sample.
-(You don't have to remember this formula.)
+(You don't have to remember the formulae for the exam.)
 
 
 In the plot below, the grey histogram show the samples. However, we normalized the histogram such that the total area below the histogram bar is equal to 1.
