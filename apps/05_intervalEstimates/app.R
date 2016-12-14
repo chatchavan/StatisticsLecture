@@ -44,7 +44,6 @@ ui <- basicPage(
         accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
     ),
     mainPanel(
-      p("Click anywhere on this plot to add twenty data points."),
       plotOutput("plotScatter", click = "plot_click", width = "400px", height = "150px"),
       ggvisOutput("plotHist"),
       ggvisOutput("plotSamples"),

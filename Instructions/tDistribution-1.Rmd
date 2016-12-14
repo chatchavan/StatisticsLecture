@@ -19,7 +19,7 @@ Therefore, he simluated this by manually drawing 750 random samples from a table
 To appreciate this work, you should check out [pages of his notebook](http://www.medicine.mcgill.ca/epidemiology/hanley/Student/750samplesOf4/).
 Fortunately, we can have the computer do that for us.
 
-For each sample Gosset calculated a statistic: 
+For each sample, he calculated Gosset z statistic: 
 $$\frac{\bar{x} - \mu}{SD}$$
 
 * $\bar{x}$ is the mean of each sample

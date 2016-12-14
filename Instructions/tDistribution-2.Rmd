@@ -8,8 +8,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Since Gosset was working at Guinness around that period, he had to publish his work under psudonym "Student". 
-Later Ronald Fisher (another big name in statistics) collaborated with Gosset and use the last letter of the pseudonym, "t" 
-to denote the name of the statistics and the distribution. Hence, the name *t-statistics* and *t-distribution*.
+Later Ronald Fisher (another big name in statistics) collaborated with Gosset.
+He uses the last letter of the pseudonym, "t" to denote the name of the statistics and the distribution. 
+This is the origin of the name *t-distribution*.
 
 The shape of the t-distribution is determined by the degrees of freedom, which is proportional to the number of observations (here in particular = the number of observations - 1).
 
