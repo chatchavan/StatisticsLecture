@@ -69,6 +69,16 @@ server <- function(input, output,session) {
     popStat = NULL
   )
   
+  # update population statistics
+  updatePopulationStat <- function() {
+    data <- isolate(val$data)
+    confLevel <- input$confPercent / 100
+    popStat <- mean_cl_normal(data[,1], conf.int = confLevel)
+    names(popStat) <- c("Mean", "CILower", "CIUpper")
+    val$popStat <- popStat
+  }
+  
+  
   # observe click on the scatterplot
   observeEvent(input$plot_click, {
       xRand <- rnorm(20, mean = input$plot_click$x, sd = 1)
@@ -76,14 +86,10 @@ server <- function(input, output,session) {
       data <- rbind(val$data, cbind(x = xRand, y = yRand))
       data <- tail(data, 200) # cap at 200 data points
       
-      # calculate statsitics for the population
-      confLevel <- input$confPercent / 100
-      popStat <- mean_cl_normal(data[,1], conf.int = confLevel)
-      names(popStat) <- c("Mean", "CILower", "CIUpper")
-      val$popStat <- popStat
-      
-      
       val$data <- data
+      
+      # calculate statsitics for the population
+      updatePopulationStat()
   })        
   
   # render scatterplot
@@ -198,20 +204,15 @@ server <- function(input, output,session) {
     # start the vis
     if (!val$isPlotInitialized)
     {
-      # calculate statsitics for the population
-      data <- isolate(val$data)
-      confLevel <- input$confPercent / 100
-      popStat <- mean_cl_normal(data[,1], conf.int = confLevel)
-      names(popStat) <- c("Mean", "CILower", "CIUpper")
-      val$popStat <- popStat
+      updatePopulationStat()
       
       sampleVis %>% bind_shiny("plotSample")
       ciVis %>% bind_shiny("plotCI")
-      # sampleIntervalsVis %>% bind_shiny("plotSampleIntervals")  
       val$isPlotInitialized <- TRUE
     }
     
   })
+  
   
   
 }
