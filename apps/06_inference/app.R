@@ -11,7 +11,6 @@ p_load(shiny,
   httpuv, 
   shinyjs,
   assertthat,
-  Hmisc,
   ggvis)
 
 # options(shiny.trace = FALSE)
@@ -73,9 +72,8 @@ server <- function(input, output,session) {
   updatePopulationStat <- function() {
     data <- isolate(val$data)
     confLevel <- input$confPercent / 100
-    popStat <- mean_cl_normal(data[,1], conf.int = confLevel)
-    names(popStat) <- c("Mean", "CILower", "CIUpper")
-    val$popStat <- popStat
+    tResult <- t.test(data[,1], mu = 0, conf.level = confLevel)
+    val$popStat <- data.frame(Mean = tResult$estimate, CILower = tResult$conf.int[1], CIUpper = tResult$conf.int[2])
   }
   
   
@@ -191,15 +189,15 @@ server <- function(input, output,session) {
     
     # calculate statistics for the samples
     confLevel <- input$confPercent / 100
-    sampleStat <- mean_cl_normal(aSample$x, conf.int = confLevel)
-    names(sampleStat) <- c("Mean", "CILower", "CIUpper")
-    val$sampleStat <- sampleStat
     
     # t-test
-    tTestResults <- t.test(aSample$x, mu = input$benchmarkX, conf.level = confLevel)
+    tResult <- t.test(aSample$x, mu = input$benchmarkX, conf.level = confLevel)
     output$tTest <- renderPrint({
-      tTestResults
+      tResult
     })  
+    
+    # confidence interval
+    val$sampleStat <- data.frame(Mean = tResult$estimate, CILower = tResult$conf.int[1], CIUpper = tResult$conf.int[2])
     
     # start the vis
     if (!val$isPlotInitialized)
