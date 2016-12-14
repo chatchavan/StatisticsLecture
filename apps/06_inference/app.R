@@ -124,42 +124,46 @@ server <- function(input, output,session) {
   
   # plot samples drawn
   sampleVis <- reactive({
+    popMean <- val$popStat$Mean
     aSample <- val$sample
     
     aSample %>%
       ggvis() %>%
-      set_options(width = 400, height = 100, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas",
+      set_options(width = 420, height = 100, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas",
         padding = padding(10, 10, 40, 43)) %>%
       add_axis("x", title = "Observations in this sample", grid = FALSE) %>%
       add_axis("y", ticks = 0, grid = FALSE) %>%
       scale_numeric("x", domain = plotRange, nice = FALSE, clamp = TRUE) %>%
       scale_numeric("y", domain = c(-2, 2), nice = FALSE, clamp = TRUE) %>%
       hide_legend('fill') %>%
+      layer_rects(x = popMean, x2 = popMean, y := 0, y2 = -2, stroke := "blue") %>% 
       layer_points(x = ~x, y = 0, fill := "lightgray", fillOpacity := 0.5) %>%
       layer_rects(x = input$benchmarkX, x2 = input$benchmarkX, y := 0, y2 = -2, stroke := "lightgreen")
   })
   
   # plot samples drawn
   ciVis <- reactive({
+    popMean <- val$popStat$Mean
     sampleStat <- val$sampleStat
     ciDf <- data.frame(x = sampleStat$Mean, ci = c(sampleStat$CILower, sampleStat$CIUpper))
     
     ciColor = "grey"
-    if (val$popStat$Mean < sampleStat$CILower | val$popStat$Mean > sampleStat$CIUpper) {
+    if (popMean < sampleStat$CILower | popMean > sampleStat$CIUpper) {
       ciColor = "red"
     }
     
     ciDf %>%
       ggvis() %>%
-      set_options(width = 400, height = 100, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas",
+      set_options(width = 420, height = 100, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas",
         padding = padding(10, 10, 40, 43)) %>%
       add_axis("x", title = paste0(input$confPercent, "% confidence interval"), grid = FALSE) %>%
       add_axis("y", ticks = 0, grid = FALSE) %>%
       scale_numeric("x", domain = plotRange, nice = FALSE, clamp = TRUE) %>%
       scale_numeric("y", domain = c(-2, 2), nice = FALSE, clamp = TRUE) %>%
       hide_legend('fill') %>%
-      layer_rects(x = input$benchmarkX, x2 = input$benchmarkX, y := 0, y2 = -2, stroke := "lightgreen") %>% 
-      layer_paths(x = ~ci, y = 0, stroke := ciColor, strokeWidth := 2) %>% 
+      layer_rects(x = input$benchmarkX, x2 = input$benchmarkX, y := 0, y2 = -2, stroke := "lightgreen") %>%
+      layer_rects(x = popMean, x2 = popMean, y := 0, y2 = -2, stroke := "blue") %>%
+      layer_paths(x = ~ci, y = 0, stroke := ciColor, strokeWidth := 2) %>%
       layer_points(x = ~x, y = 0, shape := "diamond", fill := "grey")
   })
   
