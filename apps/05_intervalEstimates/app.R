@@ -9,6 +9,8 @@ p_load(shiny,
   tidyr, 
   knitr, 
   httpuv, 
+  shinyjs,
+  assertthat,
   ggvis)
 
 # options(shiny.trace = FALSE)
@@ -17,27 +19,38 @@ source("../../util.R")
 
 
 ui <- basicPage(
-  rmarkdownOutput("../../Instructions/centralLimitTheorem.Rmd"),
+  useShinyjs(),
+  rmarkdownOutput("../../Instructions/intervalEstimates.Rmd"),
   sidebarLayout(position = "right",
     sidebarPanel(
-      sliderInput("sampleCount", "How many times to sample?:", 10, 5000, 1000, 10),
+      sliderInput("sampleCount", "How many times to sample?:", 10, 500, 100, 10),
       sliderInput("obsCount", "How many observations in each sample?:", 5, 50, 30, 1),
       actionButton("sampleBtn", "Draw samples"),
       hr(),
+      
       sliderInput("sampleWindow", "Showing from sample:", 1, 980, 1, 20),
-      hr(),
       sliderInput("xRange", "Range of x-axis:", -20, 20, c(-1, 16), 0.5),
       hr(),
+      
+      radioButtons("barType", "Interval estimate type:", 
+        c("Standard deviation (SD)" = "sdBarDf", 
+          "Standard error (SE)" = "seBarDf", 
+          "Confidence interval (CI)"= "ciBarDf")),
+      sliderInput("confPercent", "% confidence:", 1, 100, 95, 1),
+      hr(),
+      
       downloadButton('downloadData', 'Download data'),
       fileInput('file1', 'Upload data:',
         accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
     ),
     mainPanel(
-      p("Click anywhere on this plot to add twenty data points."),
       plotOutput("plotScatter", click = "plot_click", width = "400px", height = "150px"),
       ggvisOutput("plotHist"),
       ggvisOutput("plotSamples"),
-      ggvisOutput("plotSampleHist")
+      ggvisOutput("plotSampleHist"),
+      ggvisOutput("plotSampleIntervals"),
+      p(textOutput("nonCaptureCount", inline = TRUE),
+        " intervals that doesn't capture the population mean (shown in red)")
     )
   )
   
@@ -61,14 +74,20 @@ server <- function(input, output,session) {
                         statSD = NULL,
                         sampleDf = NULL,
                         meanValDf = NULL,
-                        barDf = NULL,
+                        sdBarDf = NULL,
+                        seBarDf = NULL,
+                        ciBarDf = NULL,
+                        nonCaptureCount = NULL,
                         sampleMeanDf = NULL)
   
   # observe click on the scatterplot
   observeEvent(input$plot_click, {
       xRand <- rnorm(20, mean = input$plot_click$x, sd = 1)
       yRand <- rnorm(20, mean = input$plot_click$y, sd = 1)
-      val$data <- rbind(val$data, cbind(x = xRand, y = yRand))
+      data <- rbind(val$data, cbind(x = xRand, y = yRand))
+      data <- tail(data, 200) # cap at 200 data points
+      
+      val$data <- data
   })        
   
   # render scatterplot
@@ -144,15 +163,10 @@ server <- function(input, output,session) {
   
   
   # text output
-  output$statOutput <- renderText({
-    val$data
-    outText <- sprintf("Mean (Blue): %.2f\nMedian (Green): %.2f\nMode(s) (Orange): %s", 
-            isolate(val$statMean),
-            isolate(val$statMedian),
-            paste(formatC(isolate(val$statMode), digits = 2), collapse = ", "),
-            isolate(val$statSD))
-    outText
+  output$nonCaptureCount <- renderText({
+    val$nonCaptureCount
   })
+  
   
   # handle download button
   output$downloadData <- downloadHandler(
@@ -167,11 +181,11 @@ server <- function(input, output,session) {
   sampleVis <- reactive({
     sampleDf <- val$sampleDf
     meanValDf <- val$meanValDf
-    barDf <- val$barDf
+    barDf <- val[[input$barType]]
     
     plotRange <- input$sampleWindow:(input$sampleWindow + 9)
     
-    # for SD
+    # for error bar
     meanValDf <- meanValDf[plotRange,]
     barDf <- barDf[barDf$SampleId %in% plotRange,]
     
@@ -183,25 +197,63 @@ server <- function(input, output,session) {
       ggvis(~x, ~SampleId) %>%
       
       # observations
-      layer_points(fill := "lightgray", fillOpacity := 0.5) %>%
+      layer_points(fill := "lightgray", fillOpacity := 0.8, size := 10) %>%
       
       # mean of each sample
-      layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "red") %>%
+      layer_points(data = meanValDf, x = ~Mean, y = ~SampleId, shape := "diamond", fill := "grey", fillOpacity := 1.0) %>%
       
       # SD of each sample
-      layer_rects(data = barDf, x = ~x, x2 = ~x2, y = ~y, y2 = ~y2, fill := "red", stroke := NA) %>%
+      layer_rects(data = barDf, x = ~x, x2 = ~x2, y = ~y, y2 = ~y2, fill := "grey", stroke := NA) %>%
       
       
       # other plot parameters
       scale_numeric("x", domain = input$xRange) %>%
       add_axis("y", title = "Sample ID", values = plotRange, subdivide = 1, tick_size_minor = 0, format = "#")  %>%
-      add_axis("x", title = "Observations (grey) and mean of each sample (red)") %>%
+      add_axis("x", title = "Observations (dots) and mean of each sample (diamonds)") %>%
       hide_legend("stroke") %>%
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas")
-    
-    
   }) 
   
+  
+  # showing sampled observations
+  sampleIntervalsVis <- reactive({
+    barDf <- val[[input$barType]]
+    
+    # population mean
+    popMean <- isolate(val$statMean)
+    meanVbarDf <- data.frame(x = popMean - 0.01, x2 = popMean + 0.01)
+    
+    # highlight bars that doesn't include the population mean
+    exclPopMean <- (barDf$x > popMean | barDf$x2 < popMean)
+    barDf$fill <- ifelse(exclPopMean, "red", "grey")
+    barDf$y <- barDf$y + ifelse(exclPopMean, 0.2, 0)
+    barDf$y2 <- barDf$y2 - ifelse(exclPopMean, 0.2, 0)
+    val$nonCaptureCount <- length(which(exclPopMean))
+
+    # bar title
+    barNames <- c("sdBarDf" = "Standard deviation", 
+      "seBarDf" = "Standard error",
+      "ciBarDf" = paste0(input$confPercent, "% Confidence Interval"))
+    xTitle <- as.character(barNames[input$barType])
+    
+    # actual plot
+    barDf %>%
+      ggvis(~x) %>%
+      
+      # interval of each sample
+      layer_rects(x = ~x, x2 = ~x2, y = ~y, y2 = ~y2, fill := ~fill, stroke := NA) %>%
+      
+      # population
+      layer_rects(data = meanVbarDf, x = ~x, x2 = ~x2, y := 0, y2 = 0, stroke := "blue") %>%
+      
+      # other plot parameters
+      scale_numeric("x", domain = input$xRange) %>%
+      add_axis("y", title = "Sample ID", format = "#", grid = FALSE)  %>%
+      add_axis("x", title = xTitle) %>%
+      hide_legend("stroke") %>%
+      hide_legend("fill") %>%
+      set_options(width = 400, height = 400, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas")
+  }) 
   
   # plot histogram of samples
   sampleHistVis <- reactive({
@@ -215,11 +267,11 @@ server <- function(input, output,session) {
     
     meanVbarDf <- data.frame(x = sampleMeanDf$SampleMean - 0.01, x2 = sampleMeanDf$SampleMean + 0.01)
     
-    
     meanValDf %>%
       ggvis(~Mean) %>% 
       set_options(width = 400, height = 200, resizable = FALSE, keep_aspect = TRUE, renderer = "canvas") %>%
-      add_axis("x", title = "Red histogram: mean of the samples. Green dot: Mean of the means and its SD") %>%
+      add_axis("x", title = "Green dot: Mean of the means and its SD") %>%
+      add_axis("y", title = "Count of means") %>% 
       hide_legend('fill') %>%
       scale_numeric("x", domain = input$xRange) %>%
     
@@ -227,14 +279,14 @@ server <- function(input, output,session) {
       layer_rects(data = sdDf, x = ~x, x2 = ~x2, y = 0, y2 = 0, stroke := "green") %>%
       
       # distribution of means
-      layer_histograms(width = 0.1, fill := "red", fillOpacity := 0.3, stroke := NA) %>%
+      layer_histograms(width = 0.1, fill := "grey", fillOpacity := 0.5, stroke := NA) %>%
       
       # mean of the sample means (sample mean)
       layer_points(data = sampleMeanDf, x = ~SampleMean, y = ~y, fill := "white", stroke := "green") %>%
       layer_rects(data = meanVbarDf, x = ~x, x2 = ~x2, y := 0, y2 = 0, stroke := "green")
-      
-      
   }) 
+  
+  
   
   # update sample navigation slider
   observeEvent(input$sampleCount, {
@@ -256,15 +308,11 @@ server <- function(input, output,session) {
     sdVals <- apply(sampleVals, 1, sd)
     meanValDf <- data.frame(Mean = meanVals, SD = sdVals, SampleId = 1:input$sampleCount)
     
-    # calculate the interval for plotting SD
-    meanValDf$barMin <- meanValDf$Mean - meanValDf$SD
-    meanValDf$barMax <- meanValDf$Mean + meanValDf$SD
-    barDf <- meanValDf[,c("SampleId", "barMin", "barMax")]
-    names(barDf)[names(barDf) %in% c("barMin", "barMax")] <- c("x", "x2")
-    barWidth <- 0.1
-    barDf$y2 <- barDf$SampleId - (barWidth / 2)
-    barDf$y <- barDf$SampleId +  (barWidth / 2)
-    
+    # calculate the intervals for plotting
+    valSE <- meanValDf$SD / sqrt(input$obsCount)
+    sdBarDf <- makeBarDf(meanValDf, meanValDf$SD)
+    seBarDf <- makeBarDf(meanValDf, valSE)
+    # NOTE: CI is calculated in a separate reactive block below
     
     # calculate the sample mean (mean of means)
     sampleMean <- mean(meanVals)
@@ -274,16 +322,40 @@ server <- function(input, output,session) {
     val$sampleDf <- sampleDf
     val$meanValDf <- meanValDf
     val$sampleMeanDf <- sampleMeanDf
-    val$barDf <- barDf
+    val$sdBarDf <- sdBarDf
+    val$seBarDf <- seBarDf
+    
     
     # start the vis
     if (!val$isPlotInitialized)
     {
       sampleVis %>% bind_shiny("plotSamples")
       sampleHistVis %>% bind_shiny("plotSampleHist")
+      sampleIntervalsVis %>% bind_shiny("plotSampleIntervals")  
       val$isPlotInitialized <- TRUE
     }
   })
+  
+  # handle confidence percent change
+  observeEvent(c(input$sampleCount, input$obsCount, input$sampleBtn, input$confPercent), {
+    confPercent <- input$confPercent / 100
+    valSE <- val$meanValDf$SD / sqrt(input$obsCount)
+    valCI <- valSE * qt(1 - (1 - confPercent) / 2, df = input$obsCount - 1)
+    ciBarDf <- makeBarDf(val$meanValDf, valCI)
+    
+    # update reactive values
+    val$ciBarDf <- ciBarDf
+  })
+  
+  
+  observeEvent(input$barType, {
+    if (input$barType != "ciBarDf") {
+      disable("confPercent")
+    } else {
+      enable("confPercent")
+    }
+  })
+
   
 }
 

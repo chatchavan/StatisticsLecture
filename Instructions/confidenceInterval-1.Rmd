@@ -1,0 +1,25 @@
+---
+title: "confidenceInterval-1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Student t distribution for means
+
+Recall from the previous simulator that  Gosset calculated a statistic: 
+$$\frac{\bar{x} - \mu}{SD}$$
+
+It turns out that we can calculate the similar statistics with our pile of means as well. The only slight different is that instead of SD, we will use SE, which is a scaled version of SD:
+$SE = \frac{SD}{\sqrt{n}}$ where $n$ is the number of observations.
+
+This is called **t statistic**:
+$$\frac{\bar{x} - \mu}{SD/\sqrt{n}}$$
+
+This is simply calculate how much the mean of each sample is off from the population mean ($\bar{x} - \mu$) and scale this offset with the SE. 
+Thus, we'll call this **normalized mean**.
+
+Since the t-statistic just scaled Gosset's z statistic by a constant $\sqrt{n}$, the resulting distribution still follows the shape of the t-distribution as shown below.
+
+**Observe:** The shape of the normalized distribution (grey bars in the third plot) follows the t-distribution (<span style="color:lightblue">blue line</span>) closely.

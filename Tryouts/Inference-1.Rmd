@@ -1,0 +1,59 @@
+---
+title: "Inference on one sample"
+output: html_notebook
+---
+
+This notebook allows you to try inferencing. Feel free to make a copy of this notebook to try with other datasets.
+
+```{r, include=FALSE}
+# load required packages
+library(ggplot2)  # for plotting graphs
+library(DT)  # for showing data table
+```
+
+We will analyze a synthetic data set from a hypothetical typing study. This study records the typing speed in words per minute (WPM), the error rate in percent, and the task completion time (TCT) in minutes.
+
+We first load the data file and show it on a table.
+
+```{r}
+data <- read.csv("../data/typing-OneSample.csv")
+datatable(data)
+```
+
+We can will plot the typing speed.
+
+```{r}
+ggplot(data, aes(x = WPM)) +
+  geom_histogram(binwidth=.5)
+```
+
+Now, we calculate the mean and confidence intervals of the typing speed
+
+```{r}
+myStat <- mean_cl_normal(data$WPM)
+names(myStat) <- c("Mean", "CILower", "CIUpper")  # rename the column so that they are self-explanatory
+myStat
+```
+
+These statistics can be plotted below, together with a benchmark at 40 WPM.
+
+```{r, fig.width = 8, fig.height = 1}
+benchmark <- 40
+ggplot(myStat ) +
+  geom_point(aes(x = Mean), y = 0 ) + 
+  geom_segment(aes(x = CILower, xend = CIUpper), y = 0, yend = 0 ) +
+  geom_segment(aes(x = benchmark, xend = benchmark), y = -1, yend = 1 , colour = "lightgreen") +
+  coord_fixed(ylim = c(-1, 1), ratio = 0.5)
+```
+
+Now we do a t-test against the benchmark.
+
+```{r}
+t.test(data$WPM, mu = benchmark)
+```
+
+Now, try plot and do t-test the error rate (benchmark 0) and the task completion time (benchmark 75) in the area below. (Press Ctrl + Enter or Cmd + Enter to run the code)
+
+```{r}
+
+```

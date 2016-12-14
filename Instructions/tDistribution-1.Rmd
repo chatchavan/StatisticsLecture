@@ -1,0 +1,44 @@
+---
+title: "tDistribution-1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Interlude
+
+![William Sealy Gosset (1876 – 1937)]
+   (https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/William_Sealy_Gosset.jpg/186px-William_Sealy_Gosset.jpg)
+
+Back in 1907, William Sealy Gosset discovered a probability distribution function that captures the behavior of small sample size well.
+He wanted to provide an evidence for this function with a real data.
+However, back in days, there were no computer simulation.
+Therefore, he simluated this by manually drawing 750 random samples from a table containing height measurements of 3,000 people.
+To appreciate this work, you should check out [pages of his notebook](http://www.medicine.mcgill.ca/epidemiology/hanley/Student/750samplesOf4/).
+Fortunately, we can have the computer do that for us.
+
+For each sample, he calculated Gosset z statistic: 
+$$\frac{\bar{x} - \mu}{SD}$$
+
+* $\bar{x}$ is the mean of each sample
+* $\mu$ is the mean of the population (3000 people), and 
+* $SD$ is the standard deviation of each sample, which is $\sqrt{\frac{1}{n-1} \sum_{i=1}^n (x_i - \overline{x})^2}$. ($n$ is the number of observations)
+
+In plain words, it is the difference between the mean of each sample and the population mean, scaled by the SD of each sample.
+(You don't have to remember the formulae for the exam.)
+
+
+In the plot below, the grey histogram show the samples. However, we normalized the histogram such that the total area below the histogram bar is equal to 1.
+Thus, this histogram shows the probability density instead of the frequency.
+
+The <span style="color:blue">blue line</span> overlaid on the histogram is the distribution that Gosset propose. 
+The <span style="color:red">red line</span> is the normal distribution, which doesn't change according the number of samples or the number of observations.
+The area under each curve is the probability when we sample from the population.
+
+## Try
+
+* Adjust the number of sample and the number of observation and observe the shape of the distribution
+   * Which parameter changes the shape of the distribution?
+* Adjust the number of sample to very low (e.g., 2). Which line behaves more similar to the histogram?

@@ -1,0 +1,46 @@
+---
+title: "intervalEstimate"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Interval Estimates
+
+In previous lecture, we tried the central limit theorem in the simulation. Basically, we took many samples from the population and, for each sample, calculate mean of the observations. When we average these means (green vertical line in the 4th plot), the result usually close to the mean of the population (blue vertical line in the 2nd plot). For this reason, we usually use the mean of each sample as a **point estimate** for the population mean.
+
+However, from the previous simulation, we also know that the mean of each sample could be far from the mean of the population. (<span style="color:green">The green horizontal line in the 4th plot</span> is the SD of the pile of means.) Instead of relying on a point, we will reduce our chance of being wrong by speculating the interval in which the population mean will be in. In other words, we are calculating  one of the following **interval estimates**:
+
+* *Standard deviation (SD)* is a descriptive statistics that can be calculated from the samples: $\sqrt{\frac{1}{n-1} \sum_{i=1}^n (x_i - \overline{x})^2}$
+* *Standard error (SE)* is a scaled SD: $\frac{\bar{x} - \mu}{SD/\sqrt{n}}$
+* *Confidence interval (CI)* is a scaled SE according to the t-score of the selected probability level. 
+
+
+## Observe
+This simulation builds on top of the previous simulation. Now, you can change the type of the interval estimate on the right panel. This will be shown as the red horizontal line on the third plot.
+
+Also, there's the fifth plot showing an overview of all intervals. You can think of this plot as a zoomed-out version of the third plot. The blue vertical line shows the *population mean*, which is the same as the second plot. The grey lines are the intervals which are the same as in the third plot.
+
+## Try
+
+* Change the interval estimate type.
+   * Do the intervals change position?
+   * Which of the intervals have the similar range as <span style="color:green">the green horizontal line in the 4th plot</span>?
+   * What is the <span style="color:green">the green horizontal line in the 4th plot</span>? (Hint: see above)
+
+* For each of the interval estimate types, try changing the number of observations and note the length.
+   * As you make more observations in each sample, the precision of the interval estimate should improve. Which of the interval seems to improve with more observations?
+
+   
+* Try setting the number of times to sample (the first slider) to 100 
+   * Change the % confidence level to different levels.
+   * For each level, click "Draw samples"
+   * Check the number of intervals that doesn't capture the population mean (also shown in red)
+   * How does the % confidence level relate to the number of intervals?
+  
+## Question
+
+* In the real world, we will have only one sample (a set of observations) to work with. 
+   * Which interval calculated from this sample is a useful indicator of the mean of the population? Why?
+   * Is it possible that the interval (calculated from our one sample) doesn't catch the population mean?

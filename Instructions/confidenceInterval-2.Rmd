@@ -1,0 +1,26 @@
+---
+title: "confidenceInterval-1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+From the previous simulator, we know that the area under entire the blue curve is 1.
+We can slice the left- and the right-side of the blue curve such that we have the ample area in the middle.
+This range in the middle is the range that we are *confident* that will capture the population mean if we run a lot of experiments.
+This range is called **confidence interval of mean**. It can be calculated by multiplying SE (<span style="color:green">the green line</span>) with the t score that correspond to the left and the right slices.
+
+### Try
+
+* Change the slider "area under the blue line" and observe how the interval changes.
+
+### Observe
+
+* Notice the difference in the scale of the intervals. 
+	* The scale on the second graph below is the normalized mean. 
+	* The scale on the third graph below matches the original scale.
+	* The interval extends from the mean (shown: the mean of the first sample)
+* Although the interval in the second and the third graph has a sharp cut-off at the line ends, the probability distribution is continuous.
+	* Therefore, the end of the interval does <span style="color:red">not</span> mean that it's impossible to have population mean in that range
+
