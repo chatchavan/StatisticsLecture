@@ -240,7 +240,9 @@ server <- function(input, output,session) {
     tX <- seq(normXRange[1], normXRange[2], normXResolution)
     tY <-  dt(tX, df = tDOF)
     tArea <- input$tArea
-    tVals <- sort(qt(c(tArea, 1 - tArea) , df = tDOF))
+    lCut <- (1 - tArea) / 2
+    rCut <- tArea + lCut
+    tVals <- sort(qt(c(lCut, rCut) , df = tDOF))
     selected <- ifelse(tX < tVals[1] | tX > tVals[2], FALSE, TRUE)
     fill <- ifelse(selected, "blue", NA)
     distDf <- data.frame(x = tX, y = tY, selected = selected, fill = fill)
