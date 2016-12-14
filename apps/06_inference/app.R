@@ -11,6 +11,7 @@ p_load(shiny,
   httpuv, 
   shinyjs,
   assertthat,
+  Hmisc,
   ggvis)
 
 # options(shiny.trace = FALSE)

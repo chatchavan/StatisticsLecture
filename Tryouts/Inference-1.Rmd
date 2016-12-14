@@ -9,6 +9,7 @@ This notebook allows you to try inferencing. Feel free to make a copy of this no
 # load required packages
 library(ggplot2)  # for plotting graphs
 library(DT)  # for showing data table
+library(Hmisc) # for calculating mean and CI
 ```
 
 We will analyze a synthetic data set from a hypothetical typing study. This study records the typing speed in words per minute (WPM), the error rate in percent, and the task completion time (TCT) in minutes.
