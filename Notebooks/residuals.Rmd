@@ -59,7 +59,7 @@ calcError <- function(data, b0, b1) {
 }
 
 renderPlot({
-  meanY <- mean(anscombeDf$y)
+  meanY <- mean(currentDf$y)
   errLines <- calcError(currentDf, input$b0, input$b1)
   residualDf <- currentDf %>%  mutate(y_residual = y - (input$b0 + input$b1 * x))
   
