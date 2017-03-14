@@ -43,8 +43,8 @@ ui <- basicPage(
 
 server <- function(input, output) {
   
-  x <- c(3, 10, 15, 3, 4, 7, 1, 12)
-  y <- c(4, 10, 12, 17, 15, 20, 14, 3)
+  x <- c(1,1,2,2,3,3,4,4,5,5,5,5,6,6,6,6,6,6,7,7,7,7,8,8,9,9,10,10,11,11)
+  y <- rnorm(length(x), 5, 3)
   
   # initialize reactive values with existing data
   val <- reactiveValues(data = cbind (x = x, y = y), 
@@ -125,7 +125,7 @@ server <- function(input, output) {
       hide_legend('fill') %>%
       
       # data histogram
-      layer_histograms(width = input$binwidth, fill := "lightgray", stroke := NA) %>%
+      layer_histograms(width = input$binwidth, fill := "lightgray", stroke := "black") %>%
       
       # mean and median are shown as vertical lines
       layer_rects(data = statVbarDf, x = ~x, x2 = ~x2, y := 0, y2 = 0, stroke := ~stroke) %>%
