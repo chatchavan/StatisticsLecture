@@ -1,0 +1,51 @@
+---
+title: "LOESS"
+output: html_notebook
+---
+
+
+```{r}
+set.seed(20)
+data_n <- 100
+x <-  runif(data_n, 20, 80)
+y <- 320 + 25*x - .3*x^2 + rnorm(data_n, 0, 30)
+z <- 39 + 15*log(y) + rnorm(data_n, 20, 50)
+df <- tibble(x = x, y = y, z = z)
+ggpairs(df)
+```
+
+
+```{r}
+pData <- df %>% 
+  ggplot(., aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "loess", size = 1.5) +
+  geom_smooth(method = "lm", size = 1.5, color = "red")
+
+lm1 <- lm(y ~ x , df)
+loess1 <- loess(y ~ x)
+
+pLmResidual <- df %>% 
+  ggplot(., aes(x = x, y = lm1$residuals)) +
+  geom_point() +
+  geom_hline(yintercept = 0, col = "red")
+
+
+pLOESSResidual <- df %>% 
+  ggplot(., aes(x = x, y = loess1$residuals)) +
+  geom_point() +
+  geom_hline(yintercept = 0, col = "blue")
+
+plot_grid(pData, pLmResidual, pLOESSResidual, nrow = 1)
+```
+
+```{r}
+pYRsidZ <- df %>% 
+  ggplot(., aes(x = z, y = loess1$residuals)) +
+  geom_point() +
+  geom_smooth(method = "loess", size = 1.5) +
+  geom_smooth(method = "lm", size = 1.5, color = "red")
+
+pYRsidZ
+```
+
