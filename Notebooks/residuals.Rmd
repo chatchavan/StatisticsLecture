@@ -1,0 +1,125 @@
+---
+title: "Residuals"
+runtime: shiny
+---
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# The "pacman" package automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(
+       DT,         # for showing data table with navigation/search controls
+       tidyr,      # collection of the tidyverse packages:
+       dplyr,      #   - for data wrangling
+       tibble,     #   - a stricter alternative to data.frame
+       readr,      #   - a stricter alternative to read.csv
+       broom,      #   - for cleaing output from models, e.g., lm()
+       ggplot2,    #   - for plotting
+       cowplot,    # adds plot_grid() to put multiple ggplot()'s togeter
+       GGally,     # adds ggpairs() which is a smarter scatterplot matrix
+       assertthat, # for unit-testing your functions
+       car,        # grab bag of useful functions for NHST
+       GetoptLong,  # string interpolation. See qq() explanation below
+       lubridate   # utility for parsing and performing arithematic on dates 
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# decimal output
+options(scipen=1, digits=2)
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+```
+
+
+```{r}
+anscombeDf <- as_tibble(anscombe)
+
+currentDf <- anscombeDf %>% select(x = x1, y = y1)
+```
+
+
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("b0", label = "\\(\\beta_0\\):",
+              min = -10, max = 10, value = 3, step = 0.5),
+  
+  sliderInput("b1", label = "\\(\\beta_1\\):",
+              min = -10, max = 10, value = 0.5, step = 0.5)
+)
+
+calcError <- function(data, b0, b1) {
+  data.frame(x = data$x, y = data$y, xend = data$x, yend = input$b0 + input$b1 * data$x)
+}
+
+renderPlot({
+  meanY <- mean(anscombeDf$y)
+  errLines <- calcError(currentDf, input$b0, input$b1)
+  residualDf <- currentDf %>%  mutate(y_residual = y - (input$b0 + input$b1 * x))
+  
+  # data and regression
+  pRegression <- ggplot(currentDf, aes(x = x, y = y)) +
+    geom_point(color = "darkorange", size = 3) +
+    
+    # linear function
+    geom_abline(intercept = input$b0, 
+      slope = input$b1,
+      color = "cornflowerblue") +
+    
+    # residuals
+    geom_segment(data = errLines, 
+      aes(x = x, y = y, xend = xend, yend = yend), 
+      linetype = "dotted", 
+      color = "red") +
+    
+    # mean of Y
+    geom_hline(yintercept=meanY, color = "darkorange") +
+    
+    # looks
+    coord_cartesian(xlim= c(2,20), ylim = c(2,14)) +
+    labs(title = "Linear fit") +
+    theme_bw()
+  
+  
+  # residual plot
+  pResidual <- ggplot(residualDf, aes(x = x, y = y_residual)) +
+    geom_point(color = "darkorange", size = 3) +
+    
+    # linear function
+    geom_hline(yintercept = 0,
+      color = "cornflowerblue") +
+    
+    # residuals
+    geom_segment(
+      aes(x = x, y = y_residual, xend = x, yend = 0), 
+      linetype = "dotted", 
+      color = "red") +
+    
+    # looks
+    labs(title = "Residuals") +
+    theme_bw()
+  
+  plot_grid(pRegression, pResidual, nrow = 1)
+})
+
+renderUI({ 
+    meanY <- mean(currentDf$y)
+    errLines <- calcError(currentDf, input$b0, input$b1)  
+    SS_R <- sum((errLines$yend - errLines$y)^2)
+    SS_T <- sum((meanY - errLines$y)^2)
+    withMathJax(
+      p(sprintf("Residual sum of square (\\(y_i\\) - \\(fit_i\\)) \\(SS\\_R\\) = %.2f", SS_R)),
+      p(sprintf("Total sum of square (\\(y_i\\) - mean(\\(y\\))) \\(SS\\_T\\) = %.2f", SS_T))
+    )
+})
+```
+
+
+
+

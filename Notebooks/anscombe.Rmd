@@ -1,0 +1,111 @@
+---
+title: "Dot plot & Anscombe's quartet"
+output: html_notebook
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# The "pacman" package automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(
+       DT,         # for showing data table with navigation/search controls
+       tidyr,      # collection of the tidyverse packages:
+       dplyr,      #   - for data wrangling
+       tibble,     #   - a stricter alternative to data.frame
+       readr,      #   - a stricter alternative to read.csv
+       broom,      #   - for cleaing output from models, e.g., lm()
+       ggplot2,    #   - for plotting
+       cowplot,    # adds plot_grid() to put multiple ggplot()'s togeter
+       GGally,     # adds ggpairs() which is a smarter scatterplot matrix
+       assertthat, # for unit-testing your functions
+       car,        # grab bag of useful functions for NHST
+       GetoptLong,  # string interpolation. See qq() explanation below
+       lubridate   # utility for parsing and performing arithematic on dates 
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# decimal output
+options(scipen=1, digits=2)
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+```
+
+Anscombe dataset is built-in in R:
+```{r}
+anscombeDf <- as_tibble(anscombe)
+datatable(anscombeDf)
+```
+
+Dot plots
+```{r}
+
+# a function to plot Anscombe dataset
+plotAnscombe <- function (data, title) {
+  
+  # linear regression (we'll need intercept and slope for the plot)
+  regression <- lm(y ~ x, data)
+  
+  # the plot
+  pAnscombe <- data %>% 
+    
+    # elements of the vis
+    ggplot(aes(x = x, y = y)) + 
+    geom_point(color = "darkorange", size = 3) + 
+    geom_abline(
+      intercept = regression$coefficients[1], 
+      slope = regression$coefficients[2], 
+      color = "cornflowerblue") +
+    
+    # looks
+    theme_bw() + 
+    scale_x_continuous(breaks = seq(0, 20, 2)) + 
+    scale_y_continuous(breaks = seq(0, 12, 2)) +
+    labs(title = title)
+  
+  # return  
+  pAnscombe
+}  
+
+p1 <- anscombeDf %>% 
+  select(x = x1, y = y1) %>% 
+  plotAnscombe("Data 1")
+
+p2 <- anscombeDf %>% 
+  select(x = x2, y = y2) %>% 
+  plotAnscombe("Data 2")
+
+p3 <- anscombeDf %>% 
+  select(x = x3, y = y3) %>% 
+  plotAnscombe("Data 3")
+
+p4 <- anscombeDf %>% 
+  select(x = x4, y = y4) %>% 
+  plotAnscombe("Data 4")
+
+plot_grid(p1, p2, p3, p4, nrow = 2, ncol = 2)
+
+```
+
+
+```{r descriptive statistics}
+# mean (same), median, and range values
+summary(anscombe)
+
+cat("Correlations:", sapply(1:4, function(x) cor(anscombe[, x], anscombe[, x+4])) )
+
+cat("Variance:", sapply(5:8, function(x) var(anscombe[, x])) )
+
+# linear regression
+lm(y1 ~ x1, data = anscombe)
+lm(y2 ~ x2, data = anscombe)
+lm(y3 ~ x3, data = anscombe)
+lm(y4 ~ x4, data = anscombe)
+```
+
