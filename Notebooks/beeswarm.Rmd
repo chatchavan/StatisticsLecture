@@ -39,6 +39,7 @@ options(DT.autoHideNavigation = TRUE)
 
 Load beeswarm package
 ```{r, echo=TRUE}
+p_load("beeswarm")  # for "breast" dataset
 p_load_gh("eclarke/ggbeeswarm")
 ```
 
