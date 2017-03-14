@@ -1,0 +1,168 @@
+---
+title: "Causal analysis and multiple regression"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(ggplot2, 
+       DT, 
+       plyr,
+       dplyr, 
+       tidyr,
+       assertthat,
+       car,
+       GetoptLong,
+       tibble,
+       cowplot,
+       readr,
+       broom
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# decimal output
+options(scipen=1, digits=2)
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+```
+
+The following example data generator is from [a Stackoverflow post][1]. 
+
+__Model:__
+
+* The `outcome` is determined by the `exposure`. 
+* Both `outcome` and `exposure` are determined by a `covariate`.
+```{r, echo=TRUE}
+data <- (function(){
+  set.seed(1)
+  covariate <- sample(0:1, 100, replace=TRUE)
+  exposure <- runif(100,0,1)+(0.3*covariate)
+  outcome <- 2.0+(0.5*exposure)+(0.25*covariate)   # NOTE: Relationship of the three variables
+  
+  tibble(
+    exposure = exposure,
+    outcome = outcome,
+    covariate = covariate)
+})()
+print(data)
+```
+
+# Model 1: without covariate
+```{r}
+model1 <- lm(outcome ~ exposure, data = data)
+model1_t <- tidy(model1) # provided by broom package
+
+
+# add fitted points:
+data.m1 <- augment(model1, data = data)    # provided by broom package
+
+# data.m1 <- data %>%   # a manual alternative (only fitted values)
+#    mutate(`.fitted` = model1_t$estimate[1] + model1_t$estimate[2] * exposure)   
+
+# plotting data vs. fit
+plotDataVsFit <- function(data, x_str, y_str) {
+  ggplot(data, aes_string(x = x_str, y = y_str)) +
+  geom_point() +
+  geom_point(aes(y = .fitted), color = "red") +
+  myTheme
+}
+
+plotDataVsFit(data.m1, "exposure", "outcome")
+
+```
+Color: black: actual data, red: predicted
+Equation: `predicted_outcome` = `r model1_t$estimate[1]` + `r model1_t$estimate[2]` * `exposure`
+
+Meh. It doesn't fit well.
+
+Plot residuals:
+```{r}
+# a function to plot residual against the fitted (set to 0)
+plotResidual <- function(data, x_str){
+  ggplot(data, aes_string(x = x_str, y = ".resid")) +
+  geom_point() +
+  geom_point(y = 0, color = "red") +
+  myTheme
+}
+
+plotResidual(data.m1, "exposure")
+```
+__Conclusion:__ `exposure` doesn't totally explain `outcome`.
+
+
+
+# Causal analysis
+Try to control `covariate` by modelling `exposure ~ covariate` and `outcome ~ covariate` and analyze the residuals of both models.
+
+First, we fit each model and calculate the residuals.
+```{r}
+mEC <- lm(exposure ~ covariate, data = data)
+mOC <- lm(outcome ~ covariate, data = data)
+mEC_t <- tidy(mEC)
+mOC_t <- tidy(mOC)
+
+data.mEC <- data %>% augment(mEC, .)
+data.mOC <- data %>% augment(mOC, .)
+
+pEC <- plotDataVsFit(data.mEC, "covariate", "exposure")
+pOC <- plotDataVsFit(data.mOC, "covariate", "outcome")
+pEC.res <- plotResidual(data.mEC, "covariate")
+pOC.res <- plotResidual(data.mOC, "covariate")
+
+plot_grid(pEC,     pOC,
+          pEC.res, pOC.res, 
+          ncol = 2)
+```
+
+
+Second, we fit the residual of each model against each other.
+```{r}
+resData <- tibble(
+  ResOutcome = data.mOC$.resid,
+  ResExposure = data.mEC$.resid
+  )
+mRes <- lm(ResOutcome ~ ResExposure, data = resData)
+mRes_t <- tidy(mRes)
+
+resData.mRes <- augment(mRes, resData)
+
+plotDataVsFit(resData.mRes, "ResExposure", "ResOutcome")
+```
+
+Perfect linear! Assuming that `exposure` happens before `outcome`, we can conclude a causal link: Controlling for `covariate`, `exposure` causes `outcome`.
+
+# Full model
+
+So far, our three models look like the following:
+
+
+1. `exposure` = `r mEC_t$estimate[1]` + `r mEC_t$estimate[2]` * `covariate` + `ResExposure`
+2. `outcome` = `r mOC_t$estimate[1]` + `r mOC_t$estimate[2]` * `covariate` + `ResOutcome`
+3. `ResOutcome` = `r mRes_t$estimate[1]` + `r mRes_t$estimate[2]` * `ResExposure`
+
+Therefore, we substitute `ResOutcome` in equation 2:
+
+4. `outcome` = `r mOC_t$estimate[1]` + `r mOC_t$estimate[2]` * `covariate` + `r mRes_t$estimate[1]` + `r mRes_t$estimate[2]` * `ResExposure`
+
+Then, we substitute `ResExposure` using equation 1:
+
+5. `outcome` = `r mOC_t$estimate[1]` + `r mOC_t$estimate[2]` * `covariate` + `r mRes_t$estimate[1]` + `r mRes_t$estimate[2]` * (`exposure` - `r mEC_t$estimate[1]` - `r mEC_t$estimate[2]` * `covariate`)
+
+Simplifying the equation 5 yields:
+
+6. `outcome` = `r mOC_t$estimate[1] - (mRes_t$estimate[2] * mEC_t$estimate[1])`+ `r mRes_t$estimate[2]` * `exposure`  + `r mOC_t$estimate[2] - (mRes_t$estimate[2] * mEC_t$estimate[2])` * `covariate` 
+
+
+This model is the same as the data generator at the top of this page. (See `NOTE` comment.)
+
+
+# References
+[1]: http://stats.stackexchange.com/questions/17336/how-exactly-does-one-control-for-other-variables)
