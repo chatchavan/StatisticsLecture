@@ -1,0 +1,142 @@
+---
+title: "t-test"
+output: html_notebook
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# The "pacman" package automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(
+       DT,         # for showing data table with navigation/search controls
+       tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+       #dplyr,     #   - for data wrangling
+       #tibble,    #   - a stricter alternative to data.frame
+       #readr,     #   - a stricter alternative to read.csv
+       #ggplot2,   #   - for plotting
+                   # other packages in tidyverse that are non-core
+       stringr,    #   - for string functions
+       tidyr,      #   - for data tidying
+       broom,      # for cleaing output from models, e.g., lm()
+       cowplot,    # adds plot_grid() to put multiple ggplot()'s togeter
+       GGally,     # adds ggpairs() which is a smarter scatterplot matrix
+       assertthat, # for unit-testing your functions
+       car,        # grab bag of useful functions for NHST
+       GetoptLong, # string interpolation. See qq() explanation below
+       lubridate   # utility for parsing and performing arithematic on dates 
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# Decimal output
+##   NOTE: This option might cause output to be printed with rounding. (default value = 7)
+# options(digits=2)   
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+
+p_load(fGarch)  # for generating skewed distributions
+```
+
+
+```{r}
+# population
+x <- rnorm(50, mean = 3, sd = 1)
+y <- rnorm(50, mean = 3, sd = 1)
+
+
+# other distributions to try
+# x <- rsnorm(n = 50, mean = 3, sd = 1, xi = 3)   # skewed left (= flat on the left)
+# x <- rsnorm(n = 50, mean = 3, sd = 1, xi = -3)   # skewed right  (= flat on the right)
+# x <- c(rsnorm(n = 25, mean = 0, sd = 1, xi = 3), rsnorm(n = 25, mean = 6, sd = 1, xi = -3))   # bimodal
+#
+# If you wish to draw your own distribution, use `/apps/00_distributionDrawer/app.r`
+
+y <- rsnorm(n = 50, mean = 3, sd = 1, xi = -3)   # skewed right  (= flat on the right)
+
+
+# number of samples
+count_x <- 10
+count_y <- 10
+
+
+par(mfrow=c(1,2))
+hist(x)
+hist(y)
+```
+
+Manually calculate t-statistic (one sample)
+```{r}
+assumed_mean <- 0
+calculate_t_one <- function() {
+  sample_x <- sample(x, count_x)
+  statistic <- (mean(sample_x) - assumed_mean) / 
+            sqrt(sd(sample_x)^2/count_x )
+}
+
+
+ts <- replicate(1000, calculate_t_one())
+pts <- seq(-4.5,4.5,length=100)
+plot(pts + mean(x),
+  dt(pts,df = count_x - 2),
+  col='red',
+  type='l')
+lines(density(ts))
+
+```
+
+
+
+Manually calculate t-statistic (two samples)
+```{r}
+
+calculate_t_manual <- function() {
+  sample_x <- sample(x, count_x)
+  sample_y <- sample(y, count_y)
+  statistic <- (mean(sample_x) - mean(sample_y)) / 
+            sqrt(sd(sample_x)^2/count_x + sd(sample_y)^2/count_y )
+}
+
+
+ts <- replicate(10000, calculate_t_manual())
+pts <- seq(-4.5,4.5,length=100)
+plot(pts + (mean(x) - mean(y)),
+  dt(pts,df = count_x + count_y - 2),
+  col='red',
+  type='l')
+lines(density(ts))
+
+```
+
+
+
+
+Calculate t-statistic with the `t.test` function (two samples)
+
+```{r}
+calculate_t <- function() {
+  sample_x <- sample(x, count_x)
+  sample_y <- sample(y, count_y)
+  result <- t.test(sample_x, sample_y) 
+  result$statistic
+}
+
+
+ts <- replicate(1000, calculate_t())
+pts <- seq(-4.5,4.5,length=100)
+plot(pts + (mean(x) - mean(y)),
+  dt(pts,df = count_x + count_y - 2),
+  col='red',
+  type='l')
+lines(density(ts))
+```
+
+
+

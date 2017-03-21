@@ -1,0 +1,56 @@
+---
+title: "Mean visualization"
+output: html_notebook
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# The "pacman" package automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(
+       DT,         # for showing data table with navigation/search controls
+       tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+       #dplyr,     #   - for data wrangling
+       #tibble,    #   - a stricter alternative to data.frame
+       #readr,     #   - a stricter alternative to read.csv
+       #ggplot2,   #   - for plotting
+                   # other packages in tidyverse that are non-core
+       stringr,    #   - for string functions
+       tidyr,      #   - for data tidying
+       broom,      # for cleaing output from models, e.g., lm()
+       cowplot,    # adds plot_grid() to put multiple ggplot()'s togeter
+       GGally,     # adds ggpairs() which is a smarter scatterplot matrix
+       assertthat, # for unit-testing your functions
+       car,        # grab bag of useful functions for NHST
+       GetoptLong, # string interpolation. See qq() explanation below
+       lubridate   # utility for parsing and performing arithematic on dates 
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# Decimal output
+##   NOTE: This option might cause output to be printed with rounding. (default value = 7)
+# options(digits=2)   
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+```
+
+```{r}
+stats <- tibble(Conditions = c("Interrupt", "Do-not-interrupt"),
+       Mean = c(2.38, 2.27),
+       SD = c(0.58, 0.56))
+
+stats %>% 
+  ggplot(., aes(x = Conditions, y = Mean)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD)) +
+  ylab("Mean and SD")
+```
+
