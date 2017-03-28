@@ -1,0 +1,153 @@
+---
+title: "ANOVA example"
+output: html_notebook
+---
+```{r setup}
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(ggplot2, 
+       DT, 
+       plyr,
+       dplyr, 
+       tidyr,
+       assertthat,
+       car,
+       GetoptLong,
+       tibble,
+       cowplot,
+       readr,
+       broom,
+       GGally)
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# decimal output
+options(digits=2)
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+```
+
+# Data
+This dataset is simulated from the following hypothetical experiment:
+
+> A company has recently invested in smart watches (known as the Mango) for all sales executives. They have tasked your team to evaluate the impact of the Mango on productivity among the sales staff. They believe that having email on one’s wrist will cause faster response times to customers, and therefore more sales. 
+> Data will be collected for Sales Team A over a period of 3 months after the introduction of Mangos. Control data will be collected from members of Sales Team B over the same period—this group will not yet be equipped with Mangos. However, they will receive their Mangos in month 4, giving the researchers both between subjects (A compared to B) and within subjects (pre-Mango B compared to post-Mango B) data.
+
+This analysis will focus on the relationship between inattention score (Kushlev et al. (2016)) and the usage time of the first month (in minutes). We hypothesize that users with higher inattention score will use the watch longer.
+
+```{r}
+age_df          <- read_csv("../data/Mango Watch/age.csv")
+usageTime_df    <- read_csv("../data/Mango Watch/usageTime.csv")
+team_df         <- read_csv("../data/Mango Watch/team.csv")
+sus_df          <- read_csv("../data/Mango Watch/SUS.csv")
+responseTime_df <- read_csv("../data/Mango Watch/responseTime.csv")
+inattention_df  <- read_csv("../data/Mango Watch/inattention.csv")
+
+responseTime_df <- left_join(team_df, responseTime_df, by = "ID")
+
+ageUsageTime_df <- left_join(team_df, age_df, by = "ID") %>% 
+  left_join(usageTime_df, by = "ID") %>% 
+  left_join(inattention_df, by = "ID")
+
+sus_df <- left_join(team_df, sus_df, by = "ID")
+```
+
+
+# Exploratory plot
+```{r}
+time_inattention <- ageUsageTime_df %>% 
+  ggplot(., aes(x = Inattention, y = UsageTime)) +
+  geom_point() +
+  # geom_smooth(method = "loess", size = 1.5) +
+  geom_smooth(method = "lm", size = 1.5, color = "red") +
+  xlim(0,4.1)
+
+lm_inattention <- lm(UsageTime ~ Inattention, ageUsageTime_df)
+p_TIresid <- ageUsageTime_df %>% 
+  ggplot(., aes(x = Inattention, y = lm_inattention$residuals)) +
+  geom_point() +
+  geom_hline(yintercept = 0, col = "red") +
+  xlim(0,4.1)
+
+plot_grid(time_inattention, p_TIresid, ncol = 2)
+```
+
+# Linear model
+```{r}
+lm1 <- lm(UsageTime ~ Inattention, ageUsageTime_df)
+summary(lm1)
+summ <- summary(lm1)
+lm1_t <- tidy(lm1)
+lm_ci <- confint(lm1, level = 0.95)
+```
+
+
+__Interpretation:__ A simple linear regression was calculated to predict usage time based on inattention score. A statistically significant regression equation was found (F(`r summ$fstatistic[2]`, `r summ$fstatistic[3]`) = `r summ$fstatistic[1]`, p < .001*) with an R^2 = `r summ$r.squared`.
+
+The predicted usage time is equal to `r lm1_t$estimate[1]` + `r lm1_t$estimate[2]` × (inattention score) minutes when the inattention score is measured according to Kushlev et al. (2016).
+
+The usage time increased `r lm1_t$estimate[2]` minutes for each point of the inattention score (95% CI [`r lm_ci["Inattention", "2.5 %"]`, `r lm_ci["Inattention", "97.5 %"]`]).
+
+* exact p-value: `r lm1_t$p.value`
+
+
+# Analysis of variance (ANOVA)
+Comparing to the null model: (there's no relationship between inattention and usage time)
+```{r}
+anova_r <- anova(lm_inattention)
+print(anova_r)
+anova_t <- tidy(anova_r)
+```
+
+__Interpretation:__ ANOVA indicates that the model `UsageTime ~ Inattention` score fits the data better than the null model `UsageTime ~ 1`, *F*(`r anova_t$df[1]`, `r anova_t$df[2]`) = `r anova_t$statistic[1]`, p < .001 (exact p = `r anova_t$p.value[1]`).
+
+Alternatively, we can specify the null model explicitly. This would yield the same results
+```{r}
+anova(lm(UsageTime ~ 1, ageUsageTime_df),             # null model (only intercept)
+      lm(UsageTime ~ Inattention, ageUsageTime_df)    # intercept and inattention 
+)
+```
+
+
+We can add the team into the model and compare them
+```{r}
+anova_r <-
+  anova(lm(UsageTime ~ 1, ageUsageTime_df),                   # null model (only intercept)
+        lm(UsageTime ~ Inattention, ageUsageTime_df),         # intercept and inattention 
+        lm(UsageTime ~ Inattention + Team, ageUsageTime_df)   # intercept, inattention, and team
+  )
+print(anova_r)
+# alternative way to modify the model
+# lm_inattention_team <- update(lm_inattention, . ~ Team ) # adds a term to the right hand side
+```
+
+__Interpretation:__ Adding team as an additonal factor yielded a better fit compared to the model with inattention alone as shown in the following table:
+
+```{r}
+anova_t <- 
+  tidy(anova_r) %>% 
+  mutate(F = statistic) %>% 
+  select(-rss, -sumsq, -statistic) %>% 
+  select(df, res.df, F, p.value)
+anova_t
+```
+
+
+# Your turn
+Try fitting a linear model between age, usage time, and team
+```{r}
+# TODO: your code here
+# ageUsageTime_df$Age
+# ageUsageTime_df$UsageTime
+# ageUsageTime_df$Team
+```
+
+  
+# References
+
+* Kostadin Kushlev, Jason Proulx, and Elizabeth W. Dunn. 2016. "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. In Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems (CHI '16). ACM, New York, NY, USA, 1011-1020. DOI: https://doi.org/10.1145/2858036.2858359
