@@ -124,7 +124,7 @@ t_results %>%
 ```
 
 # Your turn
-Analyze the following data set
+Analyze the following data sets.
 
 __Data:__ A hypothetical study comparing the typing speed (in WPM, word per minute) between two types of keyboard: (1) silicone dome keyboard and (2) mechanical keyboard.
 
