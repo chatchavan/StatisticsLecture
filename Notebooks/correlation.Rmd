@@ -1,0 +1,101 @@
+---
+title: "Correlation example"
+output: html_notebook
+---
+```{r setup}
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(ggplot2, 
+       DT, 
+       plyr,
+       dplyr, 
+       tidyr,
+       assertthat,
+       car,
+       GetoptLong,
+       tibble,
+       cowplot,
+       readr,
+       broom,
+       GGally)
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# decimal output
+options(digits=2)
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# correlation function
+p_load(Hmisc)
+```
+
+# Data
+This dataset is simulated from the following hypothetical experiment:
+
+> A company has recently invested in smart watches (known as the Mango) for all sales executives. They have tasked your team to evaluate the impact of the Mango on productivity among the sales staff. They believe that having email on one’s wrist will cause faster response times to customers, and therefore more sales. 
+> Data will be collected for Sales Team A over a period of 3 months after the introduction of Mangos. Control data will be collected from members of Sales Team B over the same period—this group will not yet be equipped with Mangos. However, they will receive their Mangos in month 4, giving the researchers both between subjects (A compared to B) and within subjects (pre-Mango B compared to post-Mango B) data.
+
+This analysis will focus on the relationship between inattention score (Kushlev et al. (2016)) and the usage time of the first month (in minutes). We hypothesize that users with higher inattention score will use the watch longer.
+
+```{r}
+age_df          <- read_csv("../data/Mango Watch/age.csv")
+usageTime_df    <- read_csv("../data/Mango Watch/usageTime.csv")
+team_df         <- read_csv("../data/Mango Watch/team.csv")
+sus_df          <- read_csv("../data/Mango Watch/SUS.csv")
+responseTime_df <- read_csv("../data/Mango Watch/responseTime.csv")
+inattention_df  <- read_csv("../data/Mango Watch/inattention.csv")
+
+responseTime_df <- left_join(team_df, responseTime_df, by = "ID")
+
+ageUsageTime_df <- left_join(team_df, age_df, by = "ID") %>% 
+  left_join(usageTime_df, by = "ID") %>% 
+  left_join(inattention_df, by = "ID")
+
+sus_df <- left_join(team_df, sus_df, by = "ID")
+```
+
+
+# Exploratory plot
+```{r}
+ageUsageTime_df %>% 
+  ggplot(., aes(x = Inattention, y = UsageTime)) +
+  geom_point() +
+  xlim(0,4.1)
+```
+
+# Correlation
+```{r}
+cor_result <- cor.test(ageUsageTime_df$Inattention, ageUsageTime_df$UsageTime)
+print(cor_result)
+cor_t <- tidy(cor_result)
+```
+
+```{r}
+cor_t
+```
+
+
+__Interpretation:__ There is a correlation between the inattention score and usage time, *r* = `r cor_t$estimate` 95% CI [`r cor_t$conf.low`, `r cor_t$conf.high`]. *t*-test shows that the correlation is statistically a significant p < .01 (exact p-value: `r cor_t$p.value`).
+
+
+
+# Your turn
+Analyze and interpret correlation between age and usage time
+```{r}
+# TODO: your code here
+# ageUsageTime_df$Age
+# ageUsageTime_df$UsageTime
+```
+
+
+
+  
+# References
+
+* Kostadin Kushlev, Jason Proulx, and Elizabeth W. Dunn. 2016. "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. In Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems (CHI '16). ACM, New York, NY, USA, 1011-1020. DOI: https://doi.org/10.1145/2858036.2858359
