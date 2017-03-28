@@ -1,0 +1,153 @@
+---
+title: "Variations of t-tests"
+output: html_notebook
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# The "pacman" package automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(
+       DT,         # for showing data table with navigation/search controls
+       tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+       #dplyr,     #   - for data wrangling
+       #tibble,    #   - a stricter alternative to data.frame
+       #readr,     #   - a stricter alternative to read.csv
+       #ggplot2,   #   - for plotting
+                   # other packages in tidyverse that are non-core
+       stringr,    #   - for string functions
+       tidyr,      #   - for data tidying
+       broom,      # for cleaing output from models, e.g., lm()
+       cowplot,    # adds plot_grid() to put multiple ggplot()'s togeter
+       GGally,     # adds ggpairs() which is a smarter scatterplot matrix
+       assertthat, # for unit-testing your functions
+       car,        # grab bag of useful functions for NHST
+       GetoptLong, # string interpolation. See qq() explanation below
+       lubridate   # utility for parsing and performing arithematic on dates 
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# Decimal output
+##   NOTE: This option might cause output to be printed with rounding. (default value = 7)
+# options(digits=2)   
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# beeswarm
+p_load_gh("eclarke/ggbeeswarm")
+p_load(forcats)
+```
+
+__Data:__ A hypothetical study of 40 college students’ Facebook posting behavior using one of two platforms: Apple’s iOS or Google’s Android OS. The data show the number of Facebook posts subjects made during a particular week using their mobile platform. (from Wobbrock, 2011)
+```{r}
+posts_df <- read_csv("../data/ps4hci/posts.csv", col_types = "ccd")
+
+# assign correct data type
+posts_df %>% 
+  mutate(Platform = as.factor(Platform)) ->
+  posts_df
+```
+
+```{r}
+# exploratory plots
+p_violin <- posts_df %>% 
+  ggplot(., aes(x = Platform, y = Posts)) +
+  geom_violin() +
+  geom_beeswarm() +
+  ylim(0, 40) +
+  myTheme
+
+p_ci <- posts_df %>% 
+  ggplot(., aes(x = Platform, y = Posts)) +
+  stat_summary(fun.y = mean, geom = "point") + 
+  stat_summary(fun.data = mean_cl_normal, fun.args = list( conf.int=.95), geom = "errorbar", width = 0) +
+  ylim(0, 40) +
+  myTheme
+
+plot_grid(p_violin, p_ci, nrow = 1)
+```
+
+
+
+## t-tests
+
+Between-subjects (independent t-test):
+```{r}
+options(digits=2)  # print  output only two digits after the decimal point
+t_btw <- t.test(Posts ~ Platform, data = posts_df)
+print(t_btw)
+t_btw <- tidy(t_btw)
+```
+
+`r t_btw$method` shows that college students who used Google’s Android posted more than those who used Apple’s iOS (`r t_btw$estimate1` vs. `r t_btw$estimate2`, difference `r t_btw$estimate` 95% CI [`r t_btw$conf.low`, `r t_btw$conf.high`], t(`r t_btw$parameter`) = `r t_btw$statistic`, p = `r t_btw$p.value`).
+
+Now we try running the within-subjects (paired t-test) despite the fact that it is not the right kind of test to do:
+```{r}
+t_within <- t.test(Posts ~ Platform, data = posts_df, paired = TRUE)
+print(t_within)
+t_within <- tidy(t_within)
+```
+
+Compare the confidence interval results between the two tests (ran on the same data).
+```{r}
+t_results <- bind_rows(t_btw, t_within)
+t_results %>% 
+  ggplot(aes(x = method, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + 
+  ylab("Estimate of the mean difference with 95% CI")
+```
+
+Now we scramble the order of the data a bit and re-run the paired t-test.
+```{r}
+
+posts_df %>% 
+  sample_n(nrow(.)) ->
+  posts_df_shuffled
+t_within_shuffled <- t.test(Posts ~ Platform, data = posts_df_shuffled, paired = TRUE)
+t_within_shuffled <- tidy(t_within_shuffled)
+t_within_shuffled$method <- "Paired t-test (shuffled data)"
+t_results <- bind_rows(t_results, t_within_shuffled)
+t_results %>% 
+  ggplot(aes(x = method, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + 
+  ylab("Estimate of the mean difference with 95% CI")
+```
+
+# Your turn
+Analyze the following data set
+
+__Data:__ A hypothetical study comparing the typing speed (in WPM, word per minute) between two types of keyboard: (1) silicone dome keyboard and (2) mechanical keyboard.
+
+```{r}
+data_kb1 <- read.csv("../data/keyboard1.csv")
+```
+
+```{r}
+# TODO: your analysis code here
+```
+
+
+Later your colleague informed you that he forgot to export a column in the data. Here's the new data file.
+```{r}
+data_kb2 <- read.csv("../data/keyboard2.csv")
+```
+
+```{r}
+# TODO: your "changed" analysis code here
+```
+
+
+
+# References
+
+* Jacob O. Wobbrock. Practical Statistics for HCI. http://depts.washington.edu/madlab/proj/ps4hci/
