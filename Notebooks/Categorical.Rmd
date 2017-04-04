@@ -1,0 +1,203 @@
+---
+title: "Analyzing categorical independent variable"
+output: html_notebook
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# The "pacman" package automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+p_load(
+       DT,         # for showing data table with navigation/search controls
+       tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+       #dplyr,     #   - for data wrangling
+       #tibble,    #   - a stricter alternative to data.frame
+       #readr,     #   - a stricter alternative to read.csv
+       #ggplot2,   #   - for plotting
+                   # other packages in tidyverse that are non-core
+       stringr,    #   - for string functions
+       tidyr,      #   - for data tidying
+       broom,      # for cleaing output from models, e.g., lm()
+       cowplot,    # adds plot_grid() to put multiple ggplot()'s togeter
+       GGally,     # adds ggpairs() which is a smarter scatterplot matrix
+       assertthat, # for unit-testing your functions
+       car,        # grab bag of useful functions for NHST
+       GetoptLong, # string interpolation. See qq() explanation below
+       lubridate,  # utility for parsing and performing arithematic on dates 
+       forcats,    # utility for working with factor levels
+       Hmisc     # for plotting mean and CI in ggplot
+       )
+
+# string interpolation
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# plot theme
+myTheme <- theme(panel.background = element_blank(), panel.grid.major = element_line(color="lightgrey", size = 0.2))
+
+# Decimal output
+##   NOTE: This option might cause output to be printed with rounding. (default value = 7)
+# options(digits=2)   
+
+# datatable
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+
+p_load_gh("eclarke/ggbeeswarm") # for beeswarm
+p_load(rafalib); p_unload(rafalib)  # for imagemat
+p_load(multcomp)  # for glht (contrast and multiple comparison)
+```
+
+```{r}
+data <- tibble(
+  Group = as.factor(rep(c("A", "B", "C"), each=8)), 
+  Value = c(1, 2, 4, 1, 1, 2, 2, 3, 3, 4, 4,
+           2, 3, 4, 4, 3, 4, 5, 3, 5, 5, 3, 4, 6))
+```
+
+Plotting the  data out
+```{r}
+data %>% 
+  ggplot(aes(x = Group, y = Value)) +
+  geom_beeswarm()
+```
+
+Linear model
+```{r}
+m1 <- lm(Value ~ Group, data = data)
+summary(m1)
+```
+```{r}
+m1$coefficients
+```
+
+
+Plotting the results of the linear model
+```{r}
+
+coeffs_df <- tibble(
+  Coeff_id = paste0("b", 0:(length(m1$coefficients)-1)),
+  Coeff = m1$coefficients,
+  Plot_x = levels(data$Group),
+  Plot_y = c(0, m1$coefficients[1], m1$coefficients[1]),
+  Plot_yend = c(m1$coefficients[1], 
+                m1$coefficients[1] + m1$coefficients[2], 
+                m1$coefficients[1] + m1$coefficients[3])
+)
+
+data %>% 
+  ggplot(aes(x = Group, y = Value)) +
+  geom_beeswarm(alpha = 0.3) +
+  geom_point(data = coeffs_df, 
+             aes(x = Plot_x, y = Plot_yend), 
+             color = "red", shape = 18, size = 3) +
+  geom_segment(data = coeffs_df, 
+               aes(x = Plot_x, xend = Plot_x, y = Plot_y, yend = Plot_yend), 
+               color = "red",
+               arrow = arrow(length = unit(0.03, "npc"))) +
+  geom_hline(yintercept = m1$coefficients[1], color = "red", linetype = "dashed") +
+  ylim(0, 6.5)
+  
+```
+
+```{r}
+coded <- model.matrix(~Group, data = data)
+print(coded)
+```
+
+```{r}
+rafalib::imagemat(coded, main ="Model matrix")
+```
+
+Let's look at the linear model again:
+```{r}
+summary(m1)
+```
+```{r}
+
+anova_result <- anova(m1)
+str(anova_result)
+```
+
+
+**Interpretation:** Comparing between the two models: 
+
+* Null model (\\(H_0\\)): the grand mean adequately represents the data
+* Alternative model (\\(H_1\\)): three means adequately represents the data
+
+Assuming that \\((H_0\\)) is true, the data doesn't quite compatible with \\(H_0\\), *F*(`r anova_result$Df[1]`, `r anova_result$Df[2]`) = `r anova_result[["F value"]][1]`, *p* <.001. Therefore, we choose to beleive in \\(H_1\\).
+
+(Exact *p* = = `r anova_result[["Pr(>F)"]][1]`)
+
+We also know the location of each mean from the coefficients. What we do not yet know is whether the three means differs significantly or not.
+
+
+# Checking the differences: contrast
+We can compare pairs that we are interested in.
+
+If we don't have any plan, we can compare three hypotheses simultaneously:
+* \\(H_{0, 1}\\): The difference between mean of Group A and Group B is equal to zero: \\(\\mu_A - \\mu_B = 0\\) 
+* \\(H_{0, 2}\\): \\(\\mu_A - \\mu_C = 0\\) 
+* \\(H_{0, 3}\\): \\(\\mu_B - \\mu_C = 0\\) 
+```{r}
+summary(glht(m1, linfct = mcp(Group = "Tukey")))
+```
+
+But if we have planned our comparison beforehand. For example, if A is the baseline, and B, C are treatments conditions. We want to compare the following pairs
+
+* \\(H_{0, 1}\\): Baseline vs. treatments \\(\\mu_A - \\mu_BC = 0\\) 
+* \\(H_{0, 2}\\): Compare between the two treatments \\(\\mu_B - \\mu_C = 0\\) 
+```{r}
+summary(glht(m1, linfct = 
+               mcp(Group = c("A - (B + C) = 0",
+                             "B - C = 0"
+                             )
+             )))
+```
+
+In general, good experimental designs have planned contrasts in advance, thus avoid testing too many hypotheses simultaneously.
+
+
+
+# Two categorical variables
+
+```{r}
+data2 <- tibble(
+    Participant = paste0("S", 1:48), 
+    Device = factor(
+      c(rep("Tablet",24), 
+        rep("Mobile",24))), 
+    Technique = factor(rep(
+      c(rep("Gesture",8),
+        rep("Pen",8),
+        rep("QWERTY",8)), 2)),
+    Time = c(1.2,1.4,1.8,2.0,1.1,1.5,1.5,1.7,
+2.1,2.5,2.2,2.2,2.9,2.3,2.3,2.6,
+3.5,3.4,3.3,3.2,2.9,2.8,3.8,3.4,
+2.4,1.8,2.5,2.1,2.2,1.9,1.7,2.3,
+2.8,3.1,3.2,4.0,2.9,3.6,3.2,3.7,
+4.5,4.8,4.7,4.1,4.1,4.2,4.6,4.9))
+
+data2 %>% 
+  ggplot(aes(x = Technique, y = Time, color = Device)) +
+  geom_beeswarm()
+```
+
+```{r}
+coded2 <- model.matrix(~ Technique * Device, data = data2) 
+rafalib::imagemat(coded2, main ="Model matrix, two IVs with interaction")
+```
+
+```{r}
+m2 <- lm(Time ~ Technique * Device, data = data)
+anova_result <- anova(m2)
+print(anova_result)
+```
+
+**Interpretation:** Both independent variables have statistically significant effect on the `Time`. The interaction effect is also statistically significant.
+
+```{r}
+
+```
+
