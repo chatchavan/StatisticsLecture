@@ -30,6 +30,13 @@ options(digits=2)
 # datatable
 options(DT.options = list(pageLength = 10))
 options(DT.autoHideNavigation = TRUE)
+
+# We ensure that the following packages are installed, but left unloaded to 
+# prevent conflicts.
+# (We can still use the functions inside, e.g., MASS::stepAIC() )
+
+p_load(MASS); p_unload(MASS)     # for stepwise regression 
+                
 ```
 
 # Data
@@ -148,7 +155,172 @@ Try fitting a linear model between age, usage time, and team
 # ageUsageTime_df$Team
 ```
 
-  
+
+# Determining regressors
+In science, we prefer simpler models. This is a principle known as *Occam's razor*. 
+F-statistics represents how good the model fits the data, but it doesn't penalize
+complex model. Instead, we use *Akaike information criterion (AIC)* (read "a-kai-kay"; Japanese). AIC accounts for both the fit and the number of parameters in the model.
+**We prefer model with minimum AIC.**
+
+## How to select variables to be regressors?
+
+In HCI, we usually use linear models to analyze survey responses. The questions in
+the survey are usually designed with a theoretical basis. Therefore, we usually 
+construct the model by adding factors that are theoretically sound.
+```{r}
+m1 <- lm(UsageTime ~ 1, ageUsageTime_df)
+m2 <- update(m1, . ~ Inattention)
+m3 <- update(m1, . ~ Team)
+m4 <- update(m1, . ~ Inattention + Team)
+
+AIC_result <- data.frame(rbind(
+  extractAIC(m1),
+  extractAIC(m2),
+  extractAIC(m3),
+  extractAIC(m4)))
+colnames(AIC_result) <- c("df", "AIC")
+
+print(AIC_result)
+```
+
+**Interpretation:** `Inattention` reduces AIC more than `Team`. Thus, `Inattention` should be prioritized more than `Team`.
+However, if the model can afford two parameters, both `Inattention` and `Team` lowers AIC, hence should be included.
+
+
+# Stepwise automatic modeling
+**Only for exploratory analysis (when you have no theoretical basis)**, that we automate the model construction. Below, we enter all factors and perform *step-wise backward regression* which gradually remove the terms to minimize AIC. 
+```{r}
+wholeModel <- lm(UsageTime ~ Inattention + Team, data = ageUsageTime_df)
+step_backward_result <- 
+  MASS::stepAIC(wholeModel, 
+    direction = "backward", 
+    trace = TRUE           # this shows the fit trace so we can track AIC (optional)
+    )
+```
+
+**Interpretation:** Removing either `Team` or `Inattention` doesn't reduce AIC. Therefore, both terms should still be included in the model.
+
+```{r}
+# stepAIC output a model, so you can obtain F statistics using typical anova() 
+# and t-statistics of each coefficient with summary()
+anova(step_backward_result)
+summary(step_backward_result)
+```
+
+
+# Your turn
+Determine whether ther interaction term should be included in this model or not.
+```{r}
+# TODO: your code here
+```
+
+# Re-analyzing mobile phone usage at meal time (Moser et al., 2016)
+
+**Note:** The dataset doesn't contain variable (f) How many individuals were included in the mealtime drawing?
+```{r}
+# preprocess data (need to run only once)
+# p_load(readxl); p_unload(readxl)
+
+# Original dataset from Moser et al. (2016)
+# http://labinthewild.org/data/index.php
+# meal_code <- readxl::read_excel("../data/TechAtMeals_CHI2016/TechAtMeals_CHI2016.xlsx", sheet = 2, col_names = c("ColumnName", "Question"))
+# write_csv(meal_code, "../data/TechAtMeals_CHI2016/meal_code.csv", na = "")
+# 
+# 
+# meal_data <- readxl::read_excel("../data/TechAtMeals_CHI2016/TechAtMeals_CHI2016.xlsx")
+# meal_data %>%
+# 
+#   # replace "NULL" with NA
+#   mutate_each(funs(replace(., . == "NULL", NA)), matches("question.*")) %>%
+# 
+#   # unifying the column types
+#   mutate_each(funs(as.integer(.)), matches("question.*")) %>%
+#   mutate(
+#     participant_id = as.character(participant_id),
+#     retake = if_else(retake == 1, TRUE, FALSE),
+#     gender = as.integer(gender),
+#     age = as.integer(age),
+#     employed = as.integer(employed),
+#     housemates = as.integer(housemates),
+#     child_included = as.integer(child_included)
+#   ) ->
+#   meal_data
+# 
+# write_csv(meal_data, "../data/TechAtMeals_CHI2016/meal_data.csv", na = "")
+# ]
+# NOTE: questionnable coding
+# * question 11: Do you own a mobile phone? (1 = yes, 2 = no)
+# * question 13: Is your mobile phone a smart phone? (1 = yes, 2 = no)
+
+```
+
+```{r}
+meal_data <- read_csv("../data/TechAtMeals_CHI2016/meal_data.csv" )
+meal_code <- read_csv("../data/TechAtMeals_CHI2016/meal_code.csv")
+print(meal_code)
+```
+
+We first try running automatic step AIC (which require removing rows with empty responses)
+```{r}
+lm_all <- lm(
+  question_6 ~     # Response: Adult sending/reading texts
+  age +            # (a) Age
+  question_11 +    # (b) Do you own a mobile phone? (1 = yes, 2 = no)
+  question_12 +    # (c) What year did you get your first mobile phone? (number of years)
+  question_16 +    # (d) On a normal day, how often do you use your mobile phone?
+  question_14 +    # (e) How often do you use your mobile phone during meals with other people like friends and family?
+                   # (f) Missing: How many individuals were included in the mealtime drawing?
+  child_included + # (g) Child presence (0 = no, 1 = yes)
+  housemates +     # (h) Number of individuals that the respondent lives with
+  gender,          # (i) Gender (0 = male, 1 = female, 2 = others)
+  data = na.omit(meal_data)    # NEW: omit rows with empty response (this is different from the paper)
+  )
+
+
+step_backward_result <- 
+  MASS::stepAIC(lm_all, 
+    direction = "backward", 
+    trace = TRUE           # this shows the fit trace so we can track AIC (optional)
+    )
+
+step_backward_result$anova
+anova_result <- anova(step_backward_result)
+print(anova_result)
+```
+
+
+
+The resulting model is quite different from the one in the paper. Looking at the `Residuals Df` in ANOVA table, we see `r anova_result$Df[4]`, which is substantially lower than the number of rows in the data (`r nrow(meal_data)` rows). Therefore, we have to check AIC manually
+
+```{r}
+# Note the last parameter: we use the full set of data
+m_paper <- update(lm_all, . ~ . - question_11 - question_12 - housemates - gender, data = meal_data)
+summary(m_paper)
+```
+
+Here, we have a reasonable residual Df of (`r summary(m_paper)$fstatistic[2]`), which is much closer to the number of rows in the data (`r nrow(meal_data)` rows).
+
+# Your turn
+Try updating model and determine which variables to include based on AIC.
+
+```{r}
+lm_all <- lm(
+  question_6 ~     # Response: Adult sending/reading texts
+  age +            # (a) Age
+  question_11 +    # (b) Do you own a mobile phone? (1 = yes, 2 = no)
+  question_12 +    # (c) What year did you get your first mobile phone? (number of years)
+  question_16 +    # (d) On a normal day, how often do you use your mobile phone?
+  question_14 +    # (e) How often do you use your mobile phone during meals with other people like friends and family?
+                   # (f) Missing: How many individuals were included in the mealtime drawing?
+  child_included + # (g) Child presence (0 = no, 1 = yes)
+  housemates +     # (h) Number of individuals that the respondent lives with
+  gender,          # (i) Gender (0 = male, 1 = female, 2 = others)
+  data = meal_data
+  )
+
+# Hint: extractAIC(update(lm_all, . ~ .  - #var1# - #var2# , data = meal_data))
+```
+
 # References
 
 * Kostadin Kushlev, Jason Proulx, and Elizabeth W. Dunn. 2016. "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. In Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems (CHI '16). ACM, New York, NY, USA, 1011-1020. DOI: https://doi.org/10.1145/2858036.2858359

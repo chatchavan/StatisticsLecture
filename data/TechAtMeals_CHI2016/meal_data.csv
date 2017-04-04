@@ -1,0 +1,1164 @@
+participant_id,current_time,country,retake,gender,language,age,employed,housemates,child_included,question_6,question_7,question_8,question_9,question_10,question_11,question_12,question_13,question_14,question_16,question_17
+14,02/11/2015 7:06 PM,United States,FALSE,1,English,52,1,1,0,2,,3,2,,1,6,2,1,1,2
+24,02/11/2015 10:12 PM,United States,FALSE,1,English,52,1,1,0,1,,3,1,,1,2,1,1,3,5
+30,02/12/2015 2:51 AM,United States,FALSE,1,English,62,1,2,0,5,,6,1,,1,2,1,5,6,5
+32,02/12/2015 3:21 AM,United States,FALSE,1,English,45,1,2,1,1,1,2,1,1,1,2,1,1,3,4
+33,02/12/2015 5:42 AM,United Kingdom,FALSE,1,English,17,0,4,1,2,2,2,1,1,1,3,2,1,5,5
+35,02/12/2015 6:43 AM,Australia,FALSE,1,English,22,1,1,0,3,,2,2,,1,2,1,1,5,1
+36,02/12/2015 7:18 AM,Canada,FALSE,1,English,32,1,3,1,6,6,6,6,6,1,3,2,3,4,2
+37,02/12/2015 9:49 AM,Canada,FALSE,1,English,37,0,3,1,1,1,1,1,1,1,4,1,1,5,5
+39,02/12/2015 11:48 AM,United States,FALSE,1,English,65,0,1,0,3,,5,1,,1,2,1,1,5,2
+41,02/12/2015 12:38 PM,United States,FALSE,1,English,43,1,0,0,3,,3,1,,1,2,1,2,5,1
+67,02/13/2015 10:57 AM,United States,FALSE,1,English,25,1,0,0,5,,2,5,,1,3,1,5,6,2
+69,02/13/2015 3:02 PM,United States,FALSE,0,Persian,21,0,2,1,6,1,4,5,1,1,3,1,2,6,3
+74,02/14/2015 1:17 AM,United States,FALSE,0,English,30,1,0,0,2,,4,1,,1,2,1,1,5,2
+81,02/14/2015 6:10 PM,United States,FALSE,1,English,18,0,3,1,3,1,5,2,1,1,3,1,2,3,5
+82,02/14/2015 6:21 PM,United States,FALSE,1,English,19,0,1,0,7,,4,5,,1,3,1,5,6,3
+83,02/14/2015 6:25 PM,United States,FALSE,1,English,20,1,0,0,2,,1,2,,1,4,1,1,4,1
+85,02/14/2015 6:44 PM,United States,FALSE,0,English,21,0,1,0,7,,7,7,,,,,2,2,1
+86,02/14/2015 6:52 PM,United States,FALSE,1,English,12,0,3,1,3,3,5,3,2,1,4,1,2,4,2
+87,02/14/2015 6:52 PM,United States,FALSE,1,English,14,0,3,0,7,,7,7,,1,4,2,1,2,2
+88,02/14/2015 6:58 PM,United States,FALSE,1,English,24,1,2,0,5,,5,5,,1,2,2,1,1,1
+90,02/14/2015 7:19 PM,United States,FALSE,1,English,19,1,2,0,7,,7,7,,1,2,1,5,6,2
+91,02/14/2015 7:23 PM,United States,FALSE,1,English,32,1,1,0,1,,1,1,,1,4,1,2,4,1
+93,02/14/2015 7:27 PM,United States,FALSE,1,English,18,0,2,0,4,,6,5,,1,3,1,4,6,3
+96,02/14/2015 7:34 PM,United States,FALSE,1,English,22,0,3,0,4,,2,5,,1,2,1,3,6,2
+97,02/14/2015 7:37 PM,United States,FALSE,1,English,18,0,4,1,7,7,7,7,7,1,5,2,6,7,1
+98,02/14/2015 7:47 PM,Canada,FALSE,1,Vietnamese,19,0,0,0,6,,6,4,,1,5,1,2,5,1
+99,02/14/2015 8:10 PM,Australia,FALSE,1,English,16,0,5,1,2,2,4,1,1,1,4,1,1,5,3
+101,02/14/2015 8:19 PM,United States,FALSE,1,English,19,0,2,0,7,,5,7,,1,3,1,5,5,2
+104,02/14/2015 8:40 PM,United States,FALSE,0,English,19,0,2,0,6,,5,4,,1,3,2,2,2,3
+106,02/14/2015 8:54 PM,United States,FALSE,1,English,22,0,1,0,5,,4,6,,1,2,1,2,6,2
+108,02/14/2015 9:17 PM,United States,FALSE,1,English,17,0,1,0,5,,2,6,,1,3,1,5,4,5
+109,02/14/2015 9:20 PM,United States,FALSE,1,English,16,0,6,1,4,2,4,4,3,1,3,1,3,6,2
+110,02/14/2015 9:48 PM,United States,FALSE,1,English,25,0,3,0,7,,7,7,,1,3,1,4,5,1
+111,02/14/2015 9:50 PM,United States,FALSE,1,English,23,1,4,0,5,,5,5,,,,,4,6,2
+112,02/14/2015 10:01 PM,United States,FALSE,1,English,18,1,1,0,7,,7,7,,1,3,1,2,5,3
+114,02/14/2015 10:43 PM,United States,FALSE,1,English,21,0,1,0,4,,4,4,,1,3,1,4,6,3
+116,02/14/2015 11:53 PM,United States,FALSE,1,English,25,1,2,0,7,,7,6,,1,6,1,5,7,2
+117,02/15/2015 1:11 AM,United States,FALSE,1,Other,17,0,3,1,7,6,6,7,7,1,3,1,6,7,2
+118,02/15/2015 1:45 AM,United States,FALSE,0,English,19,1,0,0,6,,6,7,,1,3,1,4,4,1
+121,02/15/2015 6:45 AM,United States,FALSE,1,English,14,0,3,1,7,7,4,7,7,2,,,5,6,3
+155,02/15/2015 2:43 PM,United States,FALSE,1,English,25,1,1,0,5,,5,4,,1,3,1,2,4,2
+158,02/15/2015 7:26 PM,Canada,FALSE,1,English,17,0,3,1,5,5,5,5,5,1,4,1,1,2,1
+159,02/15/2015 7:38 PM,United States,FALSE,1,English,15,0,3,1,5,5,5,4,4,1,4,1,4,4,4
+160,02/15/2015 10:48 PM,Canada,FALSE,1,Other,20,1,2,0,6,,5,5,,1,3,1,4,5,3
+170,02/16/2015 6:02 PM,Canada,FALSE,1,French,14,0,2,1,3,2,4,1,1,1,4,1,1,5,3
+171,02/17/2015 12:23 AM,Canada,FALSE,0,English,15,0,3,0,7,,7,7,,1,4,1,3,6,3
+173,02/17/2015 2:57 AM,Canada,FALSE,1,English,18,1,4,1,3,1,5,1,1,1,3,1,3,6,2
+174,02/17/2015 6:39 AM,United States,FALSE,1,English,54,0,1,0,1,,3,1,,1,2,1,2,6,1
+178,02/17/2015 7:08 AM,United States,FALSE,1,Indonesian,33,0,1,0,,,,,,,,,6,,
+193,02/18/2015 1:45 AM,United States,FALSE,1,English,57,0,1,1,1,1,2,1,1,1,1,1,1,5,2
+194,02/18/2015 7:10 AM,United States,FALSE,1,English,13,0,3,1,5,6,6,6,6,1,3,1,4,6,2
+198,02/18/2015 11:59 AM,United Kingdom,FALSE,1,English,20,0,5,0,2,,2,1,,1,3,1,2,5,2
+200,02/18/2015 1:41 PM,United Kingdom,FALSE,0,English,18,0,2,1,4,3,3,5,4,1,3,1,4,7,2
+201,02/18/2015 2:22 PM,United States,FALSE,0,English,31,1,1,0,4,,4,1,,1,2,2,2,2,2
+204,02/18/2015 11:48 PM,Australia,FALSE,1,English,31,0,4,0,4,,3,4,,1,2,1,2,3,2
+205,02/18/2015 11:48 PM,United States,FALSE,0,English,18,0,2,1,3,3,4,4,3,1,5,1,2,3,1
+207,02/19/2015 11:35 AM,United States,FALSE,1,English,13,0,5,0,4,,2,2,,1,4,1,5,5,5
+212,02/19/2015 5:12 PM,United States,FALSE,1,English,12,0,7,1,4,1,1,1,1,1,5,1,3,6,2
+213,02/19/2015 9:21 PM,United States,FALSE,1,English,20,0,3,0,7,,7,7,,1,3,1,4,5,2
+215,02/20/2015 5:00 AM,Australia,FALSE,1,English,28,0,4,0,7,,6,4,,1,2,1,2,6,2
+216,02/20/2015 9:12 AM,United States,FALSE,0,English,22,1,1,0,2,,3,1,,1,3,1,2,6,2
+218,02/20/2015 2:02 PM,United States,FALSE,0,English,18,0,5,0,1,,1,1,,2,,,1,1,3
+219,02/20/2015 2:12 PM,United States,FALSE,0,English,22,1,2,0,7,,7,7,,1,6,1,3,5,5
+220,02/20/2015 2:13 PM,United States,FALSE,0,English,22,0,2,0,7,,3,7,,1,3,1,4,5,3
+221,02/20/2015 2:17 PM,United States,FALSE,0,English,22,1,2,0,7,,7,7,,1,6,1,5,5,4
+224,02/20/2015 7:53 PM,United States,FALSE,1,English,15,0,4,0,7,7,7,7,7,1,3,1,5,7,2
+236,02/20/2015 9:00 PM,United States,FALSE,0,Persian,19,0,0,0,,,,,,,,,6,,
+237,02/20/2015 10:39 PM,United States,FALSE,1,English,14,0,5,1,6,6,1,6,6,1,3,1,3,7,1
+248,02/21/2015 7:30 AM,United States,FALSE,0,Persian,55,1,0,0,,,,,,,,,6,,
+266,02/21/2015 9:36 AM,United States,FALSE,1,English,56,0,1,0,3,,3,1,,1,4,1,2,5,2
+269,02/21/2015 1:56 PM,United States,FALSE,2,English,14,0,3,1,7,7,5,6,6,1,4,1,3,6,3
+273,02/21/2015 7:32 PM,Canada,FALSE,1,French,44,1,5,1,2,2,2,2,2,1,3,1,2,6,4
+274,02/21/2015 8:15 PM,United States,FALSE,0,English,34,1,1,0,1,,1,1,,1,2,1,1,7,3
+275,02/21/2015 9:47 PM,United States,FALSE,0,English,20,0,1,0,7,,2,7,,1,3,2,3,4,1
+276,02/21/2015 10:51 PM,United States,FALSE,1,English,21,1,0,0,7,,7,7,,1,2,1,5,6,1
+277,02/21/2015 11:53 PM,United States,FALSE,1,English,18,0,3,1,2,2,1,1,1,2,,,1,1,1
+279,02/22/2015 4:19 AM,United States,FALSE,0,English,35,1,1,0,7,,7,7,,1,2,1,5,7,3
+280,02/22/2015 2:35 PM,United States,FALSE,1,English,15,0,3,1,1,1,3,2,1,1,4,1,1,4,4
+281,02/22/2015 3:00 PM,United States,FALSE,1,English,12,0,3,1,1,1,1,1,1,1,5,1,1,3,1
+293,02/23/2015 4:54 PM,United States,FALSE,0,English,31,0,1,0,6,,2,5,,1,2,1,5,6,1
+294,02/23/2015 8:01 PM,New Zealand,FALSE,1,English,17,0,1,1,4,4,6,5,4,1,3,1,3,,5
+295,02/23/2015 8:53 PM,United States,FALSE,1,English,59,1,1,1,2,1,3,1,1,1,2,1,1,2,4
+297,02/23/2015 11:33 PM,United States,FALSE,0,English,46,1,0,1,5,5,5,2,3,1,1,1,4,6,1
+298,02/24/2015 1:35 AM,United States,FALSE,2,English,22,1,1,0,4,,3,6,,1,3,1,3,5,1
+299,02/24/2015 3:47 AM,United States,FALSE,1,English,41,0,2,0,4,,3,6,,1,4,1,2,6,1
+301,02/24/2015 7:36 AM,United States,FALSE,0,English,17,1,5,0,5,,2,4,,1,4,1,6,7,2
+313,02/24/2015 2:06 PM,United States,FALSE,1,English,33,1,1,0,6,,4,7,,1,2,1,3,5,3
+331,02/25/2015 9:12 AM,United States,FALSE,1,English,23,1,0,0,3,,2,3,,1,2,1,1,4,1
+332,02/25/2015 9:48 AM,United States,FALSE,1,English,29,1,2,0,7,,4,7,,1,2,1,2,6,3
+333,02/25/2015 11:06 AM,Canada,FALSE,1,English,43,1,3,1,3,3,6,1,1,1,2,1,3,6,5
+339,02/25/2015 3:18 PM,United States,FALSE,1,English,26,1,1,0,7,,5,7,,1,2,1,4,6,2
+341,02/25/2015 3:26 PM,Canada,FALSE,1,Arabic,17,0,2,0,2,,2,2,,1,5,1,1,6,5
+343,02/25/2015 4:36 PM,United States,FALSE,1,German,22,1,5,0,4,,5,3,,1,3,1,3,6,2
+347,02/25/2015 7:40 PM,United States,FALSE,1,English,26,1,1,0,6,,4,6,,1,4,1,5,6,2
+349,02/26/2015 7:08 AM,United States,FALSE,0,English,45,1,1,0,4,,6,5,,1,3,1,1,2,3
+350,02/26/2015 8:59 AM,United States,FALSE,1,English,62,0,0,0,5,,3,1,,1,2,1,3,7,2
+356,02/26/2015 2:23 PM,United States,FALSE,0,Other,27,1,1,0,3,,5,1,,1,2,1,1,5,1
+375,02/27/2015 12:57 AM,United Kingdom,FALSE,1,English,29,1,2,0,5,,7,2,,1,2,1,3,5,2
+387,02/27/2015 11:42 AM,United States,FALSE,1,English,16,0,2,1,6,6,6,6,6,1,3,1,4,6,2
+388,02/27/2015 11:43 AM,United States,FALSE,1,English,19,0,1,1,6,6,6,6,6,1,3,1,4,6,2
+389,02/27/2015 5:16 PM,United States,FALSE,1,English,38,1,1,0,3,,5,2,,1,2,1,2,6,2
+398,02/28/2015 2:31 PM,United States,FALSE,1,English,19,0,3,0,2,,6,6,,1,3,1,1,2,1
+403,03/01/2015 7:32 AM,Canada,FALSE,0,English,29,1,1,0,7,,7,5,,1,2,1,4,7,5
+405,03/01/2015 8:08 AM,United States,FALSE,1,English,12,0,2,1,2,1,2,1,1,2,5,,2,3,5
+406,03/01/2015 8:17 AM,United States,FALSE,1,English,55,0,2,1,4,2,6,1,1,1,1,1,2,5,5
+410,03/01/2015 10:07 AM,United Kingdom,FALSE,1,English,19,0,0,0,3,,2,3,,1,3,1,3,6,1
+412,03/01/2015 2:01 PM,United Kingdom,FALSE,1,English,22,1,1,0,3,,1,3,,1,2,1,3,5,2
+414,03/01/2015 2:32 PM,Canada,FALSE,0,English,25,1,0,0,3,,2,3,,1,3,1,3,5,4
+417,03/01/2015 4:50 PM,United States,FALSE,1,Spanish,57,0,1,0,6,,,6,,1,2,1,2,5,1
+418,03/01/2015 8:35 PM,United States,FALSE,1,English,17,0,4,1,3,3,1,1,1,1,5,1,1,6,3
+423,03/02/2015 1:13 PM,United States,FALSE,1,English,23,1,2,0,2,,2,2,,1,2,1,3,5,1
+425,03/02/2015 4:39 PM,United States,FALSE,2,English,33,1,3,1,4,3,1,4,4,1,2,1,3,6,4
+426,03/02/2015 5:18 PM,United States,FALSE,1,English,22,0,1,0,7,,6,6,,1,3,2,2,4,1
+428,03/02/2015 7:05 PM,United States,FALSE,1,English,38,0,2,0,3,,3,1,,1,2,1,1,2,5
+430,03/02/2015 8:39 PM,United States,FALSE,1,English,20,0,1,0,1,,2,1,,1,3,1,4,6,1
+441,03/03/2015 2:36 PM,United States,FALSE,1,English,15,0,3,1,3,5,7,3,5,1,4,1,5,6,2
+444,03/03/2015 6:29 PM,United States,FALSE,1,English,23,1,4,0,7,,4,6,,1,3,1,5,7,2
+446,03/03/2015 9:39 PM,United States,FALSE,1,English,21,0,0,0,6,,5,6,,1,3,1,4,5,1
+447,03/03/2015 10:14 PM,Australia,FALSE,1,English,46,1,1,0,6,,3,6,,,,,2,5,3
+450,03/04/2015 1:39 PM,United States,FALSE,1,English,24,1,1,0,6,,5,6,,1,3,1,4,6,3
+451,03/04/2015 1:39 PM,United States,FALSE,1,Spanish,17,0,4,1,1,6,6,1,6,1,3,1,2,6,5
+463,03/05/2015 6:49 AM,Canada,FALSE,1,English,29,1,3,0,2,,3,1,,1,2,1,2,5,2
+468,03/05/2015 6:56 AM,United States,FALSE,0,Persian,55,0,0,0,,,,,,,,,6,,
+491,03/05/2015 7:51 AM,United States,FALSE,0,Persian,88,0,0,0,,,,,,,,,6,,
+496,03/05/2015 5:04 PM,United States,FALSE,1,English,18,1,3,1,7,7,4,4,4,1,3,1,5,6,3
+497,03/05/2015 5:47 PM,United States,FALSE,1,Spanish,17,0,4,0,4,,7,4,,1,5,1,6,4,2
+499,03/05/2015 5:51 PM,United States,FALSE,0,English,17,0,4,1,2,2,4,1,1,1,3,1,1,5,5
+501,03/05/2015 8:42 PM,United States,FALSE,1,English,23,1,3,0,6,,3,4,,1,3,1,4,4,2
+504,03/06/2015 6:58 AM,United States,FALSE,1,English,17,0,3,0,7,,7,7,,1,3,1,4,6,1
+505,03/06/2015 7:02 AM,United States,FALSE,1,English,16,0,5,1,6,4,5,1,5,1,3,1,5,7,5
+507,03/06/2015 7:22 AM,United States,FALSE,0,English,16,0,3,1,2,2,3,1,1,1,3,2,2,4,3
+510,03/06/2015 7:29 AM,United States,FALSE,1,English,17,0,4,0,1,,1,1,,1,3,1,1,5,1
+512,03/06/2015 9:40 AM,United States,FALSE,0,English,16,0,3,1,7,6,4,2,1,1,3,1,1,4,3
+513,03/06/2015 9:42 AM,United States,FALSE,1,English,16,0,5,1,5,5,5,2,2,1,5,2,5,7,4
+515,03/06/2015 12:06 PM,United Kingdom,FALSE,1,English,14,0,3,0,6,3,7,2,2,1,3,1,2,5,3
+517,03/06/2015 4:50 PM,United States,FALSE,1,English,19,0,1,0,7,,6,6,,1,3,1,6,6,2
+526,03/08/2015 3:15 AM,Australia,FALSE,0,English,23,1,4,0,4,,2,5,,1,3,1,3,5,1
+527,03/08/2015 4:48 AM,United Kingdom,FALSE,1,English,16,0,2,0,6,,6,4,,1,4,1,1,4,2
+531,03/08/2015 4:11 PM,United States,FALSE,1,English,16,0,5,1,2,2,2,2,2,1,5,1,3,4,3
+534,03/08/2015 6:05 PM,United States,FALSE,1,English,17,1,5,0,1,,4,2,,1,5,1,1,4,2
+548,03/09/2015 9:39 AM,United States,FALSE,1,English,20,0,3,0,7,,6,7,,1,5,1,4,7,2
+555,03/09/2015 9:19 PM,Canada,FALSE,1,English,23,1,2,0,2,,1,3,,1,3,1,5,6,1
+557,03/09/2015 10:48 PM,United States,FALSE,1,English,16,0,3,1,2,3,1,2,3,1,4,1,5,7,4
+558,03/10/2015 12:39 AM,Canada,FALSE,1,English,28,1,1,0,6,,6,6,,1,2,1,4,6,1
+562,03/10/2015 9:39 AM,United States,FALSE,1,English,27,1,5,0,6,,4,6,,1,2,1,3,5,2
+573,03/10/2015 4:49 PM,Canada,FALSE,1,Other,18,0,3,1,5,5,4,5,5,1,3,1,3,5,4
+574,03/10/2015 9:35 PM,United States,FALSE,1,English,19,0,3,0,6,,4,6,,1,3,1,4,6,3
+575,03/10/2015 10:36 PM,Australia,FALSE,1,English,32,1,1,0,4,,3,4,,1,2,1,5,6,2
+577,03/11/2015 6:20 AM,United States,FALSE,1,English,24,1,0,0,5,,6,3,,1,3,1,2,2,1
+578,03/11/2015 7:53 AM,United States,FALSE,1,English,46,1,1,0,6,,5,6,,1,2,1,4,6,2
+579,03/11/2015 10:28 AM,United States,FALSE,1,Chinese,25,1,1,0,7,,7,7,,1,2,1,4,5,4
+583,03/11/2015 3:54 PM,United States,FALSE,1,English,35,1,2,0,4,,4,2,,1,1,1,2,3,3
+585,03/11/2015 8:06 PM,United States,FALSE,1,English,18,1,1,1,6,6,3,6,6,1,3,1,4,5,2
+588,03/11/2015 10:07 PM,United States,FALSE,0,English,53,1,3,1,7,1,2,1,1,1,5,1,1,4,1
+590,03/11/2015 10:26 PM,United States,FALSE,1,English,23,1,1,0,4,,2,4,,1,4,1,3,5,5
+592,03/12/2015 2:36 AM,United Kingdom,FALSE,0,English,15,0,1,0,3,,2,3,,1,3,1,3,6,4
+596,03/12/2015 12:54 PM,United States,FALSE,1,English,34,0,1,0,3,,5,2,,1,3,1,1,3,5
+599,03/12/2015 2:08 PM,United States,FALSE,0,Chinese,21,0,1,0,3,,5,2,,1,2,1,4,6,2
+600,03/12/2015 2:16 PM,United States,FALSE,0,English,21,0,3,1,2,2,4,4,2,2,,,1,1,2
+600,03/12/2015 2:16 PM,United States,FALSE,0,English,21,0,3,1,2,2,4,4,2,2,,,1,1,2
+601,03/12/2015 3:00 PM,United States,FALSE,0,Chinese,21,0,1,0,5,,6,3,,2,,,5,3,2
+604,03/12/2015 11:25 PM,New Zealand,FALSE,1,English,21,1,6,0,6,,5,2,,1,3,2,2,4,1
+605,03/12/2015 11:47 PM,New Zealand,FALSE,1,English,20,1,1,0,7,,7,7,,1,2,1,2,5,2
+606,03/13/2015 12:54 AM,United States,FALSE,1,English,22,1,3,0,4,,2,3,,1,3,1,2,5,1
+607,03/13/2015 3:36 AM,United States,FALSE,1,English,27,1,1,0,2,,3,1,,1,2,1,2,5,3
+612,03/13/2015 10:10 AM,Canada,FALSE,1,English,18,0,4,0,2,,3,4,,1,4,1,2,5,4
+615,03/13/2015 12:31 PM,United Kingdom,FALSE,1,English,17,0,1,1,7,7,7,7,7,1,3,1,3,5,2
+618,03/14/2015 10:22 AM,United States,FALSE,1,English,47,1,0,0,1,,1,2,,1,3,2,1,4,2
+620,03/14/2015 4:01 PM,United States,FALSE,1,English,25,1,1,0,5,,2,3,,1,2,1,2,4,2
+621,03/14/2015 4:50 PM,United Kingdom,FALSE,2,English,30,0,6,1,4,2,4,1,1,1,2,1,1,3,5
+622,03/14/2015 6:56 PM,United States,FALSE,1,English,31,1,1,0,6,,5,6,,1,2,1,5,6,3
+624,03/14/2015 10:06 PM,United States,FALSE,1,English,23,1,2,1,2,2,2,2,2,1,3,1,3,6,1
+626,03/15/2015 8:00 AM,United States,FALSE,1,English,16,0,4,1,7,7,5,5,6,1,3,1,2,3,4
+627,03/15/2015 8:47 AM,United States,FALSE,1,English,33,1,3,1,4,4,4,4,4,1,4,1,4,5,1
+628,03/15/2015 11:22 AM,United States,FALSE,1,English,20,1,3,1,7,7,7,7,7,1,3,1,2,4,2
+629,03/15/2015 5:01 PM,United States,FALSE,1,English,29,1,1,0,2,,2,1,,1,5,2,1,3,3
+631,03/15/2015 8:45 PM,United States,FALSE,0,English,27,1,2,0,5,,6,2,,1,2,1,2,4,1
+640,03/16/2015 7:51 PM,United States,FALSE,1,English,21,1,1,1,7,7,6,7,7,1,2,1,4,5,2
+648,03/17/2015 9:10 AM,United States,FALSE,1,English,28,0,1,0,6,,4,7,,1,1,1,2,5,2
+652,03/17/2015 12:36 PM,United States,FALSE,1,English,15,0,10,1,7,5,4,7,5,2,,,1,1,4
+683,03/17/2015 10:52 PM,United States,FALSE,1,Vietnamese,21,0,0,0,6,,6,6,,1,3,1,1,3,2
+696,03/18/2015 6:15 AM,Canada,FALSE,1,German,21,0,3,0,5,,4,5,,1,2,1,2,5,1
+700,03/18/2015 9:09 AM,United States,FALSE,1,English,29,1,1,0,7,,6,6,,1,2,1,4,6,3
+712,03/18/2015 11:24 AM,United States,FALSE,1,English,45,1,0,0,1,,1,1,,1,2,1,1,4,1
+721,03/18/2015 2:35 PM,United States,FALSE,1,English,52,0,1,0,4,,4,4,,1,1,1,3,4,2
+735,03/18/2015 7:16 PM,United States,FALSE,1,English,13,0,2,1,4,4,5,3,3,1,6,1,2,5,1
+786,03/19/2015 9:23 AM,Canada,FALSE,1,English,17,0,1,0,6,,6,6,,1,4,1,5,7,4
+787,03/19/2015 9:52 AM,United States,FALSE,0,Spanish,22,1,2,0,6,,5,6,,1,2,1,3,6,1
+788,03/19/2015 11:39 AM,United States,FALSE,1,English,15,1,3,0,3,,2,2,,1,4,1,2,4,2
+789,03/19/2015 12:33 PM,United Kingdom,FALSE,1,English,44,1,1,0,4,,1,1,,1,2,1,3,3,1
+793,03/19/2015 6:19 PM,United States,FALSE,1,English,39,0,3,1,6,6,6,6,6,1,2,1,4,7,5
+795,03/19/2015 10:02 PM,Canada,FALSE,1,English,12,0,2,1,3,1,2,3,1,1,5,1,1,5,5
+806,03/20/2015 4:57 AM,United Kingdom,FALSE,1,English,14,0,3,1,5,7,2,3,5,1,3,1,2,6,3
+810,03/20/2015 9:37 AM,Canada,FALSE,1,Romanian,40,1,1,0,3,,2,1,,,2,1,3,7,1
+811,03/20/2015 12:25 PM,United States,FALSE,1,English,22,0,3,0,6,,3,6,,1,2,1,3,5,2
+812,03/20/2015 2:43 PM,United Kingdom,FALSE,0,English,13,0,3,1,3,3,2,1,1,1,4,1,1,1,2
+818,03/20/2015 9:33 PM,United States,FALSE,1,English,46,1,1,0,1,,1,1,,1,3,2,1,1,3
+821,03/21/2015 8:41 AM,United Kingdom,FALSE,0,English,16,0,3,1,5,6,3,5,6,1,3,1,2,6,3
+823,03/21/2015 11:07 AM,United States,FALSE,1,English,15,0,2,1,2,1,5,1,1,1,3,1,2,6,5
+825,03/21/2015 4:48 PM,United States,FALSE,1,English,53,1,3,1,1,1,1,1,1,,3,2,1,3,3
+829,03/21/2015 6:40 PM,United States,FALSE,1,English,21,1,4,0,4,,4,4,,1,3,1,3,5,2
+833,03/22/2015 12:12 AM,Canada,FALSE,1,English,58,1,3,0,1,,1,1,,1,3,1,2,7,2
+834,03/22/2015 8:14 AM,United Kingdom,FALSE,0,English,19,0,7,0,7,,7,7,,1,2,1,2,5,1
+838,03/22/2015 10:17 AM,United States,FALSE,1,English,12,0,3,1,4,2,5,2,2,2,,,1,4,5
+840,03/22/2015 3:01 PM,United States,FALSE,1,English,15,0,3,1,7,7,4,6,6,1,4,1,3,6,3
+841,03/23/2015 6:35 AM,United States,FALSE,1,English,65,0,1,0,4,,4,4,,1,3,1,2,3,3
+843,03/23/2015 10:17 AM,United States,FALSE,1,English,50,0,2,0,7,,7,7,,1,2,1,6,7,1
+844,03/23/2015 11:16 AM,United States,FALSE,1,English,21,0,1,0,3,,4,2,,1,4,1,3,7,1
+848,03/23/2015 2:29 PM,United States,FALSE,1,English,34,1,1,1,3,3,3,3,3,1,2,1,2,4,3
+855,03/23/2015 5:02 PM,United States,FALSE,0,English,24,1,1,0,4,,4,1,,1,3,1,1,5,2
+856,03/23/2015 5:50 PM,Canada,FALSE,1,English,21,0,5,0,4,,4,2,,1,5,1,1,2,5
+859,03/23/2015 7:48 PM,United States,FALSE,1,English,12,0,3,1,6,1,6,4,1,1,5,2,1,3,5
+865,03/24/2015 1:16 AM,New Zealand,FALSE,0,English,34,0,0,0,6,,6,6,,1,2,1,5,6,1
+879,03/25/2015 11:17 AM,United States,FALSE,2,English,16,1,3,0,4,,3,2,,1,4,1,2,6,2
+891,03/26/2015 1:43 PM,United States,FALSE,1,English,14,0,4,1,3,1,2,1,1,1,4,2,1,2,3
+893,03/26/2015 1:51 PM,United States,FALSE,2,English,20,0,3,0,7,,4,7,,1,4,1,5,5,2
+896,03/26/2015 2:02 PM,United States,FALSE,0,English,22,0,1,0,6,,6,4,,1,3,1,4,5,3
+903,03/26/2015 3:04 PM,United States,FALSE,1,French,23,0,3,0,4,,1,4,,1,3,1,2,4,3
+904,03/26/2015 3:40 PM,United States,FALSE,0,English,18,1,2,0,7,,7,7,,1,3,1,6,7,1
+906,03/26/2015 5:16 PM,United States,FALSE,0,English,14,0,1,0,1,,2,1,,1,5,,1,7,1
+908,03/26/2015 7:26 PM,United States,FALSE,2,English,19,0,2,0,7,,7,7,,1,4,2,2,2,4
+909,03/26/2015 8:07 PM,United States,FALSE,0,English,20,0,2,0,7,,5,3,,1,3,1,5,5,3
+911,03/27/2015 6:23 AM,United States,FALSE,1,English,56,1,3,0,2,,2,4,,1,2,2,2,3,5
+914,03/27/2015 10:52 AM,United States,FALSE,1,English,64,1,2,0,6,,1,7,,1,3,2,1,2,3
+916,03/27/2015 1:08 PM,United States,FALSE,1,English,19,0,1,0,6,,3,6,,1,3,1,3,5,2
+918,03/27/2015 4:29 PM,United States,FALSE,0,Korean,20,0,0,0,6,,4,2,,1,3,1,4,6,4
+922,03/28/2015 7:33 AM,United Kingdom,FALSE,1,English,56,1,0,0,3,,4,2,,1,2,1,2,5,1
+928,03/28/2015 8:04 AM,United States,FALSE,0,French,58,1,2,0,1,,1,1,,1,1,1,1,6,3
+930,03/28/2015 8:06 AM,United States,FALSE,1,English,52,0,1,0,4,,4,4,,1,3,2,2,1,2
+931,03/28/2015 8:22 AM,United States,FALSE,1,English,49,0,3,1,1,1,3,1,1,1,1,1,2,6,1
+935,03/28/2015 10:33 AM,United States,FALSE,1,English,67,0,5,1,1,1,2,1,1,1,4,2,1,2,3
+938,03/28/2015 12:58 PM,United Kingdom,FALSE,1,English,50,1,3,0,6,,6,6,,1,2,1,3,4,1
+945,03/28/2015 2:09 PM,United Kingdom,FALSE,1,English,50,0,1,0,5,,2,6,,1,3,2,1,2,2
+948,03/28/2015 4:31 PM,United Kingdom,FALSE,1,Persian,40,1,0,0,3,,3,3,,1,2,1,2,5,2
+949,03/28/2015 4:54 PM,United Kingdom,FALSE,1,English,23,1,1,0,4,,4,2,,1,2,1,3,4,3
+950,03/28/2015 5:44 PM,United States,FALSE,1,English,33,1,1,0,5,,4,5,,1,2,1,3,6,3
+951,03/28/2015 7:22 PM,United Kingdom,FALSE,1,English,22,0,3,0,6,,4,6,,1,2,1,5,6,2
+952,03/28/2015 7:42 PM,United States,FALSE,1,English,28,0,3,1,6,3,6,6,6,1,2,1,2,5,5
+956,03/29/2015 3:54 AM,New Zealand,FALSE,1,English,17,0,6,1,4,4,4,3,3,1,5,1,1,6,2
+962,03/29/2015 9:15 AM,United States,FALSE,1,English,53,1,3,0,3,,2,1,,1,5,1,2,3,3
+976,03/30/2015 1:25 PM,Canada,FALSE,1,English,22,0,1,0,6,,5,6,,1,3,1,4,5,2
+979,03/30/2015 4:50 PM,United States,FALSE,1,Hebrew,31,1,3,0,5,,7,2,,1,2,1,3,4,2
+980,03/30/2015 5:35 PM,United States,FALSE,1,English,52,1,1,0,2,,3,2,,1,2,1,1,2,3
+984,03/30/2015 8:47 PM,United States,FALSE,1,English,27,1,2,0,7,,5,6,,1,2,1,4,4,2
+985,03/30/2015 8:50 PM,United States,FALSE,1,English,16,0,3,1,2,2,4,1,1,1,4,1,1,5,1
+987,03/30/2015 10:24 PM,Canada,FALSE,1,Indonesian,15,0,3,1,7,7,7,7,7,1,4,1,2,7,5
+989,03/30/2015 11:11 PM,Canada,FALSE,1,English,54,0,1,0,4,,2,2,,1,1,2,1,2,3
+999,04/01/2015 3:00 AM,Australia,FALSE,0,English,15,0,3,1,7,7,7,7,7,,,,1,1,5
+1000,04/01/2015 3:01 AM,Australia,FALSE,0,English,17,1,4,1,6,5,6,3,1,1,4,1,2,2,5
+1006,04/01/2015 2:06 PM,United States,FALSE,0,Spanish,19,0,0,0,3,,2,2,,1,3,1,2,6,2
+1008,04/01/2015 4:43 PM,United States,FALSE,0,English,15,0,4,1,1,1,4,1,1,2,,,1,1,4
+1011,04/01/2015 10:18 PM,United States,FALSE,0,English,43,1,3,0,2,,4,1,,1,2,1,2,5,2
+1012,04/02/2015 1:10 AM,United States,FALSE,1,English,21,0,0,0,7,,7,7,,1,2,1,4,6,2
+1014,04/02/2015 5:35 AM,United Kingdom,FALSE,0,English,28,0,3,0,4,,4,4,,1,2,1,2,4,4
+1018,04/02/2015 9:53 AM,United States,FALSE,0,English,20,1,6,0,3,,5,2,,1,4,2,2,3,3
+1023,04/02/2015 12:03 PM,United States,FALSE,1,English,42,1,5,0,6,,5,6,,1,2,1,4,5,3
+1026,04/02/2015 2:53 PM,Australia,FALSE,1,English,20,1,3,1,2,2,6,2,3,1,3,1,1,7,1
+1029,04/02/2015 9:45 PM,United States,FALSE,0,English,17,0,3,0,7,,7,7,,1,3,1,1,1,1
+1030,04/02/2015 9:48 PM,United States,FALSE,0,English,17,0,3,1,1,1,1,1,1,1,3,1,1,1,1
+1039,04/03/2015 12:02 PM,Canada,FALSE,1,English,31,1,1,0,5,,3,5,,1,2,1,2,6,5
+1040,04/03/2015 12:24 PM,United Kingdom,FALSE,1,English,18,0,2,0,1,1,5,1,1,1,3,1,1,5,3
+1042,04/03/2015 2:20 PM,United States,FALSE,1,English,23,1,0,0,6,,6,3,,1,3,1,3,6,1
+1044,04/03/2015 3:14 PM,Canada,FALSE,0,English,19,1,2,0,2,,4,1,,1,3,1,2,2,2
+1047,04/03/2015 4:42 PM,United States,FALSE,0,English,14,0,5,1,7,2,7,7,1,1,4,1,1,2,2
+1051,04/03/2015 7:42 PM,Australia,FALSE,1,English,48,1,4,1,4,1,4,1,1,1,1,1,1,2,2
+1056,04/04/2015 10:55 AM,United States,FALSE,1,English,51,1,0,0,4,,4,2,,,,,2,2,1
+1059,04/04/2015 1:26 PM,United Kingdom,FALSE,1,Russian,30,1,1,0,4,,7,2,,1,2,1,1,3,3
+1061,04/04/2015 1:34 PM,United Kingdom,FALSE,0,Spanish,34,1,1,0,3,,6,2,,1,2,1,3,5,4
+1070,04/04/2015 11:35 PM,Australia,FALSE,1,English,14,0,5,1,2,2,4,1,1,1,4,1,1,7,2
+1074,04/05/2015 12:55 PM,United States,FALSE,0,English,16,0,3,1,1,1,1,1,1,1,3,1,1,5,2
+1075,04/05/2015 2:00 PM,United Kingdom,FALSE,1,English,60,0,0,0,4,,4,2,,1,2,1,1,2,1
+1079,04/05/2015 10:51 PM,United States,FALSE,1,English,24,1,5,0,6,,3,6,,1,5,1,2,7,2
+1080,04/06/2015 3:44 AM,Australia,FALSE,1,Chinese,24,1,6,0,6,,6,6,,1,3,1,2,5,3
+1081,04/06/2015 3:30 PM,New Zealand,FALSE,1,English,19,1,4,1,6,5,4,4,4,1,3,1,5,7,3
+1085,04/07/2015 1:14 PM,United States,FALSE,1,English,34,0,3,1,5,1,3,3,1,1,2,1,3,6,4
+1088,04/07/2015 3:05 PM,United States,FALSE,1,English,21,0,3,0,1,,1,1,,1,3,,4,5,2
+1091,04/07/2015 5:49 PM,United States,FALSE,1,English,15,0,1,0,2,2,4,1,1,1,3,1,2,6,4
+1096,04/07/2015 10:35 PM,United States,FALSE,0,English,27,1,1,0,4,,4,2,,1,2,1,3,7,3
+1102,04/08/2015 12:33 PM,United States,FALSE,1,English,21,0,5,0,5,,5,5,,,,,2,5,1
+1103,04/08/2015 1:26 PM,United States,FALSE,1,English,23,1,1,0,6,,6,6,,1,3,1,2,6,1
+1104,04/08/2015 3:36 PM,United States,FALSE,0,English,65,1,1,0,3,,3,3,,1,4,2,1,3,3
+1105,04/08/2015 5:52 PM,United Kingdom,FALSE,0,English,26,0,1,0,3,,2,1,,,2,1,1,6,2
+1108,04/09/2015 9:24 AM,United States,FALSE,1,English,14,0,4,1,6,6,7,4,4,1,3,1,2,4,3
+1110,04/09/2015 11:16 AM,United States,FALSE,1,English,22,0,1,0,5,,4,6,,1,2,1,3,6,3
+1111,04/09/2015 11:16 AM,United States,FALSE,1,English,20,0,1,0,7,,2,7,,1,4,1,4,6,5
+1112,04/09/2015 11:16 AM,United States,FALSE,1,English,21,0,0,0,7,,7,7,,,,,6,7,4
+1113,04/09/2015 11:16 AM,United States,FALSE,1,English,19,0,1,0,6,,6,6,,1,3,1,4,6,4
+1114,04/09/2015 11:16 AM,United States,FALSE,2,Bulgarian,20,1,2,0,6,,6,6,,1,2,1,5,6,2
+1115,04/09/2015 11:17 AM,United States,FALSE,1,English,20,1,2,0,5,,4,5,,1,2,1,2,6,3
+1116,04/09/2015 12:35 PM,United States,FALSE,1,English,22,0,0,0,7,,6,7,,1,3,1,4,7,3
+1117,04/09/2015 12:35 PM,United States,FALSE,1,English,20,0,0,0,5,,5,5,,1,3,1,4,6,4
+1118,04/09/2015 12:35 PM,United States,FALSE,1,English,20,0,1,0,3,,1,1,,1,2,1,5,6,3
+1120,04/09/2015 12:35 PM,United States,FALSE,1,English,19,0,0,0,4,,4,2,,1,3,1,2,6,2
+1121,04/09/2015 12:35 PM,United States,FALSE,1,English,19,0,1,0,7,,7,7,,1,3,1,5,6,4
+1123,04/09/2015 12:36 PM,United States,FALSE,1,English,19,0,1,0,5,,1,4,,1,3,1,5,6,3
+1124,04/09/2015 12:39 PM,United States,FALSE,1,English,21,0,0,0,7,,7,7,,1,3,1,5,6,3
+1126,04/09/2015 12:40 PM,United States,FALSE,1,English,20,1,1,0,7,,7,6,,1,2,1,5,7,5
+1127,04/09/2015 12:40 PM,United States,FALSE,1,Korean,20,1,3,0,3,,2,4,,1,3,2,2,3,4
+1128,04/09/2015 12:41 PM,United States,FALSE,1,English,20,1,1,0,7,,5,7,,1,3,1,3,6,3
+1129,04/09/2015 12:41 PM,United States,FALSE,1,English,19,1,0,0,5,,6,5,,1,4,1,1,5,1
+1132,04/09/2015 1:00 PM,United States,FALSE,1,English,18,1,3,1,3,4,3,1,1,1,5,1,2,3,2
+1136,04/09/2015 7:57 PM,United States,FALSE,1,English,21,0,0,0,4,,7,4,,1,3,1,1,3,1
+1138,04/09/2015 11:25 PM,United States,FALSE,0,English,20,0,1,0,7,,7,7,,1,3,1,2,4,3
+1143,04/10/2015 7:07 AM,United States,FALSE,1,French,16,0,2,0,2,,3,1,,1,3,1,1,4,5
+1149,04/10/2015 12:23 PM,United States,FALSE,1,Other,21,0,1,0,5,,6,1,,1,3,1,2,6,2
+1152,04/10/2015 6:34 PM,United States,FALSE,1,Polish,39,1,1,0,3,,2,1,,1,2,1,1,6,1
+1161,04/13/2015 4:32 AM,United Kingdom,FALSE,1,English,13,0,3,1,2,2,4,1,1,1,4,1,1,4,3
+1170,04/13/2015 12:56 PM,United States,FALSE,1,English,15,0,2,1,7,7,7,7,7,1,3,1,4,7,4
+1174,04/13/2015 2:22 PM,United States,FALSE,1,English,25,1,1,0,7,,4,3,,1,3,1,5,5,2
+1175,04/13/2015 2:27 PM,Canada,FALSE,1,English,15,1,2,0,7,,5,7,,1,4,1,5,6,2
+1176,04/13/2015 2:32 PM,United States,FALSE,1,English,15,0,3,1,7,6,7,7,7,1,4,1,6,7,4
+1177,04/13/2015 2:34 PM,United States,FALSE,1,English,15,0,3,1,7,7,7,7,7,1,5,1,6,7,1
+1179,04/13/2015 2:40 PM,United States,FALSE,0,English,16,0,3,1,4,1,5,2,1,1,4,1,5,5,5
+1182,04/13/2015 2:45 PM,United States,FALSE,1,English,16,0,3,1,2,2,4,3,2,1,3,1,2,7,2
+1183,04/13/2015 2:45 PM,Australia,FALSE,1,English,26,1,1,0,7,,7,3,,1,2,1,2,5,1
+1184,04/13/2015 2:47 PM,United States,FALSE,1,English,16,0,3,1,6,6,5,4,6,1,4,1,5,6,2
+1186,04/13/2015 2:51 PM,Australia,FALSE,0,English,47,1,3,0,2,,3,2,,1,2,1,1,3,3
+1188,04/13/2015 2:56 PM,United States,FALSE,1,English,24,1,1,0,4,,,2,,1,3,1,4,6,2
+1190,04/13/2015 2:59 PM,Canada,FALSE,1,English,19,1,2,0,5,,7,4,,1,3,1,2,6,4
+1191,04/13/2015 3:00 PM,United States,FALSE,2,English,15,0,2,0,7,,5,3,,1,4,1,1,5,2
+1193,04/13/2015 3:03 PM,United States,FALSE,2,English,18,1,3,0,3,,2,2,,1,4,2,2,4,3
+1195,04/13/2015 3:03 PM,United States,FALSE,1,English,18,1,1,0,7,,6,7,,1,3,1,5,6,4
+1196,04/13/2015 3:03 PM,United States,FALSE,1,English,19,0,1,0,6,,5,6,,1,3,1,4,6,2
+1197,04/13/2015 3:04 PM,United States,FALSE,1,English,17,0,1,1,7,7,7,7,6,1,3,1,4,5,3
+1198,04/13/2015 3:05 PM,United States,FALSE,1,English,16,0,1,0,1,,1,1,,1,4,1,1,5,3
+1199,04/13/2015 3:05 PM,United Kingdom,FALSE,1,English,18,0,4,0,6,,3,7,,1,3,1,3,4,3
+1200,04/13/2015 3:11 PM,United States,FALSE,2,English,16,1,2,1,6,6,6,5,7,1,4,1,1,2,3
+1202,04/13/2015 3:15 PM,United States,FALSE,1,English,15,0,3,1,7,7,5,7,7,1,4,1,5,7,2
+1204,04/13/2015 3:18 PM,United States,FALSE,0,English,16,0,3,1,5,5,3,4,4,1,4,1,2,4,3
+1206,04/13/2015 3:20 PM,United Kingdom,FALSE,1,English,17,1,2,0,2,,5,2,,1,3,1,2,6,1
+1208,04/13/2015 3:26 PM,United States,FALSE,1,English,15,0,2,1,5,5,5,5,5,1,4,1,3,6,2
+1210,04/13/2015 3:35 PM,United States,FALSE,1,English,17,0,2,1,4,4,4,4,4,1,3,1,2,6,2
+1211,04/13/2015 3:35 PM,United States,FALSE,1,English,13,0,1,1,6,6,6,7,6,1,4,1,3,4,2
+1213,04/13/2015 3:46 PM,United Kingdom,FALSE,1,English,19,1,2,0,6,,2,4,,1,3,1,6,7,1
+1214,04/13/2015 3:47 PM,United States,FALSE,1,English,19,1,6,0,7,,3,5,,1,3,1,1,4,2
+1215,04/13/2015 3:48 PM,United States,FALSE,1,English,13,0,4,1,7,6,6,6,5,1,4,2,2,4,1
+1217,04/13/2015 3:56 PM,United States,FALSE,2,English,14,1,2,0,7,,7,7,,1,4,1,4,5,3
+1218,04/13/2015 4:05 PM,United States,FALSE,1,English,14,0,3,1,7,7,7,7,7,1,4,1,5,6,2
+1219,04/13/2015 4:22 PM,Canada,FALSE,1,English,18,0,3,1,3,3,2,2,2,1,3,1,2,6,3
+1220,04/13/2015 4:31 PM,United States,FALSE,1,English,15,0,4,1,6,6,5,5,6,1,4,1,6,7,2
+1221,04/13/2015 4:36 PM,Canada,FALSE,0,English,18,1,3,0,7,,7,7,,1,4,1,2,3,1
+1223,04/13/2015 4:41 PM,United States,FALSE,1,English,19,1,3,0,7,,7,7,,1,3,1,4,6,2
+1225,04/13/2015 4:43 PM,United Kingdom,FALSE,1,English,21,0,4,0,7,,7,7,,1,2,1,2,4,1
+1226,04/13/2015 4:44 PM,Australia,FALSE,1,English,34,1,2,1,6,2,3,2,1,1,1,1,5,5,2
+1231,04/13/2015 4:57 PM,United States,FALSE,1,English,20,0,5,0,6,,1,6,,1,5,1,2,5,1
+1232,04/13/2015 5:08 PM,United States,FALSE,1,English,28,0,6,0,1,,1,4,,1,6,1,3,2,1
+1233,04/13/2015 5:09 PM,United States,FALSE,1,English,17,0,2,1,4,2,1,6,6,1,3,1,2,4,2
+1236,04/13/2015 5:29 PM,United States,FALSE,1,English,18,0,1,0,7,,6,4,,1,3,1,5,6,2
+1237,04/13/2015 5:33 PM,United States,FALSE,1,English,12,0,4,1,1,1,1,1,1,2,,,1,1,3
+1240,04/13/2015 6:13 PM,United States,FALSE,0,English,24,1,0,1,2,2,4,2,2,1,2,1,5,7,1
+1241,04/13/2015 6:18 PM,Australia,FALSE,1,English,14,1,3,1,4,4,3,4,4,1,3,1,4,6,1
+1242,04/13/2015 6:45 PM,United States,FALSE,1,English,15,0,2,1,5,7,5,6,7,1,4,1,2,3,3
+1243,04/13/2015 7:02 PM,United States,FALSE,1,English,19,0,2,0,7,,7,7,,1,3,1,4,7,3
+1244,04/13/2015 7:13 PM,United States,FALSE,1,English,14,0,3,1,7,7,5,7,7,1,4,1,3,3,4
+1246,04/13/2015 7:38 PM,United States,FALSE,1,English,12,0,2,1,4,3,2,2,2,1,4,1,2,6,4
+1247,04/13/2015 7:46 PM,New Zealand,FALSE,1,English,15,0,4,1,5,5,4,3,2,2,,,1,1,3
+1251,04/13/2015 7:56 PM,United States,FALSE,1,English,15,0,6,1,2,6,2,2,6,1,4,1,4,6,2
+1252,04/13/2015 7:59 PM,United States,FALSE,1,English,17,0,4,0,7,,7,5,,1,3,1,5,7,5
+1254,04/13/2015 8:14 PM,United States,FALSE,1,English,17,0,3,1,7,7,7,7,7,1,3,1,4,6,4
+1258,04/13/2015 8:29 PM,Canada,FALSE,1,English,13,0,1,1,2,1,3,1,1,1,4,1,1,5,3
+1259,04/13/2015 8:33 PM,United States,FALSE,1,English,37,1,3,1,2,1,2,2,1,1,2,1,1,6,5
+1261,04/13/2015 8:44 PM,Australia,FALSE,0,English,47,1,0,0,6,,6,3,,1,3,2,2,2,2
+1262,04/13/2015 8:52 PM,United States,FALSE,1,Russian,41,1,3,1,3,1,3,2,1,1,1,1,2,7,4
+1263,04/13/2015 9:10 PM,United States,FALSE,1,English,18,0,1,0,6,,3,3,,1,3,1,5,7,2
+1266,04/13/2015 9:49 PM,Australia,FALSE,1,English,48,0,3,1,2,2,2,1,1,1,4,1,1,3,3
+1267,04/13/2015 9:57 PM,United States,FALSE,1,English,20,1,3,0,7,,7,7,,1,3,1,5,5,3
+1269,04/13/2015 11:20 PM,United States,FALSE,1,English,15,0,3,0,4,,4,4,,1,5,1,6,5,3
+1270,04/13/2015 11:48 PM,Australia,FALSE,0,English,40,1,2,0,3,,3,3,,1,2,1,2,6,2
+1271,04/14/2015 12:09 AM,Australia,FALSE,1,English,49,1,4,1,2,2,3,1,1,1,3,1,2,5,1
+1273,04/14/2015 12:24 AM,Australia,FALSE,1,English,16,1,3,0,7,,7,7,,1,4,1,4,6,2
+1274,04/14/2015 1:00 AM,Australia,FALSE,0,English,50,1,3,0,6,,6,5,,1,1,1,3,5,1
+1275,04/14/2015 2:06 AM,Australia,FALSE,1,Chinese,19,0,3,0,7,,7,5,,1,3,1,3,6,1
+1277,04/14/2015 3:00 AM,Australia,FALSE,1,English,24,1,0,0,6,,3,3,,1,2,1,2,5,1
+1279,04/14/2015 3:11 AM,Australia,FALSE,1,English,17,0,4,1,1,1,4,1,1,1,3,1,1,6,5
+1284,04/14/2015 3:53 AM,Australia,FALSE,1,English,60,0,2,0,4,,5,1,,1,2,1,2,3,4
+1285,04/14/2015 4:54 AM,Australia,FALSE,1,English,35,1,0,0,4,,3,4,,1,2,1,3,6,1
+1287,04/14/2015 5:13 AM,Australia,FALSE,1,English,36,1,4,1,2,1,2,2,1,1,1,1,3,5,2
+1290,04/14/2015 6:09 AM,United Kingdom,FALSE,1,English,17,1,2,0,6,,7,6,,1,4,1,5,7,3
+1291,04/14/2015 6:17 AM,Canada,FALSE,1,English,25,0,3,0,7,,7,7,,1,3,1,1,2,5
+1292,04/14/2015 6:21 AM,Australia,FALSE,0,English,59,1,0,0,4,,4,3,,1,3,1,2,2,1
+1293,04/14/2015 6:27 AM,Australia,FALSE,1,English,35,1,0,0,2,,2,3,,1,2,1,1,5,2
+1294,04/14/2015 6:33 AM,Australia,FALSE,1,English,35,1,0,0,1,,1,1,,1,2,1,2,4,2
+1298,04/14/2015 7:59 AM,United States,FALSE,1,Spanish,15,0,7,1,7,7,7,7,7,1,4,1,3,6,4
+1301,04/14/2015 9:19 AM,United Kingdom,FALSE,1,English,16,0,2,1,4,4,5,2,2,1,3,1,1,3,1
+1303,04/14/2015 11:08 AM,United States,FALSE,1,English,28,0,2,0,5,,7,3,,1,2,1,3,6,4
+1304,04/14/2015 11:11 AM,United States,FALSE,1,English,64,1,0,0,6,,6,7,,1,2,1,1,2,1
+1308,04/14/2015 12:50 PM,New Zealand,FALSE,0,English,21,1,1,0,7,,6,5,,1,3,2,1,2,5
+1309,04/14/2015 12:56 PM,New Zealand,FALSE,1,English,22,1,3,0,7,,6,7,,1,3,1,4,5,3
+1313,04/14/2015 2:09 PM,United States,FALSE,1,Chinese,28,0,6,0,3,,3,1,,1,2,1,3,5,5
+1315,04/14/2015 2:54 PM,New Zealand,FALSE,0,English,26,1,3,0,7,,7,7,,1,2,1,6,7,2
+1316,04/14/2015 3:02 PM,New Zealand,FALSE,1,English,36,1,1,0,5,,4,4,,1,2,1,2,5,1
+1317,04/14/2015 3:49 PM,Canada,FALSE,1,Chinese,15,0,3,1,4,4,7,4,4,1,5,1,4,5,5
+1318,04/14/2015 4:34 PM,New Zealand,FALSE,1,English,25,1,0,0,7,,4,5,,1,3,1,1,5,1
+1319,04/14/2015 4:34 PM,New Zealand,FALSE,1,English,28,1,1,0,4,,7,3,,1,2,1,2,6,3
+1320,04/14/2015 4:36 PM,United Kingdom,FALSE,1,English,17,0,2,0,7,,6,7,,1,3,1,3,3,2
+1323,04/14/2015 5:02 PM,Australia,FALSE,1,English,27,1,1,0,7,,7,7,,1,2,1,3,6,5
+1324,04/14/2015 5:21 PM,Australia,FALSE,1,English,27,1,3,0,3,,,1,,1,2,1,1,3,1
+1325,04/14/2015 5:52 PM,Canada,FALSE,0,Korean,22,1,3,0,3,,3,3,,1,3,1,4,4,1
+1326,04/14/2015 5:59 PM,New Zealand,FALSE,1,Dutch,49,1,1,0,1,,3,1,,1,2,1,1,4,1
+1334,04/14/2015 8:15 PM,Australia,FALSE,0,English,41,0,3,1,3,1,5,2,1,1,3,1,2,5,2
+1335,04/14/2015 8:29 PM,Australia,FALSE,0,English,26,1,2,0,5,,3,4,,1,3,1,4,6,2
+1336,04/14/2015 8:30 PM,New Zealand,FALSE,0,English,15,0,3,0,3,,2,2,,1,4,1,1,7,2
+1337,04/14/2015 9:33 PM,New Zealand,FALSE,1,English,22,1,2,0,6,,6,5,,1,2,1,2,6,2
+1339,04/14/2015 9:43 PM,New Zealand,FALSE,1,English,32,1,0,0,7,,7,7,,1,2,2,1,2,1
+1340,04/14/2015 10:45 PM,Australia,FALSE,1,English,18,0,2,0,7,,7,7,,1,4,1,2,5,5
+1341,04/14/2015 10:49 PM,New Zealand,FALSE,1,English,17,0,2,1,2,2,4,1,1,1,3,1,2,4,4
+1342,04/14/2015 10:57 PM,New Zealand,FALSE,1,English,30,1,3,1,5,1,5,1,1,1,2,1,3,4,3
+1348,04/15/2015 12:48 AM,New Zealand,FALSE,0,English,42,1,2,0,2,,6,2,,1,1,1,1,7,3
+1348,04/15/2015 12:48 AM,New Zealand,FALSE,0,English,42,1,2,0,2,,6,2,,1,1,1,1,7,3
+1348,04/15/2015 12:48 AM,New Zealand,FALSE,0,English,42,1,2,0,2,,6,2,,1,1,1,1,7,3
+1348,04/15/2015 12:48 AM,New Zealand,FALSE,0,English,42,1,2,0,2,,6,2,,1,1,1,1,7,3
+1351,04/15/2015 1:45 AM,New Zealand,FALSE,0,English,21,1,4,1,7,7,7,7,7,1,3,1,3,6,4
+1352,04/15/2015 2:29 AM,United Kingdom,FALSE,1,English,16,1,4,1,7,7,7,7,7,1,3,1,5,7,2
+1354,04/15/2015 2:31 AM,United Kingdom,FALSE,1,English,17,1,4,1,7,7,7,7,7,1,3,1,6,7,2
+1355,04/15/2015 2:31 AM,United Kingdom,FALSE,1,English,17,1,3,0,7,,7,7,,1,3,1,5,6,2
+1356,04/15/2015 2:32 AM,United Kingdom,FALSE,1,English,17,1,6,1,6,6,6,6,6,1,2,1,4,6,2
+1357,04/15/2015 2:35 AM,United Kingdom,FALSE,1,English,18,1,3,0,5,,5,5,,1,3,1,3,6,1
+1359,04/15/2015 2:42 AM,United Kingdom,FALSE,1,English,18,1,3,1,1,1,1,1,1,1,3,1,3,7,3
+1360,04/15/2015 2:44 AM,United Kingdom,FALSE,2,Other,16,0,4,0,1,,2,1,,1,3,1,3,7,2
+1361,04/15/2015 2:44 AM,United Kingdom,FALSE,1,English,17,0,3,0,1,,2,1,,1,2,1,5,7,2
+1362,04/15/2015 2:46 AM,United Kingdom,FALSE,2,English,17,0,3,0,7,,6,6,,1,3,1,5,6,2
+1363,04/15/2015 2:50 AM,United Kingdom,FALSE,1,Turkish,19,0,7,1,4,1,4,1,1,1,3,1,3,6,3
+1364,04/15/2015 2:50 AM,United Kingdom,FALSE,0,Other,18,1,3,0,5,,7,6,,1,3,1,3,7,3
+1365,04/15/2015 2:56 AM,United Kingdom,FALSE,1,English,20,0,2,0,6,,6,6,,1,3,1,4,6,2
+1366,04/15/2015 2:59 AM,United Kingdom,FALSE,1,English,41,1,1,0,1,,4,1,,1,2,1,2,4,3
+1367,04/15/2015 3:00 AM,United Kingdom,FALSE,1,English,18,1,3,1,2,1,1,1,1,1,3,1,2,4,2
+1368,04/15/2015 3:05 AM,United Kingdom,FALSE,1,English,16,0,4,0,5,,5,6,,1,3,1,2,7,2
+1369,04/15/2015 3:08 AM,United Kingdom,FALSE,1,English,20,0,1,1,3,4,3,3,4,1,2,1,2,5,1
+1370,04/15/2015 3:19 AM,United Kingdom,FALSE,0,Other,18,0,3,0,4,,,1,,1,3,1,2,6,
+1373,04/15/2015 4:12 AM,Australia,FALSE,1,English,19,1,2,0,7,,7,7,,1,3,1,3,5,2
+1375,04/15/2015 5:08 AM,Australia,FALSE,1,English,25,1,3,0,4,,4,4,,1,2,1,1,5,1
+1380,04/15/2015 10:04 AM,United States,FALSE,1,English,21,0,4,0,7,,7,7,,1,3,1,5,6,2
+1381,04/15/2015 12:44 PM,Canada,FALSE,1,English,20,0,2,0,7,,6,7,,1,3,1,5,7,2
+1384,04/15/2015 3:54 PM,United States,FALSE,1,English,23,0,5,1,3,2,3,2,2,1,3,1,2,6,1
+1385,04/15/2015 4:18 PM,United States,FALSE,0,Spanish,20,1,4,0,7,,5,6,,1,3,1,4,7,2
+1391,04/15/2015 4:56 PM,United States,FALSE,0,English,65,0,1,1,2,1,2,1,1,1,4,1,2,3,2
+1395,04/15/2015 9:33 PM,United States,FALSE,1,English,20,0,0,1,2,2,2,1,1,1,4,1,1,5,1
+1396,04/15/2015 9:45 PM,New Zealand,FALSE,0,English,20,1,3,0,4,,2,3,,1,3,1,5,6,3
+1397,04/15/2015 11:58 PM,United States,FALSE,1,English,42,1,2,0,5,,6,1,,1,3,1,2,5,1
+1399,04/16/2015 4:17 AM,United Kingdom,FALSE,1,English,25,1,1,0,6,,6,2,,1,2,1,4,6,5
+1401,04/16/2015 5:53 AM,Australia,FALSE,1,English,27,1,1,0,6,,4,5,,1,3,1,2,3,2
+1404,04/16/2015 10:20 AM,United States,FALSE,1,English,46,1,4,1,5,2,6,5,2,,,,3,7,2
+1407,04/16/2015 11:43 AM,United States,FALSE,1,English,51,1,1,0,7,,7,7,,1,2,1,6,6,1
+1407,04/16/2015 11:43 AM,United States,FALSE,1,English,51,1,1,0,7,,7,7,,1,2,1,6,6,1
+1408,04/16/2015 12:06 PM,United States,FALSE,0,English,30,1,2,0,7,,7,7,,1,2,1,5,6,3
+1412,04/16/2015 2:00 PM,Canada,FALSE,0,English,22,0,3,0,4,,7,1,,1,3,1,1,6,3
+1415,04/16/2015 4:43 PM,United States,FALSE,0,English,27,1,3,0,6,,6,5,,1,2,1,4,6,1
+1416,04/16/2015 8:26 PM,New Zealand,FALSE,1,English,53,0,1,0,7,,7,1,,1,2,1,2,4,5
+1420,04/16/2015 11:15 PM,Australia,FALSE,1,English,37,1,1,0,2,,3,1,,,2,1,2,6,2
+1422,04/16/2015 11:24 PM,Australia,FALSE,1,English,56,1,4,0,1,,3,1,,1,1,1,1,2,1
+1429,04/17/2015 9:03 AM,United States,FALSE,1,English,28,0,1,0,2,,1,1,,1,2,1,2,6,4
+1431,04/17/2015 10:26 AM,United States,FALSE,1,English,62,0,0,0,4,,5,2,,,,,2,5,1
+1443,04/17/2015 7:24 PM,United States,FALSE,0,English,51,1,2,0,5,,5,4,,1,2,1,3,6,2
+1451,04/18/2015 10:49 AM,United States,FALSE,0,English,63,1,1,1,4,1,6,1,1,1,1,1,2,6,4
+1455,04/18/2015 5:00 PM,United States,FALSE,1,German,61,0,2,0,3,,2,1,,1,2,1,1,5,1
+1459,04/18/2015 6:53 PM,New Zealand,FALSE,1,English,32,0,3,0,6,,6,5,,1,2,1,2,3,1
+1460,04/18/2015 7:53 PM,United States,FALSE,1,English,64,1,0,1,2,2,2,2,2,1,2,1,1,5,1
+1461,04/18/2015 8:49 PM,United States,FALSE,0,English,16,0,2,0,4,,2,5,,1,3,1,4,5,3
+1467,04/19/2015 2:39 AM,United States,FALSE,0,English,20,0,5,0,7,,7,5,,1,3,1,4,6,1
+1471,04/19/2015 7:03 AM,United States,FALSE,1,English,20,0,3,0,7,,7,7,,1,2,1,5,7,3
+1483,04/19/2015 9:07 PM,New Zealand,FALSE,1,English,10,0,3,1,4,3,3,1,1,2,,,1,1,5
+1484,04/20/2015 12:16 AM,New Zealand,FALSE,1,English,15,0,3,1,6,6,6,3,2,1,4,2,1,2,5
+1485,04/20/2015 1:36 AM,New Zealand,FALSE,0,English,22,1,0,0,6,,3,4,,1,2,1,4,7,2
+1486,04/20/2015 2:24 AM,United States,FALSE,1,English,42,0,2,0,4,,4,4,,1,3,2,2,4,5
+1487,04/20/2015 7:10 AM,United States,FALSE,0,English,59,1,1,0,3,,1,2,,1,1,1,1,4,2
+1491,04/20/2015 12:06 PM,United States,FALSE,0,English,20,0,2,0,4,,2,3,,1,3,1,4,4,4
+1495,04/20/2015 4:47 PM,United States,FALSE,0,English,62,0,0,0,6,,7,6,,1,1,1,5,2,1
+1497,04/20/2015 11:34 PM,United States,FALSE,1,English,52,1,6,0,1,,1,1,,2,,,1,1,3
+1498,04/21/2015 2:04 AM,United States,FALSE,0,English,51,1,0,0,2,,5,2,,1,1,1,2,4,1
+1499,04/21/2015 5:42 AM,Australia,FALSE,1,English,52,1,3,1,4,4,4,4,4,1,2,1,2,7,2
+1500,04/21/2015 6:16 AM,United Kingdom,FALSE,0,Dutch,40,1,1,0,2,,4,2,,1,2,1,1,2,2
+1503,04/21/2015 9:11 AM,United States,FALSE,1,English,24,1,1,0,7,,7,7,,1,2,1,4,6,1
+1504,04/21/2015 12:18 PM,Canada,FALSE,1,English,66,0,0,0,3,,3,1,,1,3,1,1,2,1
+1506,04/21/2015 1:23 PM,United States,FALSE,1,German,20,1,10,1,4,5,2,3,5,1,4,1,3,5,2
+1508,04/21/2015 1:43 PM,United Kingdom,FALSE,0,English,29,1,1,0,3,,3,3,,1,2,1,1,3,2
+1509,04/21/2015 4:24 PM,United States,FALSE,0,English,43,0,0,0,1,,2,1,,2,,,1,1,1
+1510,04/21/2015 5:45 PM,United States,FALSE,1,English,25,1,1,0,6,,5,6,,1,2,1,4,5,1
+1511,04/21/2015 7:22 PM,United States,FALSE,0,English,57,0,3,0,1,,1,1,,1,1,1,1,6,2
+1512,04/21/2015 8:47 PM,Australia,FALSE,1,Japanese,33,1,1,0,3,,3,1,,1,2,1,2,7,2
+1514,04/22/2015 2:49 AM,United Kingdom,FALSE,1,English,17,1,4,0,7,,6,7,,1,5,1,5,5,1
+1527,04/22/2015 3:34 PM,United States,FALSE,1,English,19,1,4,1,2,1,1,2,1,1,3,1,2,5,4
+1528,04/22/2015 4:10 PM,United States,FALSE,1,English,17,1,2,1,4,5,5,3,3,1,4,2,2,2,2
+1529,04/22/2015 7:27 PM,United States,FALSE,1,English,64,1,1,0,2,,2,1,,1,2,2,1,2,3
+1531,04/23/2015 2:04 AM,New Zealand,FALSE,1,English,32,1,1,0,3,,3,3,,1,1,1,2,4,3
+1538,04/23/2015 3:28 PM,United States,FALSE,1,English,64,1,3,1,1,1,4,1,1,1,2,2,1,3,1
+1541,04/23/2015 6:43 PM,Canada,FALSE,1,German,15,0,3,1,6,6,6,6,6,1,4,2,1,5,4
+1543,04/23/2015 7:38 PM,United States,FALSE,1,English,21,1,3,0,7,,7,7,,1,3,1,4,5,1
+1548,04/24/2015 8:33 AM,United States,FALSE,1,English,55,0,1,0,2,,3,2,,1,2,1,2,4,2
+1549,04/24/2015 8:34 AM,United States,FALSE,1,English,16,1,3,1,3,1,2,5,1,1,4,1,5,4,3
+1553,04/24/2015 1:20 PM,United States,FALSE,0,Indonesian,26,0,0,0,6,,7,7,,1,2,1,6,6,2
+1554,04/24/2015 5:35 PM,Australia,FALSE,1,English,55,1,1,0,2,,7,1,,1,3,1,2,5,1
+1558,04/25/2015 5:42 AM,United States,FALSE,0,English,44,1,0,0,5,,6,6,,1,2,1,2,2,2
+1563,04/25/2015 6:27 PM,United States,FALSE,1,English,34,1,0,0,5,,5,2,,1,1,1,2,3,1
+1565,04/25/2015 6:33 PM,United States,FALSE,1,English,51,0,0,0,4,,6,4,,1,2,1,2,6,2
+1567,04/25/2015 8:23 PM,United States,FALSE,1,English,14,0,4,1,7,7,7,7,7,1,3,1,2,4,2
+1570,04/26/2015 12:42 AM,United States,FALSE,1,English,19,0,1,0,6,,3,6,,1,4,1,2,6,3
+1577,04/26/2015 1:23 PM,United Kingdom,FALSE,1,English,24,1,3,0,6,,4,6,,1,2,1,4,6,1
+1581,04/27/2015 5:15 AM,Australia,FALSE,1,English,22,0,1,0,6,,6,5,,1,3,1,2,5,2
+1583,04/27/2015 9:56 AM,Canada,FALSE,1,English,34,0,1,0,3,,5,3,,1,3,1,2,3,3
+1584,04/27/2015 1:04 PM,United States,FALSE,1,English,15,1,3,0,7,,1,6,,1,4,1,2,5,4
+1586,04/28/2015 12:47 AM,Australia,FALSE,1,English,25,1,2,0,7,,5,6,,1,3,1,4,6,1
+1588,04/28/2015 3:58 AM,United Kingdom,FALSE,0,English,18,0,3,1,3,3,5,2,2,1,3,1,2,5,2
+1591,04/28/2015 7:01 AM,United States,FALSE,1,English,56,1,2,0,2,,6,2,,1,2,1,2,6,2
+1604,04/29/2015 7:31 PM,United Kingdom,FALSE,1,English,26,1,2,0,7,,3,2,,1,2,1,2,6,2
+1609,04/30/2015 6:12 PM,United States,FALSE,1,English,14,0,2,1,2,2,6,1,2,1,6,1,5,6,3
+1610,04/30/2015 6:38 PM,United States,FALSE,1,English,62,0,0,1,2,5,2,2,4,1,2,2,1,3,4
+1612,04/30/2015 7:17 PM,United States,FALSE,1,English,49,1,3,0,3,,3,3,,1,2,1,1,3,2
+1621,05/01/2015 10:35 AM,United States,FALSE,1,English,13,0,1,1,4,4,6,2,2,1,4,1,2,5,4
+1627,05/01/2015 12:26 PM,United States,FALSE,1,English,62,0,1,0,1,,2,1,,1,2,1,1,3,3
+1635,05/01/2015 7:20 PM,United States,FALSE,1,English,57,1,2,0,2,,1,1,,1,2,1,1,5,2
+1636,05/01/2015 9:53 PM,United States,FALSE,1,English,45,1,3,1,3,3,2,3,3,1,2,1,2,6,2
+1637,05/01/2015 9:54 PM,Canada,FALSE,0,English,21,1,1,0,7,,7,7,,1,3,1,4,6,2
+1646,05/02/2015 10:57 PM,United States,FALSE,1,English,15,0,4,1,2,2,4,1,1,2,,,1,5,1
+1649,05/03/2015 5:40 AM,United Kingdom,FALSE,0,English,19,0,1,0,4,,4,4,,1,3,1,3,5,5
+1652,05/03/2015 9:18 AM,United States,FALSE,0,English,50,1,1,0,6,,6,6,,1,1,1,5,7,2
+1656,05/03/2015 1:51 PM,United States,FALSE,1,English,16,0,1,0,4,,4,4,,1,4,1,1,3,3
+1658,05/03/2015 3:35 PM,United States,FALSE,1,English,38,1,1,0,7,,6,6,,1,2,1,2,7,2
+1660,05/03/2015 11:12 PM,United States,FALSE,1,English,21,0,4,1,5,3,2,4,2,1,3,1,3,4,2
+1662,05/04/2015 2:02 AM,United States,FALSE,0,English,21,0,2,0,3,,3,1,,1,3,1,1,4,3
+1671,05/04/2015 3:50 PM,United States,FALSE,1,English,18,1,2,0,1,,1,1,,1,3,2,1,2,1
+1674,05/04/2015 5:55 PM,United Kingdom,FALSE,1,English,26,0,3,0,6,,3,6,,1,3,2,3,5,1
+1675,05/04/2015 11:21 PM,Australia,FALSE,1,English,49,1,0,0,1,,2,2,,1,1,1,2,7,1
+1678,05/05/2015 4:35 AM,Australia,FALSE,1,English,19,1,5,1,7,7,7,7,7,1,3,1,2,3,3
+1679,05/05/2015 4:40 AM,United States,FALSE,1,English,33,1,0,0,4,,2,2,,1,2,1,2,6,2
+1683,05/05/2015 9:25 AM,United States,FALSE,1,English,25,1,1,0,7,,7,5,,1,2,1,2,5,1
+1695,05/06/2015 4:29 AM,Australia,FALSE,0,English,15,0,3,0,6,,7,6,,1,4,1,1,2,4
+1704,05/07/2015 9:57 AM,United States,FALSE,0,English,16,0,2,0,7,,7,5,,1,3,1,2,3,2
+1706,05/07/2015 1:37 PM,United States,FALSE,0,English,51,0,1,0,3,,3,3,,1,1,2,2,4,3
+1708,05/07/2015 2:17 PM,United Kingdom,FALSE,1,English,14,0,2,0,4,,4,6,,1,6,1,6,7,1
+1708,05/07/2015 2:17 PM,United Kingdom,FALSE,1,English,14,0,2,0,4,,4,6,,1,6,1,6,7,1
+1712,05/08/2015 5:30 AM,United Kingdom,FALSE,1,English,34,1,1,0,6,,3,6,,1,2,1,2,6,2
+1715,05/09/2015 1:19 AM,Australia,FALSE,1,English,52,1,2,1,3,2,6,2,1,1,1,1,2,2,2
+1716,05/09/2015 11:27 AM,United States,FALSE,1,Italian,51,1,1,0,1,,3,1,,1,4,2,1,2,2
+1718,05/09/2015 2:28 PM,Canada,FALSE,1,Chinese,23,0,2,0,3,,3,3,,1,3,1,3,4,3
+1721,05/09/2015 4:44 PM,New Zealand,FALSE,0,English,36,1,0,0,4,,6,3,,1,2,1,2,2,1
+1722,05/09/2015 10:39 PM,United States,FALSE,1,English,34,0,5,1,3,1,2,1,1,1,2,1,2,5,3
+1727,05/10/2015 1:58 PM,United States,FALSE,0,English,16,0,4,1,3,3,5,3,3,1,4,2,1,2,4
+1729,05/10/2015 8:52 PM,United States,FALSE,1,English,50,0,1,0,6,,6,6,,1,2,1,3,6,2
+1734,05/11/2015 8:27 AM,United States,FALSE,1,English,53,1,0,1,3,3,3,1,1,1,1,1,2,4,1
+1738,05/11/2015 2:56 PM,United Kingdom,FALSE,1,English,24,0,3,0,6,,6,6,,1,2,1,5,6,2
+1743,05/11/2015 6:25 PM,United States,FALSE,0,English,25,1,0,0,6,,5,7,,1,3,1,2,6,3
+1744,05/11/2015 6:25 PM,United States,FALSE,0,English,16,0,3,1,5,5,4,5,5,1,,1,2,4,1
+1749,05/11/2015 8:23 PM,Canada,FALSE,0,English,21,0,3,0,5,,5,5,,2,,,1,1,1
+1750,05/11/2015 8:48 PM,United States,FALSE,0,English,20,0,1,0,5,,3,4,,1,3,1,5,6,1
+1751,05/11/2015 9:19 PM,United States,FALSE,0,English,85,0,2,0,6,,6,6,,1,1,1,2,4,2
+1752,05/11/2015 9:39 PM,United States,FALSE,1,English,13,0,8,1,3,1,3,3,1,1,5,1,1,7,3
+1755,05/12/2015 7:14 AM,United Kingdom,FALSE,1,English,17,0,2,0,7,,7,7,,1,3,2,1,1,3
+1757,05/12/2015 10:39 AM,United States,FALSE,1,English,31,1,3,0,2,,5,2,,1,3,1,2,5,2
+1761,05/12/2015 11:56 AM,United States,FALSE,1,English,18,1,1,0,4,,4,5,,1,5,1,1,1,1
+1762,05/12/2015 1:38 PM,United States,FALSE,0,English,12,0,3,1,2,1,3,1,1,2,,,1,1,3
+1764,05/12/2015 4:31 PM,Canada,FALSE,0,English,19,0,2,0,7,,7,7,,1,5,1,6,3,1
+1765,05/12/2015 4:31 PM,United Kingdom,FALSE,0,German,33,1,0,0,3,,3,2,,1,2,1,4,7,1
+1767,05/12/2015 6:15 PM,Canada,FALSE,0,English,63,0,1,0,4,,3,3,,1,2,1,1,2,3
+1769,05/12/2015 10:33 PM,United States,FALSE,1,English,62,1,0,0,6,,5,1,,1,1,1,2,6,1
+1770,05/13/2015 4:39 AM,Australia,FALSE,1,Lithuanian,23,0,1,0,1,,1,1,,,2,1,2,5,2
+1774,05/13/2015 10:04 AM,United States,FALSE,1,Chinese,21,0,3,0,3,,4,4,,1,3,2,2,4,1
+1776,05/13/2015 4:08 PM,Canada,FALSE,1,French,55,1,1,0,1,,1,2,,1,1,1,2,2,3
+1778,05/13/2015 9:00 PM,United States,FALSE,1,English,29,0,1,0,1,,1,1,,1,2,2,1,4,5
+1784,05/14/2015 10:26 AM,United Kingdom,FALSE,1,English,52,1,0,0,4,,4,4,,1,4,1,1,1,1
+1786,05/14/2015 11:16 AM,United States,FALSE,1,English,18,1,6,0,5,,3,5,,1,5,1,1,4,4
+1791,05/14/2015 6:21 PM,United States,FALSE,1,English,16,1,4,1,4,4,4,6,6,1,5,1,3,3,5
+1792,05/14/2015 6:26 PM,United States,FALSE,1,English,46,1,3,1,1,1,1,2,2,1,2,1,2,3,2
+1794,05/14/2015 7:17 PM,United States,FALSE,0,English,16,0,6,1,7,7,5,7,7,1,3,1,4,6,3
+1795,05/14/2015 7:32 PM,United States,FALSE,1,English,17,1,2,1,5,5,2,7,7,1,3,1,3,4,3
+1799,05/15/2015 10:24 AM,United States,FALSE,1,English,28,1,1,0,3,,3,2,,1,2,1,4,6,2
+1800,05/15/2015 2:38 PM,United Kingdom,FALSE,1,English,27,1,1,0,4,,5,4,,1,2,1,3,5,2
+1801,05/15/2015 4:44 PM,United States,FALSE,0,Korean,21,0,1,0,6,,5,5,,1,4,1,3,6,2
+1804,05/16/2015 11:48 AM,United States,FALSE,2,English,14,0,3,1,3,2,5,2,1,2,,,2,4,3
+1813,05/17/2015 1:51 PM,United Kingdom,FALSE,1,English,17,0,4,0,2,,1,2,,1,3,1,4,7,3
+1822,05/18/2015 4:12 PM,United States,FALSE,1,English,16,0,5,0,4,,7,3,,,,,4,5,1
+1824,05/19/2015 12:13 PM,Canada,FALSE,1,German,21,0,4,0,5,,5,1,,1,2,1,1,2,1
+1834,05/20/2015 7:53 AM,Australia,FALSE,1,English,34,1,0,0,3,,4,3,,1,2,1,4,5,1
+1838,05/20/2015 11:04 AM,United States,FALSE,0,English,16,0,3,1,1,1,1,1,1,1,3,1,1,4,1
+1839,05/20/2015 11:10 AM,United States,FALSE,2,English,15,0,3,1,1,1,1,1,1,1,2,1,1,4,5
+1851,05/21/2015 2:18 PM,United Kingdom,FALSE,0,English,31,1,1,0,4,,4,3,,1,2,1,3,3,3
+1853,05/21/2015 10:00 PM,United States,FALSE,1,English,30,0,0,0,1,,1,1,,1,3,1,2,5,2
+1854,05/21/2015 11:56 PM,Canada,FALSE,0,English,18,0,3,0,4,,4,3,,1,3,1,4,4,2
+1856,05/22/2015 3:47 AM,United Kingdom,FALSE,1,English,15,0,3,0,5,,6,6,,1,4,1,2,2,3
+1859,05/22/2015 10:20 AM,United States,FALSE,1,English,17,0,3,1,2,2,2,2,2,1,3,1,2,6,3
+1862,05/22/2015 2:08 PM,United States,FALSE,0,English,15,0,3,0,7,,7,7,,2,,,1,1,1
+1862,05/22/2015 2:08 PM,United States,FALSE,0,English,15,0,3,0,7,,7,7,,2,,,1,1,1
+1863,05/22/2015 4:46 PM,Canada,FALSE,1,English,60,1,1,0,1,,3,1,,1,5,1,1,3,1
+1865,05/23/2015 7:03 AM,United States,FALSE,0,English,17,0,3,1,6,6,6,4,4,1,3,1,4,5,4
+1869,05/23/2015 10:52 PM,United States,FALSE,1,English,24,1,1,0,7,,6,7,,1,2,1,4,7,3
+1874,05/24/2015 2:29 PM,United States,FALSE,0,English,15,0,4,1,7,7,7,7,7,1,4,2,1,1,1
+1878,05/25/2015 7:15 PM,United Kingdom,FALSE,1,English,38,0,2,0,6,,6,3,,1,2,2,1,2,2
+1879,05/25/2015 8:16 PM,United States,FALSE,1,English,20,0,4,0,1,,1,1,,1,3,1,4,4,1
+1880,05/25/2015 11:21 PM,United States,FALSE,0,English,17,1,3,1,5,2,2,5,3,1,2,1,2,5,2
+1882,05/26/2015 1:00 AM,United States,FALSE,1,Other,22,1,1,0,7,,7,7,,1,3,1,3,5,1
+1883,05/26/2015 3:08 AM,United Kingdom,FALSE,0,English,49,0,5,1,1,1,1,1,1,1,2,2,1,2,2
+1886,05/26/2015 9:28 AM,United Kingdom,FALSE,1,English,26,0,3,0,6,,3,7,,1,2,1,4,5,2
+1887,05/26/2015 1:21 PM,United States,FALSE,0,English,22,1,1,0,6,,5,5,,1,3,1,2,5,2
+1895,05/27/2015 11:50 AM,United States,FALSE,0,English,15,1,3,1,3,2,3,1,1,1,4,1,2,4,3
+1896,05/27/2015 11:52 AM,United States,FALSE,1,English,14,0,1,0,6,,6,2,,1,3,1,4,7,2
+1897,05/27/2015 11:59 AM,United States,FALSE,1,Other,14,0,3,1,4,4,5,4,4,1,4,1,4,6,1
+1898,05/27/2015 12:09 PM,United States,FALSE,0,English,15,0,5,1,3,1,4,2,1,1,4,1,4,6,2
+1899,05/27/2015 2:31 PM,United States,FALSE,1,English,20,0,2,0,5,,7,2,,1,3,1,2,5,2
+1900,05/27/2015 6:45 PM,United States,FALSE,1,English,68,1,1,0,6,,6,3,,1,2,1,2,6,2
+1903,05/27/2015 9:31 PM,United States,FALSE,1,English,25,0,2,0,6,,4,4,,1,3,1,3,5,2
+1907,05/28/2015 7:46 AM,United States,FALSE,1,English,22,0,2,0,3,,1,2,,1,3,1,1,2,5
+1908,05/28/2015 8:36 AM,United States,FALSE,0,English,63,1,2,0,4,,5,3,,1,3,2,1,2,3
+1910,05/28/2015 12:25 PM,United States,FALSE,1,English,19,0,3,0,1,,1,1,,1,3,1,2,5,5
+1911,05/28/2015 12:37 PM,United States,FALSE,1,English,14,0,5,1,2,2,3,1,1,1,4,1,1,6,2
+1912,05/28/2015 2:05 PM,United Kingdom,FALSE,1,English,18,0,3,1,7,7,3,5,6,1,3,1,1,4,3
+1920,05/28/2015 10:06 PM,United States,FALSE,1,English,17,0,3,1,7,7,6,7,7,1,4,1,5,7,3
+1923,05/29/2015 2:15 PM,United States,FALSE,1,English,23,1,3,0,3,,2,3,,1,3,1,3,5,1
+1929,05/29/2015 11:59 PM,United States,FALSE,0,English,16,0,2,1,7,7,7,7,7,1,4,1,6,6,4
+1931,05/30/2015 4:58 AM,United States,FALSE,1,English,60,0,1,0,4,,3,1,,2,,,1,1,2
+1937,05/30/2015 7:48 AM,Australia,FALSE,0,English,24,0,2,0,5,,5,1,,1,1,1,3,4,2
+1938,05/30/2015 9:53 AM,United States,FALSE,1,English,21,1,1,0,7,,7,7,,1,3,1,4,5,1
+1939,05/30/2015 10:30 AM,United States,FALSE,1,English,67,0,1,0,5,,5,5,,1,1,1,5,7,3
+1940,05/30/2015 11:24 AM,Canada,FALSE,0,English,13,0,3,1,5,3,5,6,4,2,,,1,1,5
+1947,05/31/2015 9:50 PM,United States,FALSE,1,English,15,0,4,1,4,4,6,3,2,1,4,1,2,7,1
+1950,06/01/2015 12:58 AM,United States,FALSE,0,English,20,1,0,0,7,,5,4,,1,3,1,2,3,2
+1951,06/01/2015 6:06 AM,United States,FALSE,1,English,27,1,0,1,4,3,4,4,4,1,3,1,4,5,2
+1959,06/01/2015 5:12 PM,United States,FALSE,1,English,52,0,1,1,4,2,7,3,2,1,2,1,2,3,1
+1961,06/01/2015 5:34 PM,United States,FALSE,0,English,63,0,1,0,1,,4,1,,1,2,1,2,2,2
+1962,06/01/2015 6:14 PM,United States,FALSE,1,English,66,0,1,0,4,,4,2,,1,2,1,2,6,3
+1966,06/02/2015 6:08 AM,United States,FALSE,0,English,34,0,2,0,6,,7,6,,1,2,1,3,3,3
+1971,06/02/2015 8:18 AM,United States,FALSE,1,English,13,0,8,1,6,6,7,4,4,2,,,1,1,2
+1972,06/02/2015 9:27 AM,United Kingdom,FALSE,1,English,41,1,1,0,2,,3,1,,1,2,1,2,4,2
+1980,06/02/2015 6:51 PM,United States,FALSE,1,English,35,0,3,1,3,1,5,1,1,1,2,1,2,6,4
+1984,06/03/2015 3:51 AM,United States,FALSE,1,English,59,0,2,0,6,,4,4,,1,2,1,3,5,2
+1993,06/04/2015 5:29 AM,United States,FALSE,1,English,18,1,5,1,6,2,6,2,7,1,3,1,2,5,2
+2000,06/04/2015 3:04 PM,United States,FALSE,1,English,47,1,0,1,3,5,2,2,2,1,2,1,1,2,1
+2001,06/04/2015 8:06 PM,United States,FALSE,1,English,12,0,2,1,5,3,6,5,4,1,5,1,5,5,1
+2003,06/04/2015 10:51 PM,United States,FALSE,0,Korean,26,1,0,0,5,,5,3,,1,3,1,5,5,2
+2004,06/04/2015 11:04 PM,Australia,FALSE,1,English,17,0,2,1,4,5,6,2,5,1,4,1,1,1,3
+2005,06/04/2015 11:10 PM,United States,FALSE,1,English,31,1,1,0,7,,4,7,,1,2,1,3,6,1
+2009,06/05/2015 1:33 PM,United States,FALSE,1,English,43,1,5,1,2,1,3,1,1,1,2,1,2,5,2
+2012,06/06/2015 9:57 AM,United States,FALSE,1,English,25,1,4,0,6,,3,6,,1,2,1,5,5,4
+2013,06/06/2015 10:06 AM,United States,FALSE,1,English,20,0,1,0,2,,2,2,,1,3,1,3,7,2
+2017,06/06/2015 6:13 PM,United States,FALSE,0,English,74,0,1,0,4,,4,2,,,,,1,2,2
+2018,06/06/2015 8:28 PM,United States,FALSE,0,Other,39,1,1,0,4,,4,3,,1,2,1,4,5,3
+2019,06/07/2015 4:21 AM,United States,FALSE,1,English,41,1,5,1,3,1,3,1,1,1,2,1,2,4,3
+2020,06/07/2015 4:46 AM,United Kingdom,FALSE,1,English,72,0,1,0,4,,7,4,,1,6,1,1,4,2
+2023,06/07/2015 12:26 PM,United States,FALSE,1,English,53,1,0,0,3,,2,2,,2,,,2,5,2
+2025,06/07/2015 12:59 PM,United States,FALSE,1,English,28,1,1,0,4,,3,4,,1,2,1,2,5,3
+2028,06/08/2015 11:48 AM,United States,FALSE,0,Other,26,1,1,0,6,,6,2,,1,3,1,2,6,3
+2045,06/09/2015 8:47 PM,United States,FALSE,1,English,15,0,2,1,5,6,5,5,6,1,4,1,2,4,1
+2047,06/10/2015 6:44 AM,United Kingdom,FALSE,0,English,45,1,4,1,4,3,4,3,2,1,2,1,2,6,3
+2048,06/10/2015 7:53 AM,United States,FALSE,1,English,25,1,1,0,4,,2,4,,1,3,1,3,6,2
+2051,06/10/2015 12:15 PM,United States,FALSE,1,English,63,1,1,0,2,,2,2,,1,2,2,1,1,2
+2057,06/11/2015 2:35 AM,United Kingdom,FALSE,1,English,27,1,1,0,4,,2,1,,,2,1,1,6,3
+2063,06/12/2015 12:13 AM,Australia,FALSE,0,Standard Hindi,24,1,6,0,4,,7,3,,1,3,1,5,6,2
+2065,06/12/2015 2:35 PM,United Kingdom,FALSE,1,English,18,0,4,0,7,,7,7,,1,4,1,1,3,2
+2067,06/13/2015 4:51 PM,United States,FALSE,0,English,45,1,2,0,5,,7,5,,1,1,1,4,5,2
+2069,06/14/2015 2:59 AM,Australia,FALSE,1,English,36,1,0,0,3,,3,3,,1,1,1,3,5,2
+2070,06/14/2015 9:14 AM,United Kingdom,FALSE,1,English,16,0,6,1,7,7,7,7,3,1,2,1,1,3,3
+2073,06/14/2015 2:03 PM,United States,FALSE,1,English,15,1,2,1,4,2,2,1,1,1,4,1,1,4,2
+2074,06/14/2015 6:46 PM,United States,FALSE,2,English,20,1,2,0,4,,3,2,,1,4,2,1,3,2
+2075,06/14/2015 6:48 PM,United States,FALSE,1,English,17,1,5,1,1,1,3,1,1,1,4,2,1,7,1
+2080,06/15/2015 6:24 AM,United States,FALSE,1,English,57,1,0,0,1,,1,1,,1,3,1,1,4,3
+2081,06/15/2015 6:30 AM,United States,FALSE,1,English,38,1,1,0,5,,5,5,,1,2,1,2,4,2
+2082,06/15/2015 6:31 AM,United States,FALSE,1,English,33,1,7,0,4,,3,3,,1,2,1,4,6,5
+2083,06/15/2015 6:37 AM,United States,FALSE,1,English,32,1,1,0,6,,5,5,,1,1,1,4,7,1
+2084,06/15/2015 6:39 AM,United States,FALSE,1,English,35,1,2,1,2,2,7,1,1,1,2,1,2,4,1
+2086,06/15/2015 7:10 AM,United States,FALSE,1,English,45,1,2,0,4,,4,4,,1,2,1,2,4,2
+2087,06/15/2015 7:34 AM,United States,FALSE,1,English,59,1,1,0,1,,2,1,,,,,2,5,1
+2088,06/15/2015 10:15 AM,United States,FALSE,0,English,82,0,5,1,1,1,1,1,1,1,2,1,1,4,1
+2090,06/15/2015 1:47 PM,United Kingdom,FALSE,0,English,22,0,2,0,5,,6,2,,1,4,2,1,3,1
+2095,06/16/2015 10:25 AM,United States,FALSE,1,Spanish,25,1,3,1,7,7,5,5,6,1,2,1,2,3,1
+2096,06/16/2015 12:39 PM,Canada,FALSE,1,English,17,0,2,0,2,,2,2,,1,3,2,2,5,2
+2098,06/16/2015 2:15 PM,United States,FALSE,1,English,25,0,0,0,1,,1,1,,1,2,1,2,6,1
+2102,06/16/2015 5:07 PM,United States,FALSE,1,English,56,1,1,0,2,,2,1,,1,2,1,1,4,4
+2106,06/16/2015 8:24 PM,Canada,FALSE,1,English,24,1,2,1,3,3,7,3,3,1,2,1,4,6,2
+2107,06/16/2015 8:40 PM,United States,FALSE,1,English,19,1,2,0,7,,2,7,,1,3,1,6,7,3
+2110,06/17/2015 6:11 AM,United Kingdom,FALSE,1,English,41,1,1,0,4,,4,3,,1,1,1,2,4,1
+2111,06/17/2015 6:19 AM,United Kingdom,FALSE,0,English,42,1,2,0,3,,3,1,,1,2,1,1,2,3
+2112,06/17/2015 8:45 AM,United States,FALSE,0,English,73,0,1,0,3,,5,2,,1,2,1,2,4,1
+2115,06/17/2015 11:06 AM,United States,FALSE,0,English,28,1,1,0,6,,6,6,,1,2,1,4,6,3
+2116,06/17/2015 11:45 AM,United States,FALSE,1,English,21,1,2,0,7,,7,7,,1,3,1,1,4,2
+2117,06/17/2015 11:59 AM,United States,FALSE,1,English,15,0,2,1,3,3,5,2,2,1,3,1,1,6,5
+2119,06/17/2015 12:05 PM,United States,FALSE,0,English,22,1,0,0,6,,6,6,,1,4,1,4,4,1
+2122,06/17/2015 1:34 PM,United States,FALSE,1,English,60,1,1,1,3,3,3,2,2,1,3,2,2,3,1
+2123,06/17/2015 2:52 PM,United States,FALSE,1,English,29,1,1,0,4,,5,5,,1,2,1,2,5,4
+2124,06/17/2015 3:24 PM,United States,FALSE,1,English,30,1,3,0,4,,3,3,,1,2,1,4,6,1
+2125,06/17/2015 4:44 PM,Canada,FALSE,1,English,26,1,1,0,2,,2,2,,1,3,1,2,5,4
+2126,06/17/2015 4:49 PM,United States,FALSE,1,English,72,0,1,0,6,,6,2,,1,2,1,1,4,4
+2131,06/17/2015 6:01 PM,United States,FALSE,1,English,57,1,3,0,1,,2,1,,1,1,1,2,5,3
+2132,06/17/2015 6:22 PM,United States,FALSE,1,English,14,0,3,1,5,1,7,4,4,1,3,2,1,2,4
+2134,06/17/2015 6:40 PM,United States,FALSE,1,English,58,0,1,0,1,,1,1,,1,1,1,2,4,2
+2135,06/17/2015 6:46 PM,United States,FALSE,1,English,17,1,2,0,2,,3,3,,1,4,1,2,3,5
+2136,06/17/2015 7:15 PM,Canada,FALSE,1,English,12,0,2,1,7,2,5,2,1,1,4,1,2,6,5
+2137,06/17/2015 7:40 PM,United States,FALSE,1,Korean,43,0,2,1,2,1,6,1,1,1,2,1,1,2,3
+2138,06/17/2015 8:11 PM,United States,FALSE,1,Standard Hindi,18,0,3,0,4,,6,3,,1,4,1,3,5,1
+2139,06/17/2015 8:39 PM,United States,FALSE,1,English,29,1,1,0,2,,2,3,,1,2,1,1,5,2
+2140,06/17/2015 9:00 PM,United States,FALSE,1,English,55,1,1,0,3,,3,1,,1,2,2,1,2,4
+2141,06/17/2015 10:13 PM,United States,FALSE,1,English,31,0,1,0,3,,2,1,,1,2,1,2,3,2
+2143,06/18/2015 5:58 AM,United States,FALSE,1,English,23,0,1,0,6,,6,3,,1,3,1,1,5,2
+2145,06/18/2015 7:43 AM,United States,FALSE,1,English,54,1,1,0,5,,5,5,,1,1,1,2,2,4
+2149,06/18/2015 9:51 AM,United States,FALSE,1,English,71,0,1,0,7,,7,7,,1,2,1,2,4,4
+2151,06/18/2015 12:04 PM,United States,FALSE,1,English,23,1,1,0,7,,5,7,,1,2,1,5,7,2
+2154,06/18/2015 12:49 PM,United States,FALSE,1,English,62,1,1,0,4,,4,4,,1,2,1,1,5,3
+2155,06/18/2015 3:24 PM,United States,FALSE,1,English,18,1,3,0,7,,6,6,,1,3,1,5,6,1
+2157,06/18/2015 4:06 PM,United States,FALSE,1,English,27,1,1,0,3,,2,1,,1,2,1,2,3,2
+2158,06/18/2015 4:33 PM,United States,FALSE,1,English,60,0,0,0,1,,3,1,,1,3,1,1,3,1
+2159,06/18/2015 4:57 PM,United States,FALSE,1,English,56,0,5,1,5,5,5,4,4,1,1,1,2,5,3
+2161,06/18/2015 5:12 PM,United States,FALSE,1,English,62,0,0,0,1,,1,1,,1,1,1,1,4,1
+2162,06/18/2015 5:15 PM,United States,FALSE,1,English,8,0,3,1,7,7,7,7,7,2,,,1,1,4
+2165,06/18/2015 5:31 PM,United States,FALSE,1,English,43,1,1,0,4,,5,5,,1,3,1,3,4,2
+2166,06/18/2015 6:26 PM,United States,FALSE,1,English,14,0,3,1,7,1,7,1,1,1,4,1,1,4,3
+2168,06/18/2015 8:01 PM,United States,FALSE,1,English,66,0,1,0,1,,7,1,,1,2,2,2,3,5
+2170,06/18/2015 8:35 PM,United States,FALSE,1,English,20,0,2,0,3,,2,2,,1,2,1,2,5,2
+2172,06/18/2015 8:39 PM,United States,FALSE,1,English,66,1,1,0,2,,3,1,,1,2,1,2,6,1
+2173,06/18/2015 9:25 PM,United States,FALSE,1,English,48,1,1,0,5,,4,5,,1,2,1,2,6,2
+2174,06/18/2015 11:20 PM,United States,FALSE,0,English,24,1,2,0,6,,4,6,,1,3,1,2,5,1
+2176,06/19/2015 5:56 AM,United States,FALSE,1,English,26,1,1,0,1,,4,1,,1,2,1,1,4,3
+2177,06/19/2015 8:31 AM,United States,FALSE,1,English,37,1,4,1,2,1,2,1,1,1,2,1,3,6,4
+2181,06/19/2015 10:07 AM,United States,FALSE,1,English,34,1,2,1,5,1,5,4,1,1,3,1,2,2,2
+2184,06/19/2015 12:10 PM,United States,FALSE,1,English,56,1,0,0,2,,2,2,,1,2,1,1,6,2
+2185,06/19/2015 3:17 PM,United States,FALSE,1,English,47,0,1,0,2,,6,6,,1,2,1,4,4,1
+2186,06/19/2015 3:20 PM,United States,FALSE,1,English,56,1,1,0,4,,4,3,,1,2,1,3,6,1
+2187,06/19/2015 7:02 PM,United States,FALSE,1,English,35,0,4,1,2,1,2,3,1,1,2,1,3,5,5
+2188,06/19/2015 7:51 PM,United States,FALSE,1,English,58,1,0,0,3,,4,2,,1,1,1,2,4,2
+2188,06/19/2015 7:51 PM,United States,FALSE,1,English,58,1,0,0,3,,4,2,,1,1,1,2,4,2
+2189,06/19/2015 7:57 PM,United States,FALSE,1,English,19,1,3,0,4,,3,5,,1,3,1,4,6,1
+2190,06/19/2015 9:13 PM,United States,FALSE,1,English,26,0,3,1,4,1,6,3,1,1,2,1,4,6,5
+2191,06/19/2015 9:25 PM,United States,FALSE,1,English,61,1,1,0,2,,2,1,,1,3,1,2,6,2
+2192,06/19/2015 10:42 PM,United Kingdom,FALSE,1,English,14,0,3,1,2,1,1,1,1,1,4,1,1,3,5
+2195,06/20/2015 6:17 AM,United States,FALSE,1,English,28,1,1,0,2,,2,3,,1,2,1,2,4,3
+2196,06/20/2015 6:35 AM,United States,FALSE,1,English,16,1,3,0,5,,3,5,,,,,1,4,2
+2197,06/20/2015 6:49 AM,United States,FALSE,1,English,31,1,2,1,5,1,5,5,1,1,2,1,2,5,3
+2198,06/20/2015 7:20 AM,United States,FALSE,1,English,39,1,1,0,1,,1,1,,1,3,1,1,5,1
+2202,06/20/2015 8:21 AM,United States,FALSE,1,English,55,1,1,0,2,,1,1,,2,,,1,1,1
+2205,06/20/2015 10:31 AM,United States,FALSE,0,English,54,1,2,0,4,,6,3,,1,,1,2,2,2
+2211,06/20/2015 11:47 AM,United States,FALSE,1,English,62,1,1,0,1,,3,1,,1,3,1,3,5,2
+2215,06/20/2015 2:38 PM,United States,FALSE,1,English,65,0,0,0,2,,1,2,,1,3,2,1,1,1
+2217,06/20/2015 4:15 PM,United States,FALSE,0,English,66,0,1,0,1,,2,2,,1,1,1,2,6,5
+2218,06/20/2015 4:19 PM,United States,FALSE,1,English,42,1,2,0,5,,3,1,,1,1,1,2,6,5
+2220,06/20/2015 5:23 PM,United States,FALSE,0,English,42,1,3,1,3,5,2,3,5,1,2,1,2,5,4
+2221,06/20/2015 5:23 PM,United States,FALSE,1,English,34,1,1,0,6,,1,6,,1,2,1,2,2,2
+2223,06/20/2015 5:58 PM,United States,FALSE,0,English,39,1,3,0,4,,2,3,,1,2,1,4,5,3
+2229,06/20/2015 7:53 PM,United States,FALSE,1,English,55,0,2,1,1,1,6,1,1,1,2,1,1,7,3
+2230,06/20/2015 8:56 PM,United States,FALSE,1,English,82,0,0,0,3,,3,3,,1,2,1,1,2,1
+2232,06/21/2015 2:08 AM,United States,FALSE,1,English,56,0,0,0,7,,7,7,,1,1,1,1,4,1
+2235,06/21/2015 6:31 AM,United States,FALSE,1,English,57,1,2,0,2,,5,2,,1,3,1,1,5,1
+2236,06/21/2015 6:55 AM,United States,FALSE,0,English,30,1,1,0,5,,4,5,,1,2,1,3,6,1
+2239,06/21/2015 1:48 PM,United States,FALSE,1,English,16,0,4,1,6,6,4,6,6,1,4,1,4,5,2
+2244,06/21/2015 2:48 PM,United States,FALSE,1,English,62,0,1,0,2,,6,4,,1,1,1,3,5,1
+2245,06/21/2015 2:54 PM,United States,FALSE,0,English,33,1,1,0,4,,2,4,,1,2,1,2,5,1
+2246,06/21/2015 3:04 PM,United States,FALSE,1,English,33,1,1,0,1,,5,1,,1,2,1,4,6,2
+2247,06/21/2015 3:28 PM,United States,FALSE,1,English,68,1,2,0,2,,5,1,,1,1,1,1,5,2
+2248,06/21/2015 3:38 PM,United Kingdom,FALSE,1,Other,18,0,3,1,5,5,5,5,5,1,3,1,5,4,2
+2250,06/21/2015 4:12 PM,United States,FALSE,1,Chinese,41,1,1,0,6,,6,5,,1,3,1,4,5,3
+2251,06/21/2015 5:42 PM,United States,FALSE,1,English,13,0,3,1,5,1,1,6,1,1,4,1,1,5,3
+2253,06/21/2015 6:16 PM,United States,FALSE,1,English,32,1,2,1,5,3,3,2,1,1,2,1,2,4,3
+2254,06/21/2015 6:26 PM,United States,FALSE,1,English,46,1,3,0,5,,5,5,,1,1,1,6,6,2
+2255,06/21/2015 8:01 PM,United States,FALSE,1,Chinese,39,1,3,0,1,,7,1,,1,1,2,2,2,3
+2259,06/22/2015 7:49 AM,United States,FALSE,1,English,38,1,2,1,2,1,2,2,1,1,3,1,2,4,3
+2262,06/22/2015 10:56 AM,United States,FALSE,1,English,58,0,1,1,1,1,2,1,1,1,3,1,1,3,2
+2263,06/22/2015 11:00 AM,United Kingdom,FALSE,1,English,13,0,3,1,3,2,3,2,2,1,4,1,2,3,5
+2264,06/22/2015 11:26 AM,United States,FALSE,1,Chinese,37,1,0,0,4,,5,2,,1,2,1,1,2,2
+2266,06/22/2015 12:25 PM,United States,FALSE,1,English,37,1,1,0,1,,1,1,,1,2,2,1,2,2
+2267,06/22/2015 12:32 PM,United States,FALSE,1,English,27,0,3,1,2,1,2,1,1,1,2,1,1,4,3
+2269,06/22/2015 1:35 PM,United States,FALSE,1,English,14,0,5,1,6,4,6,6,5,1,5,1,5,4,5
+2270,06/22/2015 1:58 PM,United States,FALSE,1,English,28,0,1,0,5,,5,4,,1,2,1,3,5,1
+2273,06/22/2015 4:50 PM,United States,FALSE,1,English,64,0,1,0,2,,1,1,,1,2,1,2,2,1
+2277,06/22/2015 7:14 PM,United States,FALSE,1,English,61,0,1,0,7,,7,4,,1,2,1,4,5,2
+2278,06/22/2015 9:48 PM,United States,FALSE,1,English,16,0,10,1,6,2,5,6,2,1,4,2,1,3,5
+2283,06/23/2015 6:49 AM,United States,FALSE,1,English,26,1,3,0,6,,4,6,,1,2,1,3,6,2
+2284,06/23/2015 7:38 AM,United Kingdom,FALSE,1,English,23,1,1,0,6,,4,3,,1,2,1,2,5,5
+2285,06/23/2015 8:51 AM,United States,FALSE,1,English,23,1,1,0,7,,3,5,,1,2,1,2,4,1
+2287,06/23/2015 1:01 PM,United States,FALSE,1,English,42,0,5,1,4,4,5,4,5,,,,2,7,2
+2288,06/23/2015 1:42 PM,United States,FALSE,1,English,60,0,1,1,1,1,1,1,1,1,1,1,2,4,1
+2289,06/23/2015 2:54 PM,United States,FALSE,1,English,37,1,1,0,7,,7,2,,1,2,1,2,6,1
+2291,06/23/2015 3:52 PM,United States,FALSE,0,English,47,1,3,1,2,4,3,1,4,1,2,1,1,4,3
+2292,06/23/2015 4:59 PM,United States,FALSE,0,English,13,0,4,1,7,3,7,7,3,1,3,1,2,2,4
+2294,06/23/2015 6:19 PM,United States,FALSE,1,English,53,1,4,1,1,2,5,1,1,1,2,1,2,2,2
+2295,06/23/2015 7:24 PM,United States,FALSE,1,English,10,0,3,1,4,4,4,4,4,2,,,1,1,3
+2296,06/23/2015 10:15 PM,United States,FALSE,1,Chinese,37,0,3,1,1,1,4,1,1,1,2,1,1,5,2
+2297,06/24/2015 8:37 AM,United States,FALSE,1,English,69,0,1,1,1,1,1,1,1,1,2,1,1,3,1
+2298,06/24/2015 8:59 AM,United States,FALSE,1,English,37,1,2,1,3,2,3,1,1,1,2,1,2,4,2
+2299,06/24/2015 11:26 AM,United States,FALSE,1,English,38,1,3,1,1,1,6,1,1,1,1,1,1,5,2
+2300,06/24/2015 11:35 AM,United States,FALSE,1,English,43,1,2,0,5,,5,2,,1,2,1,5,6,4
+2305,06/24/2015 1:32 PM,United States,FALSE,1,English,39,1,1,1,4,2,5,2,2,,,,2,4,1
+2306,06/24/2015 3:02 PM,United States,FALSE,1,English,18,1,5,0,7,,6,6,,1,3,1,4,3,2
+2307,06/24/2015 4:16 PM,United States,FALSE,1,English,73,0,0,0,7,,7,1,,1,2,2,1,3,1
+2308,06/24/2015 6:03 PM,United States,FALSE,1,English,64,0,1,0,6,,3,6,,1,1,1,4,5,2
+2309,06/24/2015 7:11 PM,Canada,FALSE,1,English,48,1,2,0,4,,4,4,,1,1,1,2,3,2
+2310,06/24/2015 7:17 PM,United States,FALSE,1,English,19,1,1,0,6,,5,4,,1,3,1,4,6,1
+2311,06/24/2015 7:50 PM,United States,FALSE,1,English,66,0,1,0,4,,6,2,,1,2,1,2,4,3
+2312,06/24/2015 8:43 PM,United States,FALSE,0,English,24,1,1,0,7,,7,7,,1,3,1,3,5,3
+2313,06/24/2015 8:49 PM,United States,FALSE,1,English,35,0,1,0,4,,1,7,,1,1,1,1,5,1
+2314,06/24/2015 10:41 PM,United States,FALSE,1,English,35,0,4,1,2,1,1,1,1,1,2,1,1,5,3
+2315,06/25/2015 12:23 AM,Canada,FALSE,1,English,25,1,2,0,3,,2,1,,1,3,1,2,6,2
+2317,06/25/2015 4:02 AM,United States,FALSE,1,English,38,0,3,1,3,1,3,3,1,1,2,1,2,3,5
+2322,06/25/2015 6:34 AM,United States,FALSE,1,English,31,1,3,1,1,1,3,1,1,1,2,2,1,1,3
+2325,06/25/2015 7:58 AM,United States,FALSE,1,English,39,1,2,1,2,1,4,2,1,1,3,1,2,5,5
+2326,06/25/2015 8:22 AM,United States,FALSE,1,English,73,0,0,0,1,,1,1,,1,1,1,1,4,1
+2328,06/25/2015 12:16 PM,United States,FALSE,1,English,43,1,3,0,2,,2,1,,1,2,1,3,6,1
+2332,06/25/2015 4:01 PM,United States,FALSE,0,English,74,0,1,0,1,,1,1,,,,,1,2,2
+2334,06/25/2015 5:50 PM,Canada,FALSE,1,English,43,1,1,0,4,,3,1,,1,3,1,1,2,2
+2335,06/25/2015 5:53 PM,United States,FALSE,1,English,52,1,3,0,2,,4,1,,1,2,1,2,2,5
+2338,06/25/2015 7:09 PM,United States,FALSE,1,English,20,1,2,0,2,,3,1,,1,3,1,2,5,2
+2341,06/26/2015 1:04 AM,Australia,FALSE,1,English,16,0,3,1,5,5,7,4,3,1,3,1,3,4,3
+2343,06/26/2015 8:29 AM,United States,FALSE,1,English,58,1,2,0,2,,2,,,1,2,1,1,4,4
+2345,06/26/2015 1:24 PM,United States,FALSE,1,English,43,1,3,1,2,1,2,1,1,1,3,1,1,6,2
+2346,06/26/2015 4:43 PM,United States,FALSE,1,English,76,0,4,1,1,1,7,1,1,1,4,1,1,2,3
+2347,06/26/2015 5:09 PM,United States,FALSE,1,English,42,1,2,1,5,1,5,5,1,1,2,1,3,5,3
+2348,06/26/2015 9:00 PM,United States,FALSE,1,English,41,1,1,0,4,,6,4,,1,2,1,3,4,2
+2349,06/26/2015 9:03 PM,United States,FALSE,1,Spanish,46,1,5,0,7,,7,1,,1,2,1,4,6,5
+2351,06/27/2015 4:09 AM,United Kingdom,FALSE,1,English,54,1,0,0,4,,6,2,,1,2,1,3,6,1
+2355,06/27/2015 8:55 AM,United States,FALSE,1,English,55,1,1,1,3,1,4,2,1,1,1,1,1,6,4
+2356,06/27/2015 9:26 AM,United States,FALSE,1,English,75,0,1,1,2,4,5,1,2,1,2,2,1,2,2
+2359,06/27/2015 11:47 AM,United States,FALSE,1,English,30,1,1,0,3,,3,3,,,,,2,3,1
+2360,06/27/2015 12:08 PM,United States,FALSE,1,English,43,1,2,0,7,,7,4,,1,2,1,2,6,1
+2361,06/27/2015 12:08 PM,United States,FALSE,1,Croatian,44,0,1,0,4,,4,2,,1,2,1,2,4,4
+2362,06/27/2015 12:36 PM,United States,FALSE,1,English,50,0,2,0,7,,7,7,,1,1,1,5,7,1
+2363,06/27/2015 1:12 PM,United States,FALSE,1,English,25,1,0,0,7,,7,7,,1,2,1,2,4,1
+2364,06/27/2015 2:27 PM,United States,FALSE,1,English,66,0,0,0,4,,4,4,,2,,,1,1,1
+2366,06/27/2015 4:25 PM,United States,FALSE,1,English,67,1,2,1,7,7,7,4,6,1,3,1,2,6,2
+2367,06/27/2015 6:19 PM,United States,FALSE,1,English,50,1,7,1,6,6,6,2,2,1,1,1,2,5,3
+2370,06/28/2015 4:32 AM,United States,FALSE,1,English,56,1,1,0,6,,5,6,,1,1,1,2,5,2
+2371,06/28/2015 4:56 AM,United States,FALSE,1,English,56,1,1,0,1,,1,1,,1,1,1,1,5,2
+2373,06/28/2015 6:49 AM,Australia,FALSE,0,English,37,1,0,0,4,,4,3,,1,1,1,3,3,1
+2376,06/28/2015 9:29 AM,United States,FALSE,1,English,16,0,2,1,4,4,5,4,4,1,3,1,3,6,2
+2379,06/28/2015 1:19 PM,United States,FALSE,1,English,46,1,1,0,4,,3,4,,1,2,1,4,2,1
+2380,06/28/2015 1:22 PM,United States,FALSE,0,English,29,1,2,1,5,5,4,4,4,1,3,1,5,4,2
+2382,06/28/2015 2:35 PM,United States,FALSE,1,English,54,0,0,0,3,,3,1,,,1,1,2,5,1
+2384,06/28/2015 4:03 PM,United States,FALSE,1,English,54,1,2,1,2,3,2,2,3,1,1,1,2,5,2
+2388,06/28/2015 7:14 PM,United States,FALSE,1,English,55,1,1,1,6,6,6,6,6,1,2,1,2,6,3
+2389,06/28/2015 7:46 PM,United States,FALSE,1,English,23,1,1,0,2,,1,1,,1,3,1,3,6,1
+2391,06/28/2015 9:15 PM,United States,FALSE,1,English,46,1,3,1,6,6,6,4,4,1,2,1,3,5,3
+2392,06/28/2015 10:19 PM,United States,FALSE,1,English,28,1,2,0,7,,2,7,,1,2,1,5,6,1
+2393,06/28/2015 11:50 PM,Canada,FALSE,1,Italian,27,0,1,0,5,,2,1,,,2,1,2,2,4
+2395,06/29/2015 12:28 AM,United States,FALSE,1,Chinese,34,1,1,0,4,,2,2,,1,2,1,1,5,2
+2396,06/29/2015 1:52 AM,United States,FALSE,0,Indonesian,14,0,6,1,2,2,3,1,1,1,4,1,2,5,5
+2399,06/29/2015 3:43 AM,United Kingdom,FALSE,1,English,38,1,2,1,3,2,2,1,1,1,2,1,1,4,2
+2400,06/29/2015 5:52 AM,United States,FALSE,1,English,65,1,1,0,3,,4,1,,1,3,2,1,2,1
+2401,06/29/2015 8:02 AM,United States,FALSE,1,English,65,0,1,0,1,,1,1,,,,,1,2,1
+2402,06/29/2015 8:37 AM,United States,FALSE,1,English,19,1,2,0,4,,4,4,,1,3,1,2,4,4
+2403,06/29/2015 9:40 AM,United States,FALSE,1,English,17,0,5,1,1,1,2,1,1,1,4,2,1,5,3
+2405,06/29/2015 12:13 PM,United States,FALSE,1,English,61,0,1,0,1,,1,1,,1,3,1,1,5,2
+2410,06/29/2015 4:03 PM,United States,FALSE,0,English,21,0,0,1,7,7,7,7,7,1,3,1,4,6,5
+2418,06/30/2015 8:40 AM,Australia,FALSE,0,English,18,1,4,0,5,,7,5,,1,3,1,5,7,1
+2419,06/30/2015 9:31 AM,United States,FALSE,1,Spanish,37,0,1,0,7,,7,7,,1,2,2,2,2,1
+2421,06/30/2015 9:41 AM,United States,FALSE,0,English,36,1,1,0,2,,1,3,,1,1,1,3,4,3
+2424,06/30/2015 12:06 PM,United States,FALSE,1,English,59,1,2,0,4,,4,2,,1,3,1,1,5,4
+2425,06/30/2015 12:20 PM,United Kingdom,FALSE,1,English,18,0,1,0,5,,4,3,,1,3,1,3,6,2
+2428,06/30/2015 2:51 PM,United States,FALSE,1,Ukrainian,28,1,3,0,7,,7,7,,1,2,1,3,7,2
+2429,06/30/2015 3:48 PM,United States,FALSE,1,English,47,1,3,1,1,1,2,1,1,1,1,1,1,6,2
+2430,06/30/2015 3:48 PM,United States,FALSE,1,English,22,0,1,0,3,,5,2,,1,4,1,2,6,2
+2431,06/30/2015 5:01 PM,United States,FALSE,1,English,55,1,3,1,1,1,1,1,1,,4,1,3,7,3
+2432,06/30/2015 5:19 PM,Canada,FALSE,1,English,12,0,3,1,4,4,4,4,4,2,,,2,5,3
+2434,06/30/2015 5:56 PM,United Kingdom,FALSE,1,English,38,0,0,0,3,,2,1,,1,2,1,2,5,2
+2435,06/30/2015 6:09 PM,Canada,FALSE,1,English,45,1,3,1,1,1,1,1,1,1,2,1,2,5,4
+2444,06/30/2015 11:28 PM,United States,FALSE,0,Polish,23,1,4,1,6,7,4,6,6,1,2,1,4,4,2
+2447,07/01/2015 10:28 AM,United States,FALSE,1,English,31,1,1,0,3,,3,2,,1,2,1,3,5,2
+2448,07/01/2015 11:53 AM,United States,FALSE,1,English,54,0,0,0,1,,1,1,,1,4,1,1,6,2
+2451,07/01/2015 1:46 PM,United States,FALSE,1,English,66,0,1,0,3,,3,2,,1,1,1,2,3,3
+2455,07/01/2015 6:49 PM,United States,FALSE,1,English,21,1,2,0,2,,4,2,,1,3,1,2,4,3
+2456,07/01/2015 9:56 PM,United States,FALSE,0,English,18,0,1,0,4,,5,6,,1,4,1,1,2,1
+2457,07/02/2015 5:44 AM,United Kingdom,FALSE,0,English,45,1,2,1,3,3,4,2,2,1,2,1,2,6,2
+2458,07/02/2015 7:39 AM,United States,FALSE,1,English,43,1,1,0,4,,4,4,,1,2,1,3,4,4
+2459,07/02/2015 8:28 AM,United States,FALSE,0,English,45,1,0,0,3,,4,3,,1,1,1,3,6,1
+2460,07/02/2015 10:07 AM,Canada,FALSE,1,English,51,1,1,0,1,,1,1,,1,1,1,2,5,1
+2463,07/02/2015 12:05 PM,United States,FALSE,1,English,35,0,0,0,3,,2,2,,1,2,1,2,4,2
+2471,07/02/2015 6:37 PM,United States,FALSE,1,English,33,1,1,0,2,,2,2,,1,2,1,1,5,4
+2472,07/02/2015 8:37 PM,United Kingdom,FALSE,1,English,25,1,1,0,6,,6,6,,1,2,1,5,4,1
+2473,07/02/2015 9:06 PM,United States,FALSE,1,English,57,0,0,0,7,,7,3,,1,1,1,2,5,1
+2479,07/03/2015 2:19 PM,United States,FALSE,1,English,61,0,1,0,2,,6,1,,1,2,1,1,3,3
+2481,07/03/2015 3:08 PM,United States,FALSE,1,Other,53,1,2,0,1,,3,1,,1,1,2,1,3,2
+2482,07/03/2015 3:46 PM,United States,FALSE,1,English,48,1,1,0,4,,7,4,,1,2,1,3,4,1
+2483,07/03/2015 4:08 PM,Canada,FALSE,1,English,60,1,0,0,6,,7,1,,1,1,1,1,1,1
+2484,07/03/2015 4:28 PM,United States,FALSE,0,English,61,1,0,0,5,,6,2,,,,,2,3,2
+2485,07/03/2015 5:04 PM,United States,FALSE,1,English,11,0,3,1,2,2,1,1,1,1,5,1,1,4,5
+2486,07/03/2015 6:37 PM,United States,FALSE,1,English,28,1,2,0,7,,6,6,,1,2,1,2,4,2
+2488,07/03/2015 7:09 PM,United States,FALSE,0,Russian,32,1,3,1,1,1,4,1,1,1,2,1,2,5,3
+2491,07/03/2015 8:44 PM,United States,FALSE,1,English,13,0,2,1,1,7,2,3,5,1,5,1,5,6,5
+2495,07/04/2015 9:53 AM,United States,FALSE,1,English,69,0,1,1,2,1,4,2,1,1,3,1,2,3,1
+2498,07/04/2015 10:19 AM,United States,FALSE,1,English,47,1,2,1,7,7,5,6,6,1,3,1,1,3,3
+2499,07/04/2015 11:14 AM,United States,FALSE,1,English,27,1,4,0,4,,2,1,,1,2,1,3,6,1
+2501,07/04/2015 2:00 PM,United States,FALSE,1,English,46,1,2,1,1,1,3,1,1,1,1,1,2,6,4
+2505,07/04/2015 6:06 PM,United States,FALSE,1,Croatian,48,1,2,1,1,1,2,1,1,1,2,1,1,3,2
+2506,07/04/2015 8:50 PM,United States,FALSE,0,English,15,0,2,1,2,1,4,2,1,1,4,1,1,2,2
+2507,07/04/2015 9:02 PM,United States,FALSE,1,Persian,15,0,5,1,3,1,5,1,1,2,,,1,1,1
+2508,07/04/2015 9:24 PM,United States,FALSE,0,English,14,0,2,1,2,1,3,1,1,1,5,1,2,4,4
+2514,07/05/2015 7:19 AM,United Kingdom,FALSE,1,English,14,0,4,1,7,7,5,6,6,1,3,1,2,5,2
+2515,07/05/2015 8:58 AM,United States,FALSE,1,English,24,1,0,0,3,,2,2,,1,3,1,3,5,1
+2517,07/05/2015 12:04 PM,United States,FALSE,1,English,73,1,0,0,4,,2,3,,1,3,1,1,2,2
+2518,07/05/2015 1:17 PM,United Kingdom,FALSE,1,English,12,0,3,1,6,1,3,2,2,1,4,1,1,2,5
+2519,07/05/2015 1:58 PM,United States,FALSE,1,Spanish,47,1,1,0,4,,4,4,,1,1,1,4,6,4
+2519,07/05/2015 1:58 PM,United States,FALSE,1,Spanish,47,1,1,0,4,,4,4,,1,1,1,4,6,4
+2521,07/05/2015 2:53 PM,United States,FALSE,0,English,34,1,2,0,7,,7,7,,1,2,1,2,4,3
+2523,07/05/2015 4:13 PM,United States,FALSE,1,English,63,1,2,0,7,,7,7,,1,4,1,1,1,3
+2525,07/05/2015 4:21 PM,United States,FALSE,0,English,32,0,1,0,6,,6,5,,1,3,1,1,2,1
+2526,07/05/2015 5:34 PM,United States,FALSE,1,English,20,0,4,0,5,,3,3,,1,3,1,2,5,2
+2528,07/05/2015 9:21 PM,United States,FALSE,1,English,42,1,1,0,3,,3,2,,1,2,1,5,6,2
+2531,07/06/2015 5:55 AM,United States,FALSE,0,English,14,0,2,1,7,7,1,6,6,1,4,1,2,3,3
+2532,07/06/2015 7:49 AM,United States,FALSE,1,English,56,1,1,0,2,,2,2,,1,1,1,2,3,3
+2533,07/06/2015 9:54 AM,United States,FALSE,1,English,50,1,3,1,3,1,1,2,1,1,2,1,2,4,2
+2538,07/06/2015 3:42 PM,United Kingdom,FALSE,1,English,18,0,3,1,7,7,7,7,7,1,3,1,3,6,3
+2540,07/06/2015 5:22 PM,United Kingdom,FALSE,1,English,50,1,0,0,2,,2,1,,1,2,1,1,2,1
+2542,07/06/2015 6:57 PM,Canada,FALSE,1,English,35,1,0,0,6,,5,6,,1,5,1,1,2,1
+2545,07/06/2015 11:25 PM,United States,FALSE,1,English,33,1,0,0,2,,1,4,,1,2,1,5,6,1
+2547,07/07/2015 2:59 AM,Australia,FALSE,1,English,21,1,5,0,6,,3,5,,1,4,1,2,6,2
+2548,07/07/2015 7:14 AM,Canada,FALSE,1,English,79,0,0,0,1,,4,1,,1,2,2,1,1,1
+2558,07/07/2015 10:43 AM,United States,FALSE,1,English,63,1,1,0,1,,1,1,,1,2,1,1,3,1
+2559,07/07/2015 10:45 AM,United States,FALSE,1,English,59,1,2,0,1,,1,1,,1,2,1,2,3,3
+2560,07/07/2015 12:05 PM,United States,FALSE,1,English,68,0,1,0,4,,4,2,,1,1,1,2,3,5
+2563,07/07/2015 1:54 PM,United States,FALSE,1,English,67,0,0,0,2,,2,2,,1,1,1,1,3,1
+2566,07/07/2015 6:07 PM,United States,FALSE,1,English,40,1,0,1,4,1,2,3,1,1,3,1,2,4,1
+2568,07/07/2015 8:00 PM,United States,FALSE,1,English,58,1,0,0,3,,3,3,,1,1,1,2,7,2
+2573,07/08/2015 4:25 AM,United Kingdom,FALSE,0,English,16,0,2,1,5,5,1,3,3,1,4,1,2,4,2
+2575,07/08/2015 7:50 AM,United States,FALSE,1,English,14,0,4,1,5,1,5,1,1,1,4,1,4,7,5
+2579,07/08/2015 9:10 AM,United States,FALSE,1,Spanish,33,1,1,0,2,,4,2,,1,2,1,5,7,1
+2580,07/08/2015 9:11 AM,United States,FALSE,1,English,19,1,2,0,4,,4,4,,1,3,1,2,7,3
+2582,07/08/2015 12:10 PM,United States,FALSE,1,English,43,0,2,1,2,1,2,2,1,1,1,1,2,7,4
+2583,07/08/2015 1:24 PM,United States,FALSE,1,English,51,1,3,0,2,,2,1,,1,3,1,2,4,2
+2584,07/08/2015 2:16 PM,United States,FALSE,1,English,17,0,4,1,2,2,4,1,1,1,4,1,2,6,2
+2587,07/08/2015 4:20 PM,United States,FALSE,1,English,53,1,1,0,4,,5,3,,1,2,1,2,2,2
+2588,07/08/2015 5:21 PM,United States,FALSE,1,English,53,1,2,0,2,,2,2,,1,1,1,2,3,1
+2590,07/08/2015 5:58 PM,United States,FALSE,1,English,39,1,3,1,2,2,2,2,2,1,1,1,2,6,3
+2591,07/08/2015 7:25 PM,United States,FALSE,1,English,43,1,4,0,4,,4,6,,1,1,1,6,6,3
+2593,07/09/2015 3:37 AM,United States,FALSE,0,English,46,1,5,1,1,1,2,1,1,1,2,1,2,3,3
+2595,07/09/2015 7:49 AM,Australia,FALSE,1,English,18,0,1,1,7,4,2,3,3,1,3,1,4,3,3
+2598,07/09/2015 4:58 PM,United States,FALSE,1,English,37,0,3,1,6,1,6,6,5,1,2,1,2,6,5
+2599,07/09/2015 7:11 PM,United States,FALSE,1,English,23,1,1,0,6,,6,3,,1,2,1,2,6,5
+2600,07/09/2015 7:58 PM,United States,FALSE,1,English,17,0,2,0,7,,7,7,,1,3,1,1,5,4
+2603,07/10/2015 8:23 AM,Canada,FALSE,1,French,40,0,1,1,4,1,6,6,1,2,,,1,1,3
+2604,07/10/2015 12:23 PM,United States,FALSE,1,English,32,1,5,1,1,1,1,1,1,1,3,1,2,4,4
+2605,07/10/2015 1:57 PM,United States,FALSE,1,English,54,0,1,0,5,,2,1,,1,1,1,4,5,2
+2615,07/11/2015 5:19 AM,United States,FALSE,1,English,65,1,0,0,2,,2,2,,1,2,1,2,5,2
+2619,07/11/2015 3:19 PM,United States,FALSE,1,English,14,0,4,1,4,2,4,1,1,2,,,1,1,3
+2620,07/11/2015 4:51 PM,United Kingdom,FALSE,1,Other,15,0,4,1,4,2,2,1,1,2,,,1,1,2
+2622,07/11/2015 10:25 PM,United States,FALSE,1,English,54,1,1,0,1,,1,1,,1,3,1,1,2,2
+2623,07/11/2015 11:35 PM,United States,FALSE,1,English,30,1,2,0,4,,4,1,,1,2,1,2,7,2
+2627,07/12/2015 7:35 AM,United States,FALSE,1,English,22,1,2,0,3,,2,3,,1,3,1,1,5,2
+2629,07/12/2015 11:32 AM,United States,FALSE,1,English,14,0,3,1,1,1,1,1,1,1,4,1,1,2,4
+2631,07/12/2015 12:56 PM,United States,FALSE,0,English,37,1,2,1,3,6,7,4,6,1,2,1,4,4,2
+2632,07/12/2015 1:05 PM,United Kingdom,FALSE,0,English,33,1,2,0,2,,3,1,,1,2,1,2,5,5
+2633,07/12/2015 3:28 PM,United States,FALSE,1,English,61,0,1,0,3,,3,1,,1,2,1,1,5,3
+2634,07/12/2015 5:28 PM,Canada,FALSE,1,English,23,1,3,0,7,,6,7,,1,2,1,2,6,3
+2636,07/12/2015 6:37 PM,United States,FALSE,1,English,58,1,1,0,3,,3,1,,1,3,1,1,3,3
+2638,07/12/2015 9:40 PM,United States,FALSE,1,English,61,1,1,0,3,,3,2,,1,1,1,2,6,2
+2643,07/13/2015 8:10 AM,United States,FALSE,1,English,52,0,1,0,1,,1,1,,1,1,1,1,3,5
+2644,07/13/2015 8:35 PM,United States,FALSE,1,English,29,1,1,0,5,,3,6,,1,3,1,4,5,2
+2646,07/13/2015 11:54 PM,United States,FALSE,1,English,13,0,3,1,4,1,7,1,1,1,4,1,2,6,1
+2648,07/14/2015 3:05 PM,United States,FALSE,1,English,38,1,1,0,4,,5,1,,1,2,1,2,6,3
+2649,07/14/2015 3:33 PM,United States,FALSE,1,English,47,1,4,0,5,,6,3,,1,3,1,2,3,5
+2650,07/14/2015 4:45 PM,United States,FALSE,1,Korean,29,0,1,0,6,,5,2,,1,2,1,3,2,2
+2652,07/14/2015 8:41 PM,United States,FALSE,1,English,51,1,0,0,6,,6,6,,1,2,1,3,4,2
+2653,07/14/2015 9:17 PM,United States,FALSE,1,English,38,1,3,0,2,,4,4,,1,2,1,2,6,4
+2655,07/15/2015 10:03 AM,Canada,FALSE,0,English,38,1,1,0,2,,3,5,,1,3,1,4,6,2
+2660,07/15/2015 12:11 PM,United States,FALSE,1,English,56,1,1,0,7,,7,7,,1,2,1,5,7,2
+2661,07/15/2015 2:55 PM,United Kingdom,FALSE,0,English,25,1,4,0,7,,7,7,,1,6,1,5,7,2
+2662,07/15/2015 7:23 PM,United States,FALSE,1,Spanish,23,0,5,1,1,1,1,1,1,1,2,1,3,7,1
+2663,07/15/2015 8:43 PM,United States,FALSE,0,English,22,0,1,0,3,,5,5,,2,,,1,1,1
+2664,07/15/2015 9:07 PM,New Zealand,FALSE,1,English,14,1,3,1,5,6,6,7,7,1,4,1,1,1,5
+2668,07/16/2015 8:08 AM,Australia,FALSE,1,English,25,1,2,0,3,,4,2,,1,2,1,2,4,2
+2669,07/16/2015 12:49 PM,United States,FALSE,1,English,32,1,2,1,5,4,3,3,3,1,2,1,1,6,2
+2671,07/16/2015 3:29 PM,Canada,FALSE,1,English,53,1,1,0,1,,3,1,,1,1,2,1,2,2
+2676,07/16/2015 8:18 PM,United States,FALSE,1,English,36,0,2,1,7,7,7,7,7,1,2,1,2,7,5
+2677,07/17/2015 2:05 AM,United States,FALSE,0,Korean,26,1,0,0,6,,6,3,,1,3,1,2,6,2
+2678,07/17/2015 9:37 AM,United States,FALSE,1,English,27,1,5,0,6,,4,6,,1,3,1,3,5,1
+2682,07/17/2015 5:31 PM,United States,FALSE,1,English,30,1,0,0,5,,1,1,,1,2,1,3,6,2
+2685,07/17/2015 8:05 PM,United States,FALSE,1,English,16,0,3,1,4,4,5,3,3,1,4,1,3,6,5
+2694,07/18/2015 3:03 PM,United States,FALSE,1,English,54,1,4,1,1,1,1,1,1,1,2,1,1,3,3
+2696,07/18/2015 3:59 PM,United Kingdom,FALSE,0,English,41,0,0,0,4,,4,3,,1,1,1,2,6,1
+2701,07/18/2015 8:03 PM,United States,FALSE,1,English,16,0,5,1,6,2,6,6,1,1,3,1,2,4,2
+2709,07/19/2015 7:31 PM,United States,FALSE,1,Greek,49,1,4,0,1,,2,1,,1,1,1,2,5,2
+2714,07/20/2015 11:32 AM,Canada,FALSE,1,English,22,0,2,0,6,,6,4,,1,2,1,4,7,1
+2715,07/20/2015 1:49 PM,Canada,FALSE,0,English,39,1,1,0,4,,2,4,,1,3,1,2,4,1
+2716,07/20/2015 2:31 PM,Canada,FALSE,1,English,21,1,2,0,7,,7,7,,1,3,1,4,7,1
+2721,07/20/2015 8:58 PM,United States,FALSE,1,English,21,0,3,0,3,,6,3,,1,3,1,2,5,1
+2722,07/21/2015 1:02 AM,United States,FALSE,1,English,18,0,4,1,6,4,6,3,2,1,3,1,3,6,5
+2727,07/21/2015 11:12 AM,United States,FALSE,1,English,16,0,4,1,4,7,4,4,7,1,4,1,5,6,2
+2728,07/21/2015 12:01 PM,United States,FALSE,1,English,30,1,2,0,7,,4,7,,1,2,2,2,2,1
+2733,07/21/2015 6:40 PM,United States,FALSE,1,English,55,1,2,0,2,,2,2,,1,2,1,1,5,4
+2735,07/22/2015 6:06 AM,United States,FALSE,1,English,38,1,5,1,3,1,4,2,1,1,2,1,2,5,1
+2736,07/22/2015 7:47 AM,United States,FALSE,1,English,30,1,2,1,5,1,2,2,1,1,6,1,3,6,1
+2738,07/22/2015 5:51 PM,United States,FALSE,1,English,61,0,1,0,2,,2,2,,,,,2,4,3
+2740,07/23/2015 6:54 AM,United Kingdom,FALSE,1,English,10,0,6,1,4,3,4,3,2,2,4,1,1,1,5
+2741,07/23/2015 7:34 AM,United Kingdom,FALSE,1,English,64,0,1,0,4,,2,1,,1,2,1,1,2,5
+2742,07/23/2015 10:03 AM,United States,FALSE,1,English,46,0,1,0,3,,5,2,,1,1,1,1,2,1
+2743,07/23/2015 10:51 AM,United States,FALSE,1,English,49,0,1,0,2,,1,3,,,,,2,3,4
+2746,07/23/2015 6:18 PM,United States,FALSE,1,English,15,1,3,1,7,7,7,7,7,1,4,1,5,7,1
+2747,07/23/2015 8:09 PM,New Zealand,FALSE,0,English,23,0,4,0,6,,7,6,,1,2,3,1,3,2
+2748,07/24/2015 1:46 AM,United States,FALSE,1,English,20,1,5,0,1,,4,1,,1,3,2,2,2,3
+2749,07/24/2015 5:19 AM,United States,FALSE,1,English,13,0,3,1,7,1,7,7,1,1,4,1,1,4,5
+2752,07/24/2015 12:23 PM,United States,FALSE,1,English,46,1,3,0,7,,5,7,,1,2,1,4,6,2
+2758,07/25/2015 9:52 AM,United States,FALSE,0,Spanish,24,1,2,0,7,,7,7,,1,2,1,2,7,1
+2759,07/25/2015 10:51 AM,United States,FALSE,1,Chinese,40,1,1,0,2,,4,4,,1,2,1,2,4,4
+2761,07/25/2015 2:08 PM,United Kingdom,FALSE,1,English,12,0,4,1,2,2,5,2,1,1,5,1,2,5,5
+2766,07/26/2015 12:50 AM,United States,FALSE,1,English,17,0,3,1,4,1,5,4,1,1,3,1,2,7,5
+2767,07/26/2015 12:08 PM,United States,FALSE,1,English,53,1,0,0,6,,6,3,,1,1,1,2,3,1
+2768,07/27/2015 3:53 AM,Australia,FALSE,1,English,29,1,1,0,6,,6,6,,1,2,1,5,7,3
+2769,07/27/2015 1:58 PM,United States,FALSE,1,English,57,1,0,0,4,,4,1,,1,3,1,2,6,1
+2771,07/27/2015 3:52 PM,United States,FALSE,1,English,26,1,3,0,6,,6,4,,1,3,1,2,6,2
+2772,07/27/2015 4:10 PM,United Kingdom,FALSE,1,English,25,0,2,1,3,1,3,1,1,1,2,1,1,5,2
+2773,07/27/2015 7:49 PM,United States,FALSE,1,English,46,1,0,0,3,,4,4,,1,1,2,1,3,1
+2774,07/28/2015 6:18 AM,United Kingdom,FALSE,1,Standard Hindi,22,0,3,0,5,,6,7,,1,2,1,5,6,2
+2781,07/29/2015 3:34 AM,New Zealand,FALSE,0,English,22,1,4,0,3,,3,2,,1,4,1,4,5,2
+2783,07/29/2015 5:44 PM,United States,FALSE,1,English,15,1,5,0,6,,4,5,,1,4,1,2,7,2
+2787,07/30/2015 1:28 PM,United States,FALSE,1,English,38,0,3,1,7,7,2,4,6,1,1,1,2,7,5
+2790,07/31/2015 9:05 PM,United States,FALSE,1,English,41,0,3,1,2,1,2,1,1,1,1,1,1,4,3
+2795,08/01/2015 1:15 PM,United States,FALSE,1,English,43,1,1,0,1,,2,1,,1,2,1,2,4,1
+2797,08/01/2015 11:11 PM,United States,FALSE,1,English,68,0,1,0,1,,3,1,,1,1,1,1,3,3
+2803,08/02/2015 12:08 PM,United States,FALSE,1,English,31,1,1,1,3,1,2,2,1,1,2,1,5,6,3
+2809,08/02/2015 4:33 PM,United Kingdom,FALSE,1,English,30,1,2,0,3,,3,1,,1,2,1,2,5,5
+2810,08/02/2015 8:03 PM,United States,FALSE,1,English,52,1,2,0,4,,2,2,,1,3,1,3,6,2
+2812,08/02/2015 11:57 PM,United States,FALSE,1,English,59,1,0,0,2,,2,4,,1,3,1,2,3,1
+2813,08/03/2015 7:21 AM,United States,FALSE,0,English,12,0,3,1,1,1,1,1,1,1,5,1,1,5,5
+2815,08/03/2015 3:24 PM,United States,FALSE,0,Chinese,28,1,1,0,7,,7,7,,1,2,1,6,6,1
+2818,08/03/2015 10:34 PM,United States,FALSE,1,English,19,1,4,0,5,,3,4,,1,3,1,3,6,5
+2819,08/03/2015 11:22 PM,United States,FALSE,0,English,17,1,3,0,3,,2,3,,1,3,1,4,5,1
+2820,08/04/2015 1:56 AM,United States,FALSE,0,Japanese,33,1,0,0,5,,3,5,,1,1,1,3,4,1
+2823,08/04/2015 9:16 AM,United States,FALSE,1,English,48,0,2,0,1,,1,1,,1,1,1,2,6,3
+2825,08/04/2015 1:35 PM,United States,FALSE,1,English,71,0,1,1,1,1,2,1,1,1,2,1,2,5,1
+2826,08/04/2015 4:54 PM,United States,FALSE,0,English,45,1,1,0,7,,1,5,,1,2,1,3,5,2
+2827,08/04/2015 5:03 PM,United States,FALSE,1,English,66,1,1,0,3,,3,1,,1,3,2,1,1,2
+2828,08/04/2015 5:53 PM,Canada,FALSE,1,Polish,47,1,1,0,1,,2,1,,1,2,2,1,3,3
+2830,08/04/2015 6:40 PM,United States,FALSE,0,English,28,0,2,0,3,,2,1,,1,2,1,2,6,2
+2831,08/04/2015 8:53 PM,United States,FALSE,1,English,42,1,3,0,7,,7,7,,1,1,1,3,5,2
+2833,08/04/2015 10:29 PM,United States,FALSE,1,English,26,1,1,0,6,,4,6,,1,3,1,3,5,1
+2834,08/04/2015 10:41 PM,United States,FALSE,1,Spanish,31,0,2,0,1,,1,1,,1,2,1,2,2,4
+2837,08/05/2015 4:59 PM,Australia,FALSE,1,English,14,0,4,0,6,,6,5,,1,4,1,3,6,5
+2838,08/05/2015 5:06 PM,United States,FALSE,1,Spanish,44,1,3,0,1,,1,3,,1,1,1,2,4,4
+2839,08/05/2015 7:35 PM,United States,FALSE,1,English,15,1,2,1,6,6,5,4,4,1,4,1,2,3,2
+2841,08/05/2015 8:43 PM,United States,FALSE,1,English,27,1,1,0,7,,7,5,,1,2,1,2,4,1
+2842,08/05/2015 10:54 PM,United States,FALSE,1,Chinese,22,0,1,0,7,,7,7,,1,2,1,6,7,1
+2843,08/05/2015 10:56 PM,United States,FALSE,1,English,21,1,3,0,6,,3,6,,1,3,1,5,5,3
+2845,08/06/2015 2:15 AM,Canada,FALSE,1,English,20,1,1,0,6,,5,7,,1,3,1,2,6,3
+2847,08/06/2015 9:50 AM,United States,FALSE,0,English,17,0,1,0,7,,7,7,,,,,1,2,1
+2850,08/06/2015 12:39 PM,United Kingdom,FALSE,1,English,24,1,1,0,7,,7,7,,1,2,1,2,7,1
+2855,08/06/2015 10:34 PM,United States,FALSE,1,Spanish,65,0,0,0,1,,1,1,,1,1,1,1,3,1
+2859,08/07/2015 10:13 AM,United States,FALSE,1,English,27,1,1,0,5,,4,3,,1,2,1,2,6,3
+2861,08/07/2015 2:00 PM,United States,FALSE,1,Standard Hindi,18,1,2,0,5,,7,5,,1,3,1,4,7,1
+2865,08/07/2015 7:35 PM,United States,FALSE,1,English,31,1,3,0,6,,6,4,,1,2,1,3,6,2
+2866,08/07/2015 9:19 PM,United States,FALSE,0,English,20,1,1,0,3,,4,1,,1,3,1,2,5,1
+2871,08/08/2015 8:11 PM,United States,FALSE,1,English,45,1,1,0,1,,2,4,,1,2,1,3,6,1
+2872,08/08/2015 10:04 PM,United States,FALSE,1,Other,18,0,5,0,4,,7,4,,1,4,1,4,7,1
+2873,08/09/2015 1:29 AM,United States,FALSE,1,English,45,1,3,1,1,1,2,1,1,1,1,1,1,3,2
+2875,08/09/2015 11:06 AM,United States,FALSE,1,English,48,1,4,1,2,1,2,2,1,1,2,1,1,3,3
+2878,08/09/2015 6:12 PM,United States,FALSE,1,English,31,1,0,0,4,,4,3,,1,2,1,2,5,1
+2882,08/09/2015 11:33 PM,United States,FALSE,1,English,15,0,3,1,4,3,3,3,2,1,4,1,3,6,5
+2890,08/10/2015 1:41 PM,United States,FALSE,0,English,31,1,0,0,2,,2,2,,1,3,1,4,6,1
+2891,08/10/2015 4:50 PM,United States,FALSE,1,English,14,0,5,1,4,1,3,5,1,1,4,2,1,3,2
+2892,08/10/2015 5:05 PM,United States,FALSE,1,English,45,0,1,0,2,,2,2,,1,2,1,2,4,4
+2893,08/10/2015 5:24 PM,United States,FALSE,1,English,44,1,2,0,4,,2,4,,1,2,1,2,4,1
+2895,08/11/2015 5:40 AM,United States,FALSE,1,English,11,0,2,0,5,3,1,3,2,2,,,1,1,1
+2898,08/11/2015 7:00 PM,United States,FALSE,1,English,29,1,2,0,6,,5,7,,1,3,1,2,4,2
+2899,08/12/2015 6:52 AM,United States,FALSE,1,English,32,1,0,0,7,,7,7,,1,2,1,4,6,3
+2900,08/12/2015 6:52 AM,United States,FALSE,1,English,28,1,0,0,6,,6,6,,1,2,1,4,7,2
+2902,08/12/2015 6:56 AM,United States,FALSE,1,English,56,1,2,0,2,,3,1,,1,4,1,1,2,1
+2904,08/12/2015 7:04 AM,United States,FALSE,1,English,51,1,1,0,1,,1,1,,1,4,1,2,2,5
+2905,08/12/2015 7:07 AM,United States,FALSE,1,Spanish,54,1,2,0,1,,2,1,,1,2,2,1,3,2
+2906,08/12/2015 7:14 AM,United States,FALSE,1,English,50,1,2,0,2,,2,2,,1,2,1,2,5,2
+2912,08/12/2015 12:04 PM,Canada,FALSE,1,French,60,1,1,0,1,,1,1,,1,5,1,1,2,1
+2913,08/12/2015 3:54 PM,United States,FALSE,1,English,18,0,5,1,6,6,6,6,6,1,2,1,5,6,1
+2919,08/13/2015 9:21 AM,United States,FALSE,1,English,14,0,2,0,5,5,6,5,5,1,4,1,5,5,3
+2920,08/13/2015 12:50 PM,United States,FALSE,0,English,64,1,1,0,1,,1,1,,1,1,2,1,2,5
+2921,08/13/2015 4:25 PM,United States,FALSE,0,English,29,1,2,0,5,,2,4,,1,2,1,3,5,1
+2924,08/13/2015 9:26 PM,Australia,FALSE,1,English,29,1,0,0,7,,6,6,,1,2,1,4,7,1
+2926,08/14/2015 6:50 AM,Canada,FALSE,0,English,35,1,0,0,4,,6,2,,1,2,1,3,6,1
+2928,08/14/2015 10:28 AM,United States,FALSE,0,English,65,0,1,0,1,,1,1,,1,2,1,1,2,3
+2930,08/14/2015 5:40 PM,United States,FALSE,1,English,19,1,2,0,4,,5,4,,1,4,1,2,5,1
+2934,08/15/2015 1:06 PM,United Kingdom,FALSE,1,English,39,1,0,0,2,,2,1,,1,2,2,1,2,1
+2935,08/15/2015 3:23 PM,United States,FALSE,0,Greek,51,1,1,0,1,,1,1,,1,1,1,1,7,2
+2942,08/16/2015 4:18 AM,United Kingdom,FALSE,0,English,33,1,3,0,7,,7,7,,1,1,1,2,5,3
+2946,08/16/2015 5:16 PM,United States,FALSE,1,English,22,1,1,0,6,,3,2,,1,3,1,3,6,3
+2950,08/17/2015 10:39 AM,United States,FALSE,1,English,48,1,1,0,1,,6,1,,1,2,1,1,3,2
+2951,08/17/2015 11:08 AM,Canada,FALSE,0,Hungarian,50,1,0,0,2,,1,1,,1,2,1,1,3,2
+2952,08/17/2015 8:40 PM,New Zealand,FALSE,1,English,53,0,1,0,2,,6,2,,1,3,2,1,2,5
+2954,08/18/2015 4:14 AM,United States,FALSE,0,English,18,0,3,0,3,,4,2,,2,,,1,1,2
+2955,08/18/2015 12:27 PM,United States,FALSE,1,English,14,0,3,1,4,2,3,3,2,1,5,1,2,5,4
+2961,08/19/2015 11:10 AM,United States,FALSE,1,English,32,1,1,0,6,,6,5,,1,2,1,5,5,2
+2962,08/19/2015 11:26 AM,United States,FALSE,0,English,14,0,4,1,7,7,7,7,7,1,4,1,3,6,1
+2963,08/19/2015 12:49 PM,United States,FALSE,1,English,65,1,1,0,2,,2,1,,1,6,1,2,6,3
+2966,08/19/2015 4:57 PM,Canada,FALSE,1,English,24,0,3,0,2,,2,1,,1,2,1,1,3,3
+2967,08/19/2015 6:24 PM,United States,FALSE,1,English,56,0,0,1,2,1,3,4,2,1,2,1,2,5,1
+2971,08/20/2015 8:10 AM,United States,FALSE,1,English,72,0,1,1,1,1,3,1,1,1,2,1,1,3,1
+2972,08/20/2015 3:47 PM,United States,FALSE,0,English,30,1,1,0,3,,1,2,,1,2,1,3,4,3
+2974,08/21/2015 12:51 PM,United Kingdom,FALSE,1,English,11,0,3,1,5,5,5,5,5,1,5,1,1,1,3
+2975,08/21/2015 3:55 PM,United Kingdom,FALSE,1,English,36,1,2,0,4,,5,2,,1,,1,2,4,3
+2976,08/21/2015 6:20 PM,United States,FALSE,1,English,27,1,1,0,7,,7,6,,1,3,1,2,4,2
+2977,08/21/2015 11:08 PM,United States,FALSE,0,Turkish,31,1,1,0,7,,7,6,,1,2,1,2,6,2
+2979,08/22/2015 3:53 PM,United States,FALSE,1,English,26,1,1,0,5,,4,3,,1,1,1,2,3,2
+2981,08/22/2015 9:25 PM,United States,FALSE,0,English,30,1,1,0,6,,5,6,,1,3,1,2,3,2
+2983,08/23/2015 12:01 AM,Australia,FALSE,1,English,21,0,3,0,2,,4,3,,1,2,1,1,7,1
+2986,08/23/2015 12:40 PM,United Kingdom,FALSE,1,English,15,0,3,0,6,,2,3,,1,3,1,2,5,4
+2990,08/24/2015 7:11 AM,United States,FALSE,1,English,28,1,1,0,6,,6,4,,1,1,1,2,2,3
+2994,08/24/2015 12:24 PM,United States,FALSE,1,English,16,0,2,1,2,2,3,1,1,1,3,1,1,4,3
+3000,08/24/2015 8:38 PM,United States,FALSE,1,English,30,1,2,0,6,,5,3,,1,2,1,3,6,2
+3003,08/25/2015 9:01 AM,Canada,FALSE,1,English,65,0,1,0,7,,7,4,,1,2,1,1,3,1
+3004,08/25/2015 10:37 AM,United States,FALSE,1,English,67,0,1,0,2,,4,2,,1,2,2,1,4,1
+3008,08/25/2015 8:25 PM,Canada,FALSE,1,English,25,1,0,0,6,,5,4,,1,3,2,1,3,3
+3009,08/26/2015 9:44 AM,United States,FALSE,1,English,15,0,8,1,7,7,7,7,7,1,4,1,5,5,3
+3015,08/26/2015 10:39 AM,United Kingdom,FALSE,1,English,15,0,4,1,1,1,1,3,3,1,4,1,1,5,2
+3017,08/26/2015 10:53 AM,United Kingdom,FALSE,1,English,17,1,2,0,3,,4,3,,1,4,1,1,1,2
+3020,08/26/2015 11:19 AM,United States,FALSE,1,English,18,0,4,1,3,2,3,3,2,1,2,1,3,5,2
+3032,08/26/2015 2:29 PM,Canada,FALSE,1,English,16,0,3,1,7,7,7,7,7,1,4,1,6,6,4
+3034,08/26/2015 4:03 PM,Canada,FALSE,1,English,30,1,1,0,3,,3,2,,1,2,1,2,4,3
+3036,08/26/2015 6:00 PM,United States,FALSE,1,English,15,0,6,1,7,7,7,7,7,1,5,1,4,6,5
+3038,08/26/2015 11:15 PM,Canada,FALSE,1,English,18,1,5,0,5,,5,5,,1,3,1,1,3,3
+3040,08/27/2015 2:52 AM,United Kingdom,FALSE,1,English,17,0,4,1,2,2,3,1,1,1,3,1,1,5,4
+3041,08/27/2015 5:34 AM,Canada,FALSE,0,English,17,0,2,0,4,,5,4,,1,3,1,5,3,3
+3044,08/27/2015 6:02 PM,United States,FALSE,1,Dutch,25,1,1,1,4,4,1,4,4,1,2,1,2,3,3
+3045,08/28/2015 2:30 AM,United Kingdom,FALSE,1,English,36,1,4,1,2,1,2,1,1,1,2,1,2,3,4
+3052,08/29/2015 5:28 PM,United States,FALSE,1,English,29,1,0,0,3,,2,3,,1,2,1,3,6,1
+3053,08/29/2015 6:23 PM,United States,FALSE,2,English,15,0,2,0,7,,6,7,,1,4,1,3,6,3
+3059,08/30/2015 12:24 PM,United States,FALSE,1,English,57,1,1,0,7,,7,4,,1,2,1,2,7,3
+3060,08/30/2015 12:32 PM,United States,FALSE,1,Spanish,16,0,6,1,3,3,3,3,4,1,4,1,2,6,1
+3061,08/30/2015 4:41 PM,United States,FALSE,1,English,60,0,1,0,2,,4,3,,1,2,1,3,5,2
+3063,08/31/2015 9:56 AM,United States,FALSE,1,English,67,0,1,0,2,,4,1,,1,2,1,2,5,2
+3066,08/31/2015 12:24 PM,United States,FALSE,0,English,42,1,1,1,7,7,4,2,2,1,2,1,2,5,1
+3073,09/01/2015 9:40 AM,Australia,FALSE,1,English,16,0,3,1,4,2,5,1,1,1,4,1,3,5,4
+3074,09/01/2015 3:29 PM,United States,FALSE,0,English,49,1,1,0,5,,2,6,,1,1,1,4,6,2
+3075,09/01/2015 4:00 PM,United States,FALSE,1,English,19,0,3,0,6,,3,6,,1,3,1,5,5,2
+3078,09/02/2015 12:09 PM,United Kingdom,FALSE,1,English,38,1,1,0,2,,2,2,,1,3,1,2,7,2
+3079,09/02/2015 3:32 PM,United States,FALSE,1,English,57,0,1,0,4,,7,4,,1,1,1,2,3,2
+3080,09/02/2015 6:39 PM,United States,FALSE,1,English,61,0,0,0,2,,5,2,,1,1,1,2,7,1
+3082,09/03/2015 1:24 AM,United Kingdom,FALSE,0,English,32,1,0,0,7,,7,7,,1,2,1,4,6,3
+3083,09/03/2015 2:21 AM,United Kingdom,FALSE,0,Hebrew,43,1,1,0,2,,7,2,,1,1,1,6,7,2
+3088,09/03/2015 3:12 PM,Australia,FALSE,1,English,28,1,1,0,4,,4,4,,1,2,1,2,7,2
+3089,09/03/2015 3:28 PM,United States,FALSE,1,Spanish,39,1,4,0,1,,2,1,,1,,1,4,7,1
+3090,09/03/2015 4:05 PM,United States,FALSE,1,English,23,0,7,0,7,,6,7,,1,2,1,2,7,3
+3094,09/03/2015 8:48 PM,United States,FALSE,1,English,58,0,2,0,3,,3,3,,1,3,2,1,3,3
+3098,09/04/2015 7:37 AM,United Kingdom,FALSE,1,Other,28,1,1,0,6,,4,2,,1,2,1,1,4,1
+3105,09/05/2015 11:34 AM,United States,FALSE,1,English,24,0,1,0,6,,4,1,,,2,1,2,4,1
+3111,09/05/2015 4:09 PM,United States,FALSE,2,English,19,0,3,0,3,,6,2,,1,5,1,1,3,1
+3112,09/05/2015 7:08 PM,Australia,FALSE,0,English,66,0,3,1,2,1,3,1,1,1,4,2,1,3,2
+3113,09/05/2015 7:59 PM,Australia,FALSE,1,English,57,1,1,1,2,1,2,1,2,1,3,1,1,2,5
+3114,09/06/2015 1:06 AM,Australia,FALSE,1,English,20,1,1,0,2,,1,4,,1,3,1,3,6,1
+3115,09/06/2015 1:15 AM,Australia,FALSE,1,English,44,0,2,0,4,,5,2,,1,1,1,1,3,2
+3117,09/06/2015 3:36 AM,Australia,FALSE,1,Spanish,13,0,4,1,7,3,5,3,1,2,,,1,1,5
+3120,09/06/2015 11:26 AM,United States,FALSE,1,English,58,1,0,0,1,,3,1,,1,2,1,1,2,1
+3121,09/07/2015 1:44 AM,Australia,FALSE,1,English,28,1,2,0,3,,4,3,,1,2,1,2,6,5
+3122,09/07/2015 9:04 AM,United States,FALSE,1,English,59,1,1,0,3,,2,2,,1,2,1,1,5,2
+3123,09/07/2015 12:32 PM,United States,FALSE,1,English,24,1,0,0,3,,2,1,,1,2,1,2,5,1
+3125,09/07/2015 3:37 PM,United Kingdom,FALSE,0,English,28,0,1,0,7,,7,7,,1,1,1,1,4,5
+3127,09/07/2015 4:47 PM,United States,FALSE,1,English,33,1,3,0,7,,7,7,,1,2,1,3,2,1
+3128,09/07/2015 4:47 PM,United States,FALSE,0,English,36,1,0,0,7,,7,7,,1,2,1,5,6,3
+3131,09/07/2015 6:01 PM,United States,FALSE,0,English,23,0,3,0,5,,2,3,,1,3,1,1,2,1
+3134,09/07/2015 6:18 PM,United States,FALSE,1,Spanish,14,0,3,1,4,4,5,2,2,1,3,1,3,7,3
+3136,09/07/2015 8:32 PM,United States,FALSE,0,English,56,0,1,0,4,,4,1,,1,4,2,1,4,1
+3137,09/07/2015 9:52 PM,United States,FALSE,1,English,36,1,1,1,1,1,1,1,1,1,2,1,1,5,3
+3142,09/08/2015 1:05 AM,Canada,FALSE,2,English,22,0,3,0,6,,5,6,,1,3,1,3,5,1
+3143,09/08/2015 3:04 AM,Canada,FALSE,0,English,25,0,3,0,6,,6,5,,1,2,1,2,6,1
+3146,09/08/2015 5:46 AM,United States,FALSE,1,English,38,0,2,0,4,,4,2,,1,2,1,2,4,1
+3149,09/08/2015 6:06 AM,United States,FALSE,1,English,25,0,6,1,7,4,4,4,4,2,,,1,1,2
+3155,09/08/2015 9:31 AM,Canada,FALSE,1,English,22,1,3,0,7,,5,7,,1,2,1,5,5,2
+3158,09/08/2015 10:43 AM,United States,FALSE,1,English,17,1,5,1,2,2,4,3,2,1,4,1,2,6,2
+3159,09/08/2015 10:57 AM,United States,FALSE,1,English,18,1,5,0,7,,4,7,,1,4,1,5,6,3
+3159,09/08/2015 10:57 AM,United States,FALSE,1,English,18,1,5,0,7,,4,7,,1,4,1,5,6,3
+3160,09/08/2015 11:01 AM,United States,FALSE,1,English,17,0,2,0,3,,2,1,,1,3,1,2,7,2
+3161,09/08/2015 11:07 AM,United States,FALSE,0,Other,17,0,5,1,6,6,6,6,6,2,,,1,1,1
+3162,09/08/2015 12:21 PM,United States,FALSE,1,English,26,1,2,0,2,,4,1,,1,3,1,2,5,3
+3167,09/08/2015 7:08 PM,United States,FALSE,1,English,17,0,2,0,4,,4,4,,1,3,1,2,3,5
+3168,09/08/2015 7:12 PM,United States,FALSE,0,English,17,0,2,1,4,4,4,2,2,1,4,1,1,3,5
+3174,09/09/2015 2:55 PM,United States,FALSE,1,English,32,1,0,0,5,,2,1,,1,4,1,3,7,2
+3176,09/09/2015 3:35 PM,United States,FALSE,2,English,22,0,1,0,6,,2,1,,1,2,1,2,5,5
+3178,09/09/2015 3:52 PM,United States,FALSE,0,English,43,1,3,0,2,,2,2,,1,2,1,2,6,2
+3179,09/09/2015 11:43 PM,United States,FALSE,0,English,50,1,2,1,2,4,5,2,4,1,1,1,2,5,3
+3180,09/10/2015 12:16 AM,New Zealand,FALSE,0,Other,32,1,3,0,7,,7,7,,1,2,2,1,2,1
+3181,09/10/2015 1:28 AM,United States,FALSE,1,English,24,1,2,0,3,,3,2,,1,3,2,2,3,2
+3182,09/10/2015 5:19 AM,Australia,FALSE,1,English,15,0,4,1,3,2,1,1,1,2,,,1,1,2
+3184,09/10/2015 2:22 PM,Canada,FALSE,0,English,15,0,4,1,1,1,2,2,2,1,5,1,2,3,1
+3185,09/10/2015 2:46 PM,United Kingdom,FALSE,1,English,18,0,6,1,4,3,6,4,4,1,4,1,4,7,5
+3187,09/10/2015 4:33 PM,United States,FALSE,1,English,35,1,1,0,6,,5,6,,1,5,1,1,2,1
+3194,09/11/2015 7:45 PM,Canada,FALSE,1,English,27,1,1,0,5,,5,3,,1,3,1,2,5,1
+3196,09/12/2015 4:06 AM,United States,FALSE,1,English,50,0,2,0,5,,5,5,,1,1,1,3,7,2
