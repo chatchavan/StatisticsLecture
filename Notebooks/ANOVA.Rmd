@@ -216,49 +216,37 @@ Determine whether ther interaction term should be included in this model or not.
 
 # Re-analyzing mobile phone usage at meal time (Moser et al., 2016)
 
-**Note:** The dataset doesn't contain variable (f) How many individuals were included in the mealtime drawing?
-```{r}
-# preprocess data (need to run only once)
-# p_load(readxl); p_unload(readxl)
+Moser et al. (2016) surveyed 1163 participants on their attitude of mobile phone usage at meal time. `meal_data` contains  the data they collected (which was published [online](http://labinthewild.org/data/index.php)). In the second part of their analysis, the explore what factors influence attitude about mobile phone behavior. In particular, they explore how the answers to the following questions:
 
-# Original dataset from Moser et al. (2016)
-# http://labinthewild.org/data/index.php
-# meal_code <- readxl::read_excel("../data/TechAtMeals_CHI2016/TechAtMeals_CHI2016.xlsx", sheet = 2, col_names = c("ColumnName", "Question"))
-# write_csv(meal_code, "../data/TechAtMeals_CHI2016/meal_code.csv", na = "")
-# 
-# 
-# meal_data <- readxl::read_excel("../data/TechAtMeals_CHI2016/TechAtMeals_CHI2016.xlsx")
-# meal_data %>%
-# 
-#   # replace "NULL" with NA
-#   mutate_each(funs(replace(., . == "NULL", NA)), matches("question.*")) %>%
-# 
-#   # unifying the column types
-#   mutate_each(funs(as.integer(.)), matches("question.*")) %>%
-#   mutate(
-#     participant_id = as.character(participant_id),
-#     retake = if_else(retake == 1, TRUE, FALSE),
-#     gender = as.integer(gender),
-#     age = as.integer(age),
-#     employed = as.integer(employed),
-#     housemates = as.integer(housemates),
-#     child_included = as.integer(child_included)
-#   ) ->
-#   meal_data
-# 
-# write_csv(meal_data, "../data/TechAtMeals_CHI2016/meal_data.csv", na = "")
-# ]
-# NOTE: questionnable coding
-# * question 11: Do you own a mobile phone? (1 = yes, 2 = no)
-# * question 13: Is your mobile phone a smart phone? (1 = yes, 2 = no)
+> (a) Age - `age`
+> (b) Do you own a mobile phone? (1 = yes, 2 = no)  — `question_11`
+> (c) What year did you get your first mobile phone? (number of years)  — `question_12`
+> (d) On a normal day, how often do you use your mobile phone?  — `question_16`
+> (e) How often do you use your mobile phone during meals with other people like friends and family?  — `question_14`
+> (f) How many individuals were included in the mealtime drawing? — Not included in the published dataset
+> (g) Child presence (0 = no, 1 = yes) — `child_included`
+> (h) Number of individuals that the respondent lives with - `housemates`
+> (i) Gender (0 = male, 1 = female, 2 = others) - `gender`
 
-```
+might influence the answers for the following questions:
+
+> * How appropriate would it be for an adult at this meal to take out their mobile phone and send or read a text message? — `question_6`
+> * How appropriate would it be for a child at this meal to take out their mobile phone and send or read a text message? — `question_7`
+> * How appropriate would it be for an adult at this meal to answer a mobile phone call? — `question_8`
+> * How appropriate would it be for an adult at this meal to take out their mobile phone and go online or use a social media site? — `question_9`
+> * How appropriate would it be for a child at this meal to take out their mobile phone and go online or use a social media site? — ` question_10`
+
+
+**Note:** The dataset doesn't contain the responses to (f)
 
 ```{r}
-meal_data <- read_csv("../data/TechAtMeals_CHI2016/meal_data.csv" )
-meal_code <- read_csv("../data/TechAtMeals_CHI2016/meal_code.csv")
-print(meal_code)
+# NOTE: the following data was preprocessed from the original Excel file by the script
+#       ../data/TechAtMeals_CHI2016/preprocess.R
+meal_data <- read_csv("../data/TechAtMeals_CHI2016/meal_data.csv" ) # actual data
+meal_code <- read_csv("../data/TechAtMeals_CHI2016/meal_code.csv")  # dictionary of column names
 ```
+
+## Automatic model comparison
 
 We first try running automatic step AIC (which require removing rows with empty responses)
 ```{r}
@@ -288,20 +276,9 @@ anova_result <- anova(step_backward_result)
 print(anova_result)
 ```
 
+The resulting model is quite different from the one in the paper. Looking at the `Residuals Df` in ANOVA table, we see `r anova_result$Df[4]`, which is substantially lower than the number of rows in the data (`r nrow(meal_data)` rows). Therefore, we have to check AIC manually.
 
-
-The resulting model is quite different from the one in the paper. Looking at the `Residuals Df` in ANOVA table, we see `r anova_result$Df[4]`, which is substantially lower than the number of rows in the data (`r nrow(meal_data)` rows). Therefore, we have to check AIC manually
-
-```{r}
-# Note the last parameter: we use the full set of data
-m_paper <- update(lm_all, . ~ . - question_11 - question_12 - housemates - gender, data = meal_data)
-summary(m_paper)
-```
-
-Here, we have a reasonable residual Df of (`r summary(m_paper)$fstatistic[2]`), which is much closer to the number of rows in the data (`r nrow(meal_data)` rows).
-
-# Your turn
-Try updating model and determine which variables to include based on AIC.
+## Manual model comparison
 
 ```{r}
 lm_all <- lm(
@@ -318,9 +295,60 @@ lm_all <- lm(
   data = meal_data
   )
 
-# Hint: extractAIC(update(lm_all, . ~ .  - #var1# - #var2# , data = meal_data))
+extractAIC(update(lm_all, . ~ .  - age))
+extractAIC(update(lm_all, . ~ .  - question_11 ))
+extractAIC(update(lm_all, . ~ .  - question_12 ))
+extractAIC(update(lm_all, . ~ .  - question_16 ))
+extractAIC(update(lm_all, . ~ .  - question_14 ))
+extractAIC(update(lm_all, . ~ .  - child_included ))
+extractAIC(update(lm_all, . ~ .  - hoursemates ))
+extractAIC(update(lm_all, . ~ .  - gender ))  # lowest AIC: 1220
+
+
+m2 <- update(lm_all, . ~ .  - gender )
+extractAIC(update(m2, . ~ .  - age ))
+extractAIC(update(m2, . ~ .  - question_11 ))
+extractAIC(update(m2, . ~ .  - question_12 ))
+extractAIC(update(m2, . ~ .  - question_16 ))
+extractAIC(update(m2, . ~ .  - question_14 ))
+extractAIC(update(m2, . ~ .  - child_included ))
+extractAIC(update(m2, . ~ .  - hoursemates )) # lowest AIC:  1220
+
+m3 <- update(m2, . ~ .  - housemates )
+extractAIC(update(m3, . ~ .  - age ))
+extractAIC(update(m3, . ~ .  - question_11 ))
+extractAIC(update(m3, . ~ .  - question_12 ))
+extractAIC(update(m3, . ~ .  - question_16 )) # lowest AIC: 1223 (which increased from the m3)
+extractAIC(update(m3, . ~ .  - question_14 ))
+extractAIC(update(m3, . ~ .  - child_included))
+
+# therefore, we stop and choose m3
+summary(m3)
 ```
+
+Our results from model comparison still retain `question_11` and `question_12` as well as other coefficients.
+
+## Final moodel from Moser et al. (2016)
+
+```{r}
+m_paper <- update(lm_all, . ~ . - question_11 - question_12 - housemates - gender, data = meal_data)
+summary(m_paper)
+```
+
+Here, we have a reasonable residual Df of (`r summary(m_paper)$fstatistic[2]`), which is much closer to the number of rows in the data (`r nrow(meal_data)` rows). We also reproduced \\(F\\) and \\(R^2\\) from this model. There are possible explanation why our automatic AIC doesn't arrive at this model:
+
+* Moser et al. (2016) removed `question_11` and `question_12` because their the t-test of these coefficients are not statistically significant.
+* The missing (f) changes how the AIC develop in the model comparison sequence.
+
+## Your turn
+Try comparing models  with the second response variable: How appropriate would it be for a child at this meal to take out their mobile phone and send or read a text message? (`question_7`). Note that this variable is appropriate for those who indicated that they have children (`child_included` == 1).
+```{r}
+# TODO: your code here
+```
+
 
 # References
 
 * Kostadin Kushlev, Jason Proulx, and Elizabeth W. Dunn. 2016. "Silence Your Phones": Smartphone Notifications Increase Inattention and Hyperactivity Symptoms. In Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems (CHI '16). ACM, New York, NY, USA, 1011-1020. DOI: https://doi.org/10.1145/2858036.2858359
+
+* Carol Moser, Sarita Y. Schoenebeck, and Katharina Reinecke. 2016. Technology at the Table: Attitudes about Mobile Phone Use at Mealtimes. In Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems (CHI '16). ACM, New York, NY, USA, 1881-1892. DOI: https://doi.org/10.1145/2858036.2858357
