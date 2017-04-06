@@ -36,7 +36,7 @@ options(DT.autoHideNavigation = TRUE)
 # (We can still use the functions inside, e.g., MASS::stepAIC() )
 
 p_load(MASS); p_unload(MASS)     # for stepwise regression 
-                
+p_load(multcomp)  # for glht, mcp
 ```
 
 # Data
@@ -215,6 +215,143 @@ Determine whether ther interaction term should be included in this model or not.
 ```
 
 
+# Categorical independent variable
+So far, we have been analyzing interval/ratio independent variable. We will now turn our focus to categorical independent variable, which is frequently the case for data collected from HCI experiments.
+
+
+In the code below, we analyze the effect of `Month` of usage to `ResponseTime` in for Team A. (We disregard the order of `Month` for a moment.)
+```{r}
+responseTime_df %>% 
+  filter(Team == "Team A") %>% 
+  mutate(Month = factor(Month)) ->
+  rt_teamA
+```
+
+## Model fitting
+Now we fit a linear model. R will code `Month` into two regressors: `Month2` and `Month3`.
+(See `Categorical.Rmd` for an explanation of how categorical variables are coded into multiple binary regressors.)
+```{r}
+m_month <- lm(ResponseTime ~ Month, data = rt_teamA)
+m_month_anova <- anova(m_month)
+summary(m_month)
+```
+
+The estimated value of `(Intercept)` has the same value as the mean of the first month.
+
+```{r}
+rt_teamA %>% 
+  group_by(Month) %>% 
+  summarise(`Group means` = mean(ResponseTime)) %>% 
+  mutate(
+    `Equivalent model parameters` = c(
+      "(Intercept)",
+      "(Intercept) + Month2",
+      "(Intercept) + Month3"
+    ),
+    `Calculation result` = c(
+      m_month$coefficients["(Intercept)"],
+      m_month$coefficients["(Intercept)"] + m_month$coefficients["Month2"],
+      m_month$coefficients["(Intercept)"] + m_month$coefficients["Month3"]
+    )
+  )
+```
+
+**Interpretation:** For models with categorical independent variables, we can use 
+the result from the linear regression to infer *only* about the model fit (*F*-statistic) and 
+the estimates of group means. We won't interpret the *t*-statistics because
+this could incrase error probability (more on this later).
+
+In other words, we can only test the following null hyptothesis:
+
+* \\(H_0\\): There's no difference between the model with a single mean for the whole data vs. the model with individual mean for each month.
+* \\(H_1\\): There's some difference between the two models.
+
+
+For this hypothesis, the results suggest that the fit of the model with three means differs from the model with single mean, \\(F(`r m_month_anova$Df[1]`, `r m_month_anova$Df[2]`) = `r m_month_anova[["F value"]][1]`, p < .001  \\).
+
+(Exact p value = `r m_month_anova[["Pr(>F)"]][1]`)
+
+## Estimation
+
+For models with categorical independent variables, we will have to use additional step
+to estimate the mean difference among groups. There are two ways to do this. 
+
+### Planned contrasts
+
+If we have a meaningful plan prior to the analysis, we can use *planned contrasts*
+method that allow us to test complex combination of means. In the example below,
+we tests two hypotheses:
+
+  * \\(H_{0,1}\\): There's no difference between Month 1 vs. Month 2 and 3 combined.
+  * \\(H_{1,1}\\): There's some difference between Month 1 vs. Month 2 and 3 combined.
+
+  * \\(H_{0,1}\\): There's no difference between Month 2 vs. 3.
+  * \\(H_{1,1}\\): There's some difference between Month 2 vs. 3.
+
+
+```{r}
+month_contrasts <- glht(m_month,   # glht: Generalized Linear Hypothesis Tests
+  linfct = mcp(                    # linfct: LINear FunCTion; mcp: Multiple ComParison
+    Month = c(
+      "`1` - (`2` + `3`) = 0",     # null hypothesis 1 
+      "`2` - `3` = 0"              # null hypothesis 2
+      
+      # NOTE: We use the backquote (`) around the Month's level 1, 2, and 3 
+      # to let R know that we meant the levels in our data, not numbers.
+      # Compare this with "0" that was not surrounded by backquotes
+)))
+
+print(summary(month_contrasts))
+```
+
+The results of `glht` function gives us a breakdown test of both hypotheses as well as the estimate of the differences and standard error (of which we can used to calculate 95% confidence interval). We can plot them out below:
+
+
+```{r}
+contrasts_t <- tidy(confint(month_contrasts))
+print(contrasts_t)
+contrasts_t %>% 
+  ggplot(aes(x = paste(lhs, "==", rhs))) +
+  geom_hline(yintercept = 0, color = "grey") +     # reference line
+  geom_point(aes(y = estimate)) +                  # point estimate of the difference
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+  expand_limits(y = 0) +
+  coord_flip() +
+  xlab("Hypothesis") +
+  ylab("Estimate of the difference")
+  
+```
+
+From the graph, we can see that the estimate of the difference including their confidence intervals are very far from zero. This suggests that the data are more compatible with both of our alternative hypotheses (i.e. we beleive that there're differences).
+
+For statistical reports, we'd include the estimate of the differences, the 95% confidence interval, and the results of the two t-tests in a table format.
+
+
+### Pairwise comparison
+
+When we do exploratory data analysis, we usually don't have any comparisons planned. Thus, we tend to compare the difference of all possible pairs of levels. We can do this using a similar function:
+
+```{r}
+month_pairwise <- glht(m_month,
+  linfct = mcp(                
+    Month = "Tukey"    # Tukey's test will compare all pairs of levels and adjust probability accordingly
+))
+
+print(summary(month_pairwise))
+pairwise_t <- tidy(confint(month_pairwise))
+print(pairwise_t)
+pairwise_t %>% 
+  ggplot(aes(x = paste(lhs, "==", rhs))) +
+  geom_hline(yintercept = 0, color = "grey") +     # reference line
+  geom_point(aes(y = estimate)) +                  # point estimate of the difference
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+  expand_limits(y = 0) +
+  coord_flip() +
+  xlab("Hypothesis") +
+  ylab("Estimate of the difference")
+```
+
+Note that in the pairwise comparison, we can only compare simple hypotheses. In particular, we cannot compare the differences between group of levels.
 
 # References
 
