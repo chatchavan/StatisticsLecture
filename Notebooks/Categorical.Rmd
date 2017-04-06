@@ -133,7 +133,7 @@ Assuming that \\((H_0\\)) is true, the data doesn't quite compatible with \\(H_0
 We also know the location of each mean from the coefficients. What we do not yet know is whether the three means differs significantly or not.
 
 
-# Checking the differences: contrast
+# Checking the differences: pairwise comparison
 We can compare pairs that we are interested in.
 
 If we don't have any plan, we can compare three hypotheses simultaneously:
@@ -141,19 +141,57 @@ If we don't have any plan, we can compare three hypotheses simultaneously:
 * \\(H_{0, 2}\\): \\(\\mu_A - \\mu_C = 0\\) 
 * \\(H_{0, 3}\\): \\(\\mu_B - \\mu_C = 0\\) 
 ```{r}
-summary(glht(m1, linfct = mcp(Group = "Tukey")))
+group_pairwise <- glht(m1, linfct = mcp(Group = "Tukey"))
+# glht: Generalized Linear Hypothesis Tests
+# linfct: LINear FunCTion; mcp: Multiple ComParison
+
+summary(group_pairwise)
 ```
 
+We can plot the differences out. 
+```{r}
+group_pairwise_t <- tidy(confint(group_pairwise))
+group_pairwise_t %>% 
+  ggplot(aes(x = paste(lhs, "==", rhs))) +
+  geom_hline(yintercept = 0, color = "grey") +     # reference line
+  geom_point(aes(y = estimate)) +                  # point estimate of the difference
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+  expand_limits(y = 0) +
+  coord_flip() +
+  xlab("Hypothesis") +
+  ylab("Estimate of the difference")
+```
+
+**Interpretation:** In the plot above, we can see that the difference between C vs. B and B vs. A are pretty close to zero. The 95% confidence interval of the C vs. B pair actually crosses zero. Therefore, we'd interpret that the difference between C vs. B is unlikely. 
+
+For B vs. A, although the confidence interval doesn't include zero, it's pretty near. At this point, we should use the domain knowledge in our judgement. For example, if the difference is in terms of task completion time in seconds. The difference around 0.15 - 2.6 second wouldn't be a big deal. However, if the data is the difference between cost in million Euros, the difference between 0.15 -2.6 millions would be more notable.
+
+The interpretation of C vs. A is left as your exercise.
+
+
+# Checking the differences: planned contrast
 But if we have planned our comparison beforehand. For example, if A is the baseline, and B, C are treatments conditions. We want to compare the following pairs
 
 * \\(H_{0, 1}\\): Baseline vs. treatments \\(\\mu_A - \\mu_BC = 0\\) 
 * \\(H_{0, 2}\\): Compare between the two treatments \\(\\mu_B - \\mu_C = 0\\) 
 ```{r}
-summary(glht(m1, linfct = 
-               mcp(Group = c("A - (B + C) = 0",
-                             "B - C = 0"
-                             )
-             )))
+group_contrast <- glht(m1, 
+  linfct = mcp(
+    Group = c(
+      "A - (B + C) = 0",     # null hypothesis 1
+      "B - C = 0"            # null hypothesis 2
+)))
+print(summary(group_contrast))
+group_contrast_t <- tidy(confint(group_contrast))
+group_contrast_t %>% 
+  ggplot(aes(x = paste(lhs, "==", rhs))) +
+  geom_hline(yintercept = 0, color = "grey") +     # reference line
+  geom_point(aes(y = estimate)) +                  # point estimate of the difference
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+  expand_limits(y = 0) +
+  coord_flip() +
+  xlab("Hypothesis") +
+  ylab("Estimate of the difference")
 ```
 
 In general, good experimental designs have planned contrasts in advance, thus avoid testing too many hypotheses simultaneously.
@@ -197,7 +235,4 @@ print(anova_result)
 
 **Interpretation:** Both independent variables have statistically significant effect on the `Time`. The interaction effect is also statistically significant.
 
-```{r}
-
-```
 
