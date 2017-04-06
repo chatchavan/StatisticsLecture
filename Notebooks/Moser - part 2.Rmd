@@ -125,7 +125,7 @@ extractAIC(update(lm_all, . ~ .  - question_12 ))
 extractAIC(update(lm_all, . ~ .  - question_16 ))
 extractAIC(update(lm_all, . ~ .  - question_14 ))
 extractAIC(update(lm_all, . ~ .  - child_included ))
-extractAIC(update(lm_all, . ~ .  - hoursemates ))
+extractAIC(update(lm_all, . ~ .  - housemates ))
 extractAIC(update(lm_all, . ~ .  - gender ))  # lowest AIC: 1220
 
 
@@ -136,13 +136,13 @@ extractAIC(update(m2, . ~ .  - question_12 ))
 extractAIC(update(m2, . ~ .  - question_16 ))
 extractAIC(update(m2, . ~ .  - question_14 ))
 extractAIC(update(m2, . ~ .  - child_included ))
-extractAIC(update(m2, . ~ .  - hoursemates )) # lowest AIC:  1220
+extractAIC(update(m2, . ~ .  - housemates )) # lowest AIC:  1218
 
 m3 <- update(m2, . ~ .  - housemates )
 extractAIC(update(m3, . ~ .  - age ))
 extractAIC(update(m3, . ~ .  - question_11 ))
 extractAIC(update(m3, . ~ .  - question_12 ))
-extractAIC(update(m3, . ~ .  - question_16 )) # lowest AIC: 1223 (which increased from the m3)
+extractAIC(update(m3, . ~ .  - question_16 )) # lowest AIC: 1226 (which increased from the m3)
 extractAIC(update(m3, . ~ .  - question_14 ))
 extractAIC(update(m3, . ~ .  - child_included))
 
