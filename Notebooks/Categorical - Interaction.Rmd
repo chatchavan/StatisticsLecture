@@ -1,0 +1,463 @@
+---
+title: "Categorical independent variable with interactions"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+
+####
+# BEGIN: Chat's R header (revision: 10.4.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   tidyr,      #   - for data tidying
+   forcats,    #   - utility functions for working with factor levels
+               # extensions of tidyverse
+   broom,      #   - for cleaing output from models, e.g., lm()
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # data structure
+   GetoptLong, #   - string interpolation. See qq() explanation below
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+p_load_gh(
+   "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+)
+
+# GetoptLong config (string interpolation)
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color="lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Optional: Decimal output readability
+# options(digits=2)
+##   NOTE: This option might cause output to be printed with rounding. (default value = 7)
+
+####
+# END: Chat's R header
+####
+```
+
+<!-- two columns -->
+<style>
+.column-left{
+  float: left;
+  width: 50%;
+  text-align: left;
+  padding-right: 1%;
+}
+.column-right{
+  float: right;
+  width: 50%;
+  text-align: left;
+  padding-left: 1%;
+}
+.clear {
+  clear: both;
+}
+</style>
+
+# Data and exploratory plot
+The following dataset is simulated to be similar to the comparison of tangible knobs and touch input (Voelker et al., 2015). In this dataset, we simplify the study with the following setup:
+
+* 2 Devices (Touch and Knob) x
+* 3 Vision conditions (EyesFree, Peripheral, and EyesOn)
+* Between-subjects design
+* The dependent variable is the completion time in seconds.
+* No repetitions
+```{r}
+data1 <- tibble(
+    Participant = paste0("S", 1:48), 
+    Device = factor(
+      c(rep("Touch",24), 
+        rep("Knob",24)), levels = c("Touch", "Knob")), 
+    Vision = factor(rep(
+      c(rep("EyesOn",8),
+        rep("Peripheral",8),
+        rep("EyesFree",8)), 2), levels = c("EyesFree", "Peripheral", "EyesOn")),
+    Time = c(1.2,1.4,1.8,2.0,1.1,1.5,1.5,1.7,
+2.1,2.5,2.2,2.2,2.9,2.3,2.3,2.6,
+3.5,3.4,3.3,3.2,2.9,2.8,3.8,3.4,
+2.4,1.8,2.5,2.1,2.2,1.9,1.7,2.3,
+2.8,3.1,3.2,4.0,2.9,3.6,3.2,3.7,
+4.5,4.8,4.7,4.1,4.1,4.2,4.6,4.9))
+data1
+```
+
+```{r}
+# ensure that independent variables are factors (essential for glht())
+data1$Device <- as.factor(data1$Device)
+data1$Vision <- as.factor(data1$Vision)
+```
+
+Plotting beeswarm of the data points and the mean time:
+
+```{r}
+pd <- position_dodge(0.3) # ensure no overlaps
+
+plot_grid({ 
+  data1 %>% 
+    ggplot(aes(x = Device, y = Time, color = Vision)) +
+    geom_beeswarm() + 
+    expand_limits(y = 0) +
+    theme(legend.position = "none")
+  },{
+  data1 %>% 
+    ggplot(aes(x = Device, y = Time, color = Vision, group = Vision)) +
+    stat_summary(fun.y = mean, geom = "point", shape = 18, size = 3, position = pd) + 
+    stat_summary(fun.y = mean, geom = "line", position = pd) + 
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0, position = pd) + 
+    ylab("Mean(Time) and 95% CI") +
+    expand_limits(y = 0)
+  },
+  nrow = 1)
+```
+
+**Interpretation:** The plot on the right shows the mean and 95% confidence interval of each group. There seems to be an overall effect of `Device`: knob seems to be slower than touch. As for `Vision`, there seems to be an effect: eyes-on condition is fastest, follow by the peripheral condition, and the eyes-free condition is slowest. The slope of the three lines seems to differ, suggesting an interaction between `Device` and `Vision`.
+
+# Data and exploratory plot
+The interaction effect is coded by multiplying regressors. Notice the comparison between the two model matrices below. On the left matrix, no interaction effect is coded. Thus, we have four regressors: one intercept, one regressor for `Device`, two regressors for  `Vision`. On the right matrix, two regressors are added to encode the interactions between `Device` and `Vision`. They are the result of multiplication between the second regressor and the third (and fourth respectively).
+
+```{r}
+par(mfcol = c(1,2))
+rafalib::imagemat(model.matrix(~ Device + Vision, data = data1), main ="Without interaction")
+coded2 <- model.matrix(~ Device * Vision, data = data1) 
+rafalib::imagemat(coded2, main ="With interaction")
+par(mfcol = c(1,1))
+```
+# Model fitting
+```{r}
+m1 <- lm(Time ~ Vision * Device, data = data1)
+summary(m1)
+anova(m1)
+```
+
+**Interpretation:** Both independent variables have statistically significant effect on the `Time`. The interaction effect is also statistically significant. Therefore, we will follow this up with mean comparisions. Again, we can do this in either: multiple comparisons or planned contrast. We first do the comparison of the main effect before comparing the interaction.
+
+# Main effects
+
+Main effect comparison can be done by removing the interaction term from the model. We can do pairwise comparisions with the code below:
+```{r}
+m1.main <-  update(m1, .~. - Vision:Device)   # This is the updated model
+m1.main.pairwise <- glht(m1.main,
+  linfct = mcp(
+    Device = "Tukey",
+    Vision = "Tukey"))
+```
+
+
+We can plot the comparisons with the 95% confidence interval. These intervals are adjusted according to the multiple hypotheses that we tested to ensure that we have 5% probabilty for Type I error in this set of comparisons.
+```{r}
+# a helper function to plot the results from multiple comparison
+plotMc <- function(mc.result)
+{
+  mc.result %>% 
+    confint() %>% 
+    tidy() %>% 
+    ggplot(aes(x = paste(lhs, "==", rhs))) +
+    geom_hline(yintercept = 0, color = "red") +     # reference line
+    geom_point(aes(y = estimate)) +                  # point estimate of the difference
+    geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+    expand_limits(y = 0) +
+    coord_flip() +
+    xlab("Hypothesis") +
+    ylab("Estimate of the difference")
+}
+
+
+m1.main.pairwise %>% 
+  plotMc() + 
+  expand_limits(y = c(-3, 1.5))  # for consistency with plots below
+```
+
+Alternatively, we usually prefer planned contrasts. Suppose we have planned the following null hypotheses:
+
+* \\(H_{0, 1}\\): EyesOn - "Peripheral and EyesFree combined" == 0
+* \\(H_{0, 2}\\): Peripheral - EyesFree == 0
+* \\(H_{0, 3}\\): Knob - Touch == 0
+
+We can check these hypotheses below:
+```{r}
+m1.planned.mc <- glht(m1.main,
+  linfct = mcp(
+    Vision = c(
+      "EyesOn - (Peripheral + EyesFree) == 0",
+      "Peripheral - EyesFree == 0"
+      ),
+    Device = "Knob - Touch == 0")) 
+
+m1.planned.mc %>% 
+  plotMc() + 
+  expand_limits(y = c(-3, 1.5))
+
+planned.ci <- tidy(confint(m1.planned.mc))
+```
+
+**Interpretation:** For `Devices` the knob condition was slower than the touch condition by `r planned.ci[3, "estimate"]`, 95% CI: [`r planned.ci[3, "conf.low"]`, `r planned.ci[3, "conf.high"]`]. As for `Vision`, the comparisons are shown in the graph above. Looking at the uer interface (eyes-on) is faster than not looking (peripheral and eyes free). Having peripheral vision seems to also be faster than completely eyes-free.
+
+
+
+
+# Interaction
+
+## Multiple comparisions
+We compare between the three levels of `Vision` variable with Tukey method within each device. (Six hypotheses: three for `Touch`, three for `Knob`) Unfortunately, this is not automatic. We first need to create a model with only the interaction term. Then, we construct contrast matrix manually.
+```{r}
+# model with only the interaction term
+m1.interaction <- update(m1, .~. -Vision - Device -1)
+summary(m1.interaction)  
+```
+
+In this model, each coefficient estimate corresponds to the mean of each sub-group. Note that the F-statistic, degrees of freedom, and R-squared differ from the original model `m1` above. We don't use these statistics.
+
+Notice that in the original `m1`, we use `Vision * Device`. The same model can be fit with `Device * Vision`, however, we choose this sequence to make it easy to specify contrast matrix below.
+
+Next, we construct the contrast matrix. Each *row* of coefficients in the linear model above correspond to a *column* in the contrast matrix. Each row of the contrast matrix expresses one hypothesis.
+
+1. We generate Tukey contrast matrix for the `Vision` variable.
+
+```{r}
+visionContr <- contrMat(table(data1$Vision), "Tukey")
+visionContr
+```
+
+2. We extend this matrix with zeros for the coefficients that we aren't interested in each hypothesis. We also set the row names to be meaningful. This will help reading the results later
+```{r}
+vTouch <- cbind(visionContr,       (visionContr * 0))
+vKnob  <- cbind((visionContr * 0), visionContr)
+rownames(vTouch) <- paste(levels(data1$Device)[1],  rownames(vTouch), sep =": ")
+rownames(vKnob)  <- paste(levels(data1$Device)[2],  rownames(vKnob),  sep =": ")
+visionContrastByDevice <- rbind(
+  vTouch,
+  vKnob
+)
+visionContrastByDevice
+```
+
+We can now run the multiple comparison:
+
+```{r}
+m1.interaction.mc <- glht(m1.interaction, linfct = visionContrastByDevice)  # notice that we don't use mcp()
+
+m1.interaction.mc %>% plotMc()
+```
+
+**Interpretation:** The differences among the three levels of `Vision` seems to be consistent between the two devices. The interaction effect seems to shifts the results of contrasts in the knob condition to be higher than those in the touch condition. This can be explained by the main effect above.
+
+
+## Planned contrast
+We can construct the planned contrast matrix in a similar way (manually), and use the same interaction-only model. Suppose we wishes to test two hypotheses for each device (in total: four hypotheses):
+
+* \\(H_{0, 1}\\): EyesOn - "Peripheral and EyesFree combined" == 0
+* \\(H_{0, 2}\\): Peripheral - EyesFree == 0
+
+Notice how the signs in the matrix below corresponds with the signs in the hypotheses. The column names matches the levels of the first variables in the interaction:
+
+```{r}
+m1.interaction$xlevels$Vision
+```
+
+```{r}
+visionContr <- matrix(byrow = TRUE, nrow = 2,
+  data = c(
+    -1, -1, 2,
+    -1, 1, 0),
+  dimnames = list(c(
+      # row names: hypotheses (only the left-hand-side)
+      "EyesOn - (Peripheral + EyesFree)",
+      "Peripheral - EyesFree"
+    ),
+    c(
+      # column names: the levels of the first variable of the interaction
+      m1.interaction$xlevels$Vision
+    )))
+  
+visionContr
+```
+The rest is the same as above
+```{r}
+vTouch <- cbind(visionContr,       (visionContr * 0))
+vKnob  <- cbind((visionContr * 0), visionContr)
+rownames(vTouch) <- paste(levels(data1$Device)[1],  rownames(vTouch), sep =": ")
+rownames(vKnob)  <- paste(levels(data1$Device)[2],  rownames(vKnob),  sep =": ")
+visionContrastByDevice <- rbind(
+  vTouch,
+  vKnob
+)
+visionContrastByDevice
+
+m1.interaction.mc <- glht(m1.interaction, linfct = visionContrastByDevice)  # notice that we don't use mcp()
+
+m1.interaction.mc %>%plotMc()
+```
+
+
+# Summary
+For categorical independent variables with interaction effects, we analyze them using the following steps:
+
+1. Fit model with interaction to assess the effect of the interaction term.
+
+Then, follow up with planned contrasts (preferred) or multiple comparisons of:
+
+2. Compare means of the main efffects (the effect of each independent variable). Here, you have to remove the interaction effect term before running `ghlt()`
+
+3. Compare means of the interaction effects. Here, you have to  remove the main effect terms as well as the intercept before running `ghlt()`
+
+
+It's possible to do only 2. or 3., depending on your hypotheses.
+
+
+# Your turn
+
+The simulated dataset below comes from a study comparing touch reaction time. The participants tap on a target that appears on the screen. The study is between-subjecs design with two independent variables:
+
+* `Device`: two sizes of mobile devices (`Phone` vs. `Tablet`)
+* `Hands`: whether the participants use only the index finger of their dominant hand (`OneIndex`) or using two thumbs from both hands (`TwoThumbs`)
+
+You are interested in the effect of `Devices` and `Hands` as well as their interactions. Analyze this dataset by completing the code below
+
+## Data loading & exploratory plot
+```{r}
+data_typing <- read_csv("../data/TouchscreenTyping.csv", col_types = "cccd")
+data_typing %>%
+  filter(., Hands == "TwoThumbs" & Device == "Tablet") %>%
+  mutate(Time = Time - 0.5) ->
+  data_typing[data_typing$Hands == "TwoThumbs" & data_typing$Device == "Tablet", ]
+
+data_typing %>%
+  filter(., Hands == "TwoThumbs" & Device == "Phone") %>%
+  mutate(Time = Time + 0.5) ->
+  data_typing[data_typing$Hands == "TwoThumbs" & data_typing$Device == "Phone", ]
+
+pd <- position_dodge(0.3) # ensure no overlaps
+
+plot_grid({ 
+  data_typing %>% 
+    ggplot(aes(x = Device, y = Time, color = Hands)) +
+    geom_beeswarm() + 
+    expand_limits(y = 0) +
+    theme(legend.position = "none")
+  },{
+  data_typing %>% 
+    ggplot(aes(x = Device, y = Time, color = Hands, group = Hands)) +
+    stat_summary(fun.y = mean, geom = "point", shape = 18, size = 3, position = pd) + 
+    stat_summary(fun.y = mean, geom = "line", position = pd) + 
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0, position = pd) + 
+    ylab("Mean(Time) and 95% CI") +
+    expand_limits(y = 0)
+  },
+  nrow = 1)
+```
+
+**Interpretation:** TODO: write your preliminary interpretation based on the plot above.
+
+## Assess model fit with interaction term
+
+```{r}
+# # ensure data type for modelling
+# data_typing$Device <- #TODO#
+# data_typing$Hands <- #TODO#
+
+# # linear model and ANOVA
+# m2 <- lm( #TODO# )
+# anova(m2)
+```
+
+**Interpretation:** TODO: Write your interpretation of the model fit. (Hint: Which terms seems to have a significant effect according to ANOVA result?)
+
+## Main effect comparison
+
+```{r}
+# m2.main <-  update(m2, .~. #TODO#)   # update the model to exclude the interaction
+# m2.main.pairwise <- glht(m2.main,
+#   linfct = mcp( 
+#     #TODO#
+#     ))
+# print(m2.main.pairwise)
+# m2.main.pairwise %>% plotMc()
+```
+
+**Interpretation:** TODO: Write your interpretation. (Hint: Which independent variables seems to have stronger effect?)
+
+## Interaction comparison
+Do multiple comparison to address the hypotheses below:
+
+* \\(H_{0, 1}\\): On the phone, there's no difference between the two-thumbs and one-index usage.
+* \\(H_{0, 2}\\): On the tablet, there's no difference between the two-thumbs and one-index usage.
+
+```{r}
+# m2.interaction <-  update(m2, .~. #TODO#)   # update the model to exclude main effect and intercept
+# summary(m2.interaction)
+```
+
+In the contrast matrix below, the columns are the levels of the first variable of the interaction
+
+```{r}
+# # template of the contrast matrix
+# contr_matrix <- matrix(byrow = TRUE, nrow = 2,
+#   data = c(
+#     0, 0, 0, 0,
+#     0, 0, 0, 0),
+#   dimnames = list(c(
+#       # row names: hypotheses (only the left-hand-side)
+#       "Phone: TwoThumbs - OneIndex",
+#       "Tablet: TwoThumbs - OneIndex"
+#     ),
+#     c(
+#       # column names: the levels of the first variable of the interaction
+#       rep(m2.interaction$xlevels[[1]], 2)
+#     )))
+#   
+# print(contr_matrix)
+# 
+# # TODO: replace some of the following zeros with an appropriate number. 
+# contr_matrix[1,] <- c(0, 0, 0, 0)
+# contr_matrix[2,] <- c(0, 0, 0, 0)
+# print(contr_matrix) # updated contrast matrix
+```
+
+Now, you can run the interaction contrasts.
+```{r}
+# m2.interaction.mc <- glht(m2.interaction, linfct = contr_matrix)
+# m2.interaction.mc %>%plotMc()
+```
+
+**Interpretation:** TODO: Write your interpretation. (Hint: Does the effect of the hands manifest in the same way in both devices?)
+
+
+
+# References
+* Simon Voelker, Kjell Ivar Øvergård, Chat Wacharamanotham, and Jan Borchers. 2015. Knobology Revisited: A Comparison of User Performance between Tangible and Virtual Rotary Knobs. In Proceedings of the 2015 International Conference on Interactive Tabletops & Surfaces (ITS '15). ACM, New York, NY, USA, 35-38. DOI: https://doi.org/10.1145/2817721.2817725
