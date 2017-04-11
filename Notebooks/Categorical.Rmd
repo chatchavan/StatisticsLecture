@@ -247,9 +247,9 @@ plot_grid({
 
 Fitting linear model
 ```{r}
-# data_game$Device <- as.factor(data_game$Device)  # ensure that the Device is a factor variable
-# m2 <- lm( #TODO# , data = data_game)
-# anova(m2)
+data_game$Device <- as.factor(data_game$Device)  # TODO ensure that the Device is a factor variable
+m2 <- lm(Time ~ Device, data = data_game)
+anova(m2)
 ```
 
 Conduct a planned contrast by uncommenting the code below and fill in specification for the following hypotheses:
@@ -260,22 +260,25 @@ Conduct a planned contrast by uncommenting the code below and fill in specificat
 * \\(H_{0, 4}\\): There's no difference between Wiimote and Kinect
 
 ```{r}
-# m2.contrast <- glht(m2, linfct = mcp(Device = 
-#   c(
-#     #TODO#
-#     )))
-# 
-# m2.contrast %>% 
-#   confint() %>% 
-#   tidy() %>% 
-#   ggplot(aes(x = paste(lhs, "==", rhs))) +
-#   geom_hline(yintercept = 0, color = "red") +
-#   geom_point(aes(y = estimate)) +            
-#   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
-#   expand_limits(y = 0) +
-#   coord_flip() +
-#   xlab("Hypothesis") +
-#   ylab("Estimate of the difference")
+m2.contrast <- glht(m2, linfct = mcp(Device = 
+  c(
+    "(Mouse + Trackpad) - (Joystick + Wiimote + Kinect) == 0",
+    "Mouse - Trackpad == 0",
+    "Joystick - (Wiimote + Kinect) == 0",
+    "Wiimote - Kinect == 0"
+    )))
+
+m2.contrast %>% 
+  confint() %>% 
+  tidy() %>% 
+  ggplot(aes(x = paste(lhs, "==", rhs))) +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_point(aes(y = estimate)) +            
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
+  expand_limits(y = 0) +
+  coord_flip() +
+  xlab("Hypothesis") +
+  ylab("Estimate of the difference")
 ```
 
 **Interpretation:** TODO: write your interpretation of the planned contrast analysis here.
