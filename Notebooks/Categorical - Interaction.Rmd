@@ -458,6 +458,31 @@ Now, you can run the interaction contrasts.
 **Interpretation:** TODO: Write your interpretation. (Hint: Does the effect of the hands manifest in the same way in both devices?)
 
 
+## Your turn (2)
+
+You replicated the experiment above with an addition of a smartwatch condition. Analyze the data from this experiment.
+
+```{r}
+data_typing <- read_csv("../data/TouchscreenTyping2.csv", col_types = "cccd")
+
+plot_grid({ 
+  data_typing2 %>% 
+    ggplot(aes(x = Device, y = Time, color = Hands)) +
+    geom_beeswarm() + 
+    expand_limits(y = 0) +
+    theme(legend.position = "none")
+  },{
+  data_typing2 %>% 
+    ggplot(aes(x = Device, y = Time, color = Hands, group = Hands)) +
+    stat_summary(fun.y = mean, geom = "point", shape = 18, size = 3, position = pd) + 
+    stat_summary(fun.y = mean, geom = "line", position = pd) + 
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0, position = pd) + 
+    ylab("Mean(Time) and 95% CI") +
+    expand_limits(y = 0)
+  },
+  nrow = 1)
+```
+
 
 # References
 * Simon Voelker, Kjell Ivar Øvergård, Chat Wacharamanotham, and Jan Borchers. 2015. Knobology Revisited: A Comparison of User Performance between Tangible and Virtual Rotary Knobs. In Proceedings of the 2015 International Conference on Interactive Tabletops & Surfaces (ITS '15). ACM, New York, NY, USA, 35-38. DOI: https://doi.org/10.1145/2817721.2817725
