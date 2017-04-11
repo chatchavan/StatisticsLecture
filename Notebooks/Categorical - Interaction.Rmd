@@ -508,7 +508,7 @@ m2.interaction.mc %>%plotMc()
 You replicated the experiment above with an addition of a smartwatch condition. Analyze the data from this experiment.
 
 ```{r}
-data_typing <- read_csv("../data/TouchscreenTyping2.csv", col_types = "cccd")
+data_typing2 <- read_csv("../data/TouchscreenTyping2.csv", col_types = "cccd")
 
 plot_grid({ 
   data_typing2 %>% 
