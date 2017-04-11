@@ -153,7 +153,7 @@ We can plot the differences out.
 group_pairwise_t <- tidy(confint(group_pairwise))
 group_pairwise_t %>% 
   ggplot(aes(x = paste(lhs, "==", rhs))) +
-  geom_hline(yintercept = 0, color = "grey") +     # reference line
+  geom_hline(yintercept = 0, color = "red") +     # reference line
   geom_point(aes(y = estimate)) +                  # point estimate of the difference
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
   expand_limits(y = 0) +
@@ -182,10 +182,21 @@ group_contrast <- glht(m1,
       "B - C = 0"            # null hypothesis 2
 )))
 print(summary(group_contrast))
+
+# calculate confidence interval for each of the hypotheses
 group_contrast_t <- tidy(confint(group_contrast))
+
 group_contrast_t %>% 
-  ggplot(aes(x = paste(lhs, "==", rhs))) +
-  geom_hline(yintercept = 0, color = "grey") +     # reference line
+  
+  # add readable hypothesis column
+  mutate(Hypothesis = paste(lhs, "==", rhs)) %>% 
+  
+  # reverse order to counter the effect of the following coord_flip()
+  mutate(Hypothesis = factor(Hypothesis, levels = (rev(Hypothesis)))) %>%
+  
+  # plot
+  ggplot(aes(x = Hypothesis)) +
+  geom_hline(yintercept = 0, color = "red") +     # reference line
   geom_point(aes(y = estimate)) +                  # point estimate of the difference
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
   expand_limits(y = 0) +
@@ -196,43 +207,15 @@ group_contrast_t %>%
 
 In general, good experimental designs have planned contrasts in advance, thus avoid testing too many hypotheses simultaneously.
 
-
-
-# Two categorical variables
-
 ```{r}
-data2 <- tibble(
-    Participant = paste0("S", 1:48), 
-    Device = factor(
-      c(rep("Tablet",24), 
-        rep("Mobile",24))), 
-    Technique = factor(rep(
-      c(rep("Gesture",8),
-        rep("Pen",8),
-        rep("QWERTY",8)), 2)),
-    Time = c(1.2,1.4,1.8,2.0,1.1,1.5,1.5,1.7,
-2.1,2.5,2.2,2.2,2.9,2.3,2.3,2.6,
-3.5,3.4,3.3,3.2,2.9,2.8,3.8,3.4,
-2.4,1.8,2.5,2.1,2.2,1.9,1.7,2.3,
-2.8,3.1,3.2,4.0,2.9,3.6,3.2,3.7,
-4.5,4.8,4.7,4.1,4.1,4.2,4.6,4.9))
-
-data2 %>% 
-  ggplot(aes(x = Technique, y = Time, color = Device)) +
-  geom_beeswarm()
+summary(glht(m1, 
+  linfct = mcp(
+    Group = c(
+      "A - (B + C) = 0"# null hypothesis 1
+))))
 ```
 
-```{r}
-coded2 <- model.matrix(~ Technique * Device, data = data2) 
-rafalib::imagemat(coded2, main ="Model matrix, two IVs with interaction")
-```
 
-```{r}
-m2 <- lm(Time ~ Technique * Device, data = data)
-anova_result <- anova(m2)
-print(anova_result)
-```
 
-**Interpretation:** Both independent variables have statistically significant effect on the `Time`. The interaction effect is also statistically significant.
 
 
