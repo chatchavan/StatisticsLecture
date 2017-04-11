@@ -1,0 +1,144 @@
+---
+title: "Repeated measures"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+
+####
+# BEGIN: Chat's R header (revision: 10.4.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   tidyr,      #   - for data tidying
+   forcats,    #   - utility functions for working with factor levels
+               # extensions of tidyverse
+   broom,      #   - for cleaing output from models, e.g., lm()
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # data structure
+   GetoptLong, #   - string interpolation. See qq() explanation below
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+p_load_gh(
+   "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+)
+
+# GetoptLong config (string interpolation)
+qq.options("code.pattern" = "#\\{CODE\\}") 
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color="lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Optional: Decimal output readability
+# options(digits=2)
+##   NOTE: This option might cause output to be printed with rounding. (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+p_load(lme4, lmerTest)  # for multilevel model functions
+```
+
+# Data and exploratory plot
+The following dataset is simulated to be similar to the comparison of tangible knobs and touch input (Voelker et al., 2015). In this dataset, we simplify the study with the following setup:
+
+* 2 Devices (Touch and Knob) x
+* 3 Vision conditions (EyesFree, Peripheral, and EyesOn)
+* Within-subjects design
+* The dependent variable is the completion time in seconds.
+```{r}
+data1 <- tibble(
+    Participant = rep(paste0("S", 1:8), 6), 
+    Device = factor(
+      c(rep("Touch",24), 
+        rep("Knob",24)), levels = c("Touch", "Knob")), 
+    Vision = factor(rep(
+      c(rep("EyesOn",8),
+        rep("Peripheral",8),
+        rep("EyesFree",8)), 2), levels = c("EyesFree", "Peripheral", "EyesOn")),
+    Time = c(1.2,1.4,1.8,2.0,1.1,1.5,1.5,1.7,
+2.1,2.5,2.2,2.2,2.9,2.3,2.3,2.6,
+3.5,3.4,3.3,3.2,2.9,2.8,3.8,3.4,
+2.4,1.8,2.5,2.1,2.2,1.9,1.7,2.3,
+2.8,3.1,3.2,4.0,2.9,3.6,3.2,3.7,
+4.5,4.8,4.7,4.1,4.1,4.2,4.6,4.9))
+data1
+```
+
+```{r}
+# ensure that independent variables are factors (essential for glht())
+data1$Device <- as.factor(data1$Device)
+data1$Vision <- as.factor(data1$Vision)
+data1$Participant <- as.factor(data1$Participant)
+```
+
+Plotting beeswarm of the data points and the mean time:
+
+```{r}
+pd <- position_dodge(0.3) # ensure no overlaps
+
+plot_grid({ 
+  data1 %>% 
+    ggplot(aes(x = Device, y = Time, color = Vision)) +
+    geom_beeswarm() + 
+    expand_limits(y = 0) +
+    theme(legend.position = "none")
+  },{
+  data1 %>% 
+    ggplot(aes(x = Device, y = Time, color = Vision, group = Vision)) +
+    stat_summary(fun.y = mean, geom = "point", shape = 18, size = 3, position = pd) + 
+    stat_summary(fun.y = mean, geom = "line", position = pd) + 
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0, position = pd) + 
+    ylab("Mean(Time) and 95% CI") +
+    expand_limits(y = 0)
+  },
+  nrow = 1)
+```
+
+# Model fitting
+```{r}
+# lmer() is from package lme4
+m1 <- lmer(Time ~ (1|Participant) + Vision * Device, data = data1)
+summary(m1)
+anova(m1)
+```
+
+**Interpretation:** Both independent variables have statistically significant effect on the `Time`. The interaction effect is also statistically significant. We can follow up on this with either planned contrasts or pairwise comparison.
+
+
+# References
+* Simon Voelker, Kjell Ivar Øvergård, Chat Wacharamanotham, and Jan Borchers. 2015. Knobology Revisited: A Comparison of User Performance between Tangible and Virtual Rotary Knobs. In Proceedings of the 2015 International Conference on Interactive Tabletops & Surfaces (ITS '15). ACM, New York, NY, USA, 35-38. DOI: https://doi.org/10.1145/2817721.2817725
