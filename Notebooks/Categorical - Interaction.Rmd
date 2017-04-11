@@ -394,6 +394,13 @@ plot_grid({
 # # linear model and ANOVA
 # m2 <- lm( #TODO# )
 # anova(m2)
+
+
+data_typing$Device <- as.factor(data_typing$Device)
+data_typing$Hands <- as.factor(data_typing$Hands)
+m2 <- lm(Time ~ Hands * Device, data = data_typing)
+anova(m2)
+
 ```
 
 **Interpretation:** TODO: Write your interpretation of the model fit. (Hint: Which terms seems to have a significant effect according to ANOVA result?)
@@ -408,6 +415,15 @@ plot_grid({
 #     ))
 # print(m2.main.pairwise)
 # m2.main.pairwise %>% plotMc()
+
+m2.main <-  update(m2, .~. - Hands:Device)
+m2.main.pairwise <- glht(m2.main,
+  linfct = mcp(
+    Device = "Tukey",
+    Hands = "Tukey"
+    ))
+print(m2.main.pairwise)
+m2.main.pairwise %>% plotMc()
 ```
 
 **Interpretation:** TODO: Write your interpretation. (Hint: Which independent variables seems to have stronger effect?)
@@ -421,6 +437,9 @@ Do multiple comparison to address the hypotheses below:
 ```{r}
 # m2.interaction <-  update(m2, .~. #TODO#)   # update the model to exclude main effect and intercept
 # summary(m2.interaction)
+
+m2.interaction <- update(m2, .~. - Device - Hands - 1)
+summary(m2.interaction)
 ```
 
 In the contrast matrix below, the columns are the levels of the first variable of the interaction
@@ -447,12 +466,38 @@ In the contrast matrix below, the columns are the levels of the first variable o
 # contr_matrix[1,] <- c(0, 0, 0, 0)
 # contr_matrix[2,] <- c(0, 0, 0, 0)
 # print(contr_matrix) # updated contrast matrix
+
+
+
+# template of the contrast matrix
+contr_matrix <- matrix(byrow = TRUE, nrow = 2,
+  data = c(
+    0, 0, 0, 0,
+    0, 0, 0, 0),
+  dimnames = list(c(
+      # row names: hypotheses (only the left-hand-side)
+      "Phone: TwoThumbs - OneIndex",
+      "Tablet: TwoThumbs - OneIndex"
+    ),
+    c(
+      # column names: the levels of the first variable of the interaction
+      rep(m2.interaction$xlevels[[1]], 2)
+    )))
+  
+print(contr_matrix)
+
+# TODO: replace some of the following zeros with an appropriate number. 
+contr_matrix[1,] <- c(1, -1, 0, 0)
+contr_matrix[2,] <- c(0, 0, 1, -1)
+print(contr_matrix) # updated contrast matrix
 ```
 
 Now, you can run the interaction contrasts.
 ```{r}
 # m2.interaction.mc <- glht(m2.interaction, linfct = contr_matrix)
 # m2.interaction.mc %>%plotMc()
+m2.interaction.mc <- glht(m2.interaction, linfct = contr_matrix)
+m2.interaction.mc %>%plotMc()
 ```
 
 **Interpretation:** TODO: Write your interpretation. (Hint: Does the effect of the hands manifest in the same way in both devices?)
