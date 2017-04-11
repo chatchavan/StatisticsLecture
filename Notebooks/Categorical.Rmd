@@ -217,5 +217,65 @@ summary(glht(m1,
 
 
 
+# Your turn
+
+```{r}
+data_game <- read.csv("../data/GameControllers.csv")
+```
+
+Inspection plot of the data
+```{r}
+plot_grid({ 
+  data_game %>% 
+    ggplot(aes(x = Device, y = Time)) +
+    geom_beeswarm() + 
+    expand_limits(y = 0) +
+    theme(legend.position = "none")
+  },{
+  data_game %>% 
+    ggplot(aes(x = Device, y = Time)) +
+    stat_summary(fun.y = mean, geom = "point", shape = 18, size = 3) + 
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0) + 
+    ylab("Mean(Time) and 95% CI") +
+    expand_limits(y = 0)
+  },
+  nrow = 1)
+```
+
+**Interpretation:** Write down your preliminary expectation based the graphs above.
 
 
+Fitting linear model
+```{r}
+# data_game$Device <- as.factor(data_game$Device)  # ensure that the Device is a factor variable
+# m2 <- lm( #TODO# , data = data_game)
+# anova(m2)
+```
+
+Conduct a planned contrast by uncommenting the code below and fill in specification for the following hypotheses:
+
+* \\(H_{0, 1}\\): There's no difference between desktop input devices (mouse and trackpad) and gaming devices (joystick, Wiimote, Kinect)
+* \\(H_{0, 2}\\): There's no difference between mouse and trackpad.
+* \\(H_{0, 3}\\): There's no difference between conventional joystick and motion controllers (Wiimote and Kinect).
+* \\(H_{0, 4}\\): There's no difference between Wiimote and Kinect
+
+```{r}
+# m2.contrast <- glht(m2, linfct = mcp(Device = 
+#   c(
+#     #TODO#
+#     )))
+# 
+# m2.contrast %>% 
+#   confint() %>% 
+#   tidy() %>% 
+#   ggplot(aes(x = paste(lhs, "==", rhs))) +
+#   geom_hline(yintercept = 0, color = "red") +
+#   geom_point(aes(y = estimate)) +            
+#   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
+#   expand_limits(y = 0) +
+#   coord_flip() +
+#   xlab("Hypothesis") +
+#   ylab("Estimate of the difference")
+```
+
+**Interpretation:** TODO: write your interpretation of the planned contrast analysis here.
