@@ -146,7 +146,7 @@ y2 <- c(
 y3 <- c(
   rnorm(n, mean = 5, sd = 1),
   rnorm(n, mean = 5, sd = 3),
-  rnorm(n, mean = 5, sd =5)
+  rnorm(n, mean = 5, sd = 5)
 )
 
 data <- tibble(
