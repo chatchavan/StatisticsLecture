@@ -71,12 +71,11 @@ options(DT.autoHideNavigation = TRUE)
 p_load(
   nortest, # for lillie.test(): The Kolmogorov-Smirnov test with a correct p-value
   fGarch,  # for rsnorm(): generating skewed distributions
-  lawstat, # for Brown-Forsythe test: levene.test(location = "median")
-  ARTool   # for Aligned Rank Transform art()
+  lawstat  # for Brown-Forsythe test: levene.test(location = "median")
   )
 
 # unload packages to prevent name clashes
-p_unload(nortest, fGarch, lawstat, ARTool)
+p_unload(nortest, fGarch, lawstat)
 
 ```
 
@@ -281,7 +280,6 @@ plot_effect <- function(ci_df, ylab, ref_intercept) {
     geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
     expand_limits(y = ref_intercept) +
     coord_flip() +
-    # xlab("Hypothesis") +
     ylab(ylab) +
     theme(axis.title.y = element_blank())
 }
