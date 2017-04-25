@@ -68,11 +68,15 @@ options(DT.autoHideNavigation = TRUE)
 ####
 
 
-p_install(c(
-  "nortest", # for lillie.test(): The Kolmogorov-Smirnov test with a correct p-value
-  "fGarch"   # for rsnorm(): generating skewed distributions
-  ))
+p_load(
+  nortest, # for lillie.test(): The Kolmogorov-Smirnov test with a correct p-value
+  fGarch,  # for rsnorm(): generating skewed distributions
+  lawstat, # for Brown-Forsythe test: levene.test(location = "median")
+  ARTool   # for Aligned Rank Transform art()
+  )
 
+# unload packages to prevent name clashes
+p_unload(nortest, fGarch, lawstat, ARTool)
 
 ```
 
@@ -117,19 +121,37 @@ Fit the model and analyze the residuals (of the whole model altogether) with the
 ```{r}
 # example data
 n <- 100
+
+# Alternative data sets
+y1 <- c( # mixed between normal and skewed data
+  rnorm(n, mean = 5),  # normally distributed
+    
+  # fGarch: xi parameter is a positive value.
+  # xi = 1: normal distribution (equal tail)
+  # 0 < xi < 1: negative skew (left tail is longer)
+  # 1 < xi: positive skew (right tail is longer)
+  fGarch::rsnorm(n, mean = 8, sd = 1, xi = 0.1),
+  fGarch::rsnorm(n, mean = 10, sd = 1, xi = 20) 
+  
+  )
+
+# consistently skewed data
+y2 <- c(
+  fGarch::rsnorm(n, mean = 5, sd = 1, xi = 20),
+  fGarch::rsnorm(n, mean = 8, sd = 1, xi = 20),
+  fGarch::rsnorm(n, mean = 10, sd = 1, xi = 20) 
+)
+
+# unequal variance
+y3 <- c(
+  rnorm(n, mean = 5, sd = 1),
+  rnorm(n, mean = 5, sd = 3),
+  rnorm(n, mean = 5, sd =5)
+)
+
 data <- tibble(
   x = as.factor(rep(c("A", "B", "C"), each = n)),
-  y = c(
-    rnorm(n, mean = 5),  # normally distributed
-    
-    fGarch::rsnorm(n, mean = 8, sd = 1, xi = 0.1),
-    fGarch::rsnorm(n, mean = 10, sd = 1, xi = 20) 
-    
-    # NOTE: xi parameter is a positive value.
-    # xi = 1: normal distribution (equal tail)
-    # 0 < xi < 1: negative skew (left tail is longer)
-    # 1 < xi: positive skew (right tail is longer)
-  )
+  y = y1   # TODO1: try swapping dataset here: y1, y2, or y3  (defined above)
 )
 
 # model
@@ -142,37 +164,70 @@ data %>%
   data_aug
 
 # plot model and residuals
-data_aug %>%   
+p_fit <-
+  data_aug %>%   
   ggplot(aes(x = x, y = y)) +
   geom_beeswarm() +
-  geom_point(aes(y = pred), color = "red", shape = 18, size = 3) ->
-  p_fit
+  geom_point(aes(y = pred), color = "red", shape = 18, size = 3)
+  
 
-data_aug %>%   
+p_resid <- 
+  data_aug %>%   
   ggplot(aes(x = x, y = resid)) +
   geom_beeswarm() +
-  geom_hline(yintercept = 0, color = "red", linetype = "dashed") ->
-  p_resid
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed")
+  
 
 plot_grid(p_fit, p_resid, nrow = 1)
 ```
 ```{r}
+# normality assumption
 car::qqPlot(data_aug$resid)
 nortest::lillie.test(data_aug$resid)
 ```
 
+```{r}
+# equal variance assumption
+data %>% 
+  group_by(x) %>% 
+  summarise(Median = median(y)) %>% 
+  ungroup() %>% 
+  inner_join(data, by = "x") ->
+  data_median
 
+p_median <-
+  data_median %>% 
+  ggplot(aes(x = x, y = y)) +
+  geom_beeswarm() +
+  geom_point(aes(y = Median), color = "green", shape = 18, size = 3)
+
+p_median_diff <-
+  data_median %>% 
+  mutate(yMedDiff = y - Median) %>% 
+  ggplot(aes(x = x, y = yMedDiff)) +
+  geom_boxplot() +
+  geom_hline(yintercept = 0, color = "green") +
+  ylab("y - Median(y)")
+
+plot_grid(p_median, p_median_diff, nrow = 1)
+
+lawstat::levene.test(data$y, data$x, location="median")
+```
+
+**TODO:** Try changing the y to be skewed or unequal variance (see "TODO1" in the code above)
 
 ## Linear model (continous independent variable)
-Same procedure as above
+Same procedure as above, except that the test for heteroskedasticity (equal variance for continuous regressor) is different
 ```{r}
 # example data
 n <- 100
-x <- rnorm(n, mean = 5)
 data_cont <- tibble(
-  x = x,
+  x = rnorm(n, mean = 5),
   y = 2 + x * fGarch::rsnorm(n, mean = 8, sd = 0.5, xi = -3)
 )
+
+# TODO2: uncomment the line below for an alternative data
+# data_cont <- read_csv("../data//diverging.csv", col_types = "dd")
 
 # model
 m_cont <- lm(y ~ x, data = data_cont)
@@ -184,23 +239,34 @@ data_cont %>%
   data_cont_aug
 
 # plot model and residuals
-data_cont_aug %>%   
+p_fit_cont <-
+  data_cont_aug %>%   
   ggplot(aes(x = x, y = y)) +
-  geom_beeswarm() +
-  geom_point(aes(y = pred), color = "red", shape = 18, size = 3) ->
-  p_fit_cont
+  geom_point() +
+  geom_line(aes(y = pred), color = "red")
 
-data_cont_aug %>%   
+p_resid_cont <-
+  data_cont_aug %>%   
   ggplot(aes(x = x, y = resid)) +
-  geom_beeswarm() +
-  geom_hline(yintercept = 0, color = "red", linetype = "dashed") ->
-  p_resid_cont
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red")
+  
 
 plot_grid(p_fit_cont, p_resid_cont, nrow = 1)
 ```
 
 ```{r}
+# normality assumption
 car::qqPlot(data_aug$resid)
 nortest::lillie.test(data_aug$resid)
 ```
 
+```{r}
+# test heteroscedasticity (equal variance in the continous regressor)
+car::ncvTest(m_cont)
+
+# H0: the error term has constant variance
+# p < .05 indicates unequal variance
+```
+
+**TODO:** Try evaluating the assumptions using an alternative dataset. See the TODO2 in the code above.
