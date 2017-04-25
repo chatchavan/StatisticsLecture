@@ -123,6 +123,7 @@ Fit the model and analyze the residuals (of the whole model altogether) with the
 n <- 100
 
 # Alternative data sets
+set.seed(15)
 y1 <- c( # mixed between normal and skewed data
   rnorm(n, mean = 5),  # normally distributed
     
@@ -136,14 +137,24 @@ y1 <- c( # mixed between normal and skewed data
   )
 
 # consistently skewed data
+set.seed(15)
 y2 <- c(
   fGarch::rsnorm(n, mean = 5, sd = 1, xi = 20),
   fGarch::rsnorm(n, mean = 8, sd = 1, xi = 20),
   fGarch::rsnorm(n, mean = 10, sd = 1, xi = 20) 
 )
 
-# unequal variance
+# slightly skewed data with min = 0
+set.seed(15)
 y3 <- c(
+  abs(fGarch::rsnorm(n, mean = 1, sd = 1, xi = 1.2)),
+  abs(fGarch::rsnorm(n, mean = 3, sd = 3, xi = 1.2)),
+  abs(fGarch::rsnorm(n, mean = 5, sd = 2, xi = 1.2)) 
+)
+
+# unequal variance
+set.seed(15)
+y4 <- c(
   rnorm(n, mean = 5, sd = 1),
   rnorm(n, mean = 5, sd = 3),
   rnorm(n, mean = 5, sd = 5)
@@ -153,7 +164,9 @@ data <- tibble(
   x = as.factor(rep(c("A", "B", "C"), each = n)),
   y = y1   # TODO1: try swapping dataset here: y1, y2, or y3  (defined above)
 )
+```
 
+```{r}
 # model
 m1 <- lm(y ~ x, data = data)
 
