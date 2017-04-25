@@ -1,0 +1,154 @@
+---
+title: "TODO"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 15.04.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+p_load_gh(
+   "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+)
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+p_load(
+  ARTool,   # for Aligned Rank Transform art()
+  nortest, # for lillie.test(): The Kolmogorov-Smirnov test with a correct p-value
+  fGarch,  # for rsnorm(): generating skewed distributions
+  lawstat  # for Brown-Forsythe test: levene.test(location = "median")
+  )
+p_unload(ARTool, nortest, fGarch, lawstat)
+```
+
+# Data
+This dataset is simulated from the following hypothetical experiment:
+
+> A company has recently invested in smart watches (known as the Mango) for all sales executives. They have tasked your team to evaluate the impact of the Mango on productivity among the sales staff. They believe that having email on one’s wrist will cause faster response times to customers, and therefore more sales. 
+> Data will be collected for Sales Team A over a period of 3 months after the introduction of Mangos. Control data will be collected from members of Sales Team B over the same period—this group will not yet be equipped with Mangos. However, they will receive their Mangos in month 4, giving the researchers both between subjects (A compared to B) and within subjects (pre-Mango B compared to post-Mango B) data.
+
+
+```{r}
+age_df          <- read_csv("../data/Mango Watch/age.csv")
+usageTime_df    <- read_csv("../data/Mango Watch/usageTime.csv")
+team_df         <- read_csv("../data/Mango Watch/team.csv")
+sus_df          <- read_csv("../data/Mango Watch/SUS.csv")
+responseTime_df <- read_csv("../data/Mango Watch/responseTime.csv")
+inattention_df  <- read_csv("../data/Mango Watch/inattention.csv")
+
+responseTime_df <- left_join(team_df, responseTime_df, by = "ID")
+
+ageUsageTime_df <- left_join(team_df, age_df, by = "ID") %>% 
+  left_join(usageTime_df, by = "ID") %>% 
+  left_join(inattention_df, by = "ID")
+
+sus_df <- left_join(team_df, sus_df, by = "ID")
+```
+
+Your turn: analyze the response time by team and by month (separately). Don't forget statistical assumptions.
+
+```{r}
+responseTime_df %>% 
+  ggplot(., aes(x = ResponseTime) ) +
+  geom_histogram(bins = 80) +
+  facet_grid(Team + Month ~ . )
+```
+
+
+# Normality of residual
+```{r}
+#### Hints
+# normality: plot
+# car::qqPlot(diff)
+
+# normality: test
+# nortest::lillie.test(diff)
+```
+
+# Equal variance
+
+```{r}
+#### Hints
+# Equal variance: median plot
+# data %>% 
+#   group_by(x) %>% 
+#   summarise(Median = median(y)) %>% 
+#   ungroup() %>% 
+#   inner_join(data, by = "x") ->
+#   data_median
+# 
+# p_median_diff <-
+#   data_median %>% 
+#   mutate(yMedDiff = y - Median) %>% 
+#   ggplot(aes(x = x, y = yMedDiff)) +
+#   geom_boxplot() +
+#   geom_hline(yintercept = 0, color = "green") +
+#   ylab("y - Median(y)")
+
+
+# Equal variance: test
+# lawstat::levene.test(data$y, data$x, location = "median")
+```
+
+
+# Transformation
+```{r}
+# Check Log-transformation from Assumptions.Rmd
+# Check ART-transformation from AlignedRankTransform.Rmd
+```
+
