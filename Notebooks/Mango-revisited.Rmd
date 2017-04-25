@@ -149,6 +149,10 @@ responseTime_df %>%
 # Transformation
 ```{r}
 # Check Log-transformation from Assumptions.Rmd
+
+
 # Check ART-transformation from AlignedRankTransform.Rmd
+# ARTool::art(Y ~ X1 * X2, data = df)
+# wilcox.test()
 ```
 
