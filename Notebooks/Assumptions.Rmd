@@ -148,7 +148,7 @@ y2 <- c(
 set.seed(15)
 y3 <- c(
   abs(fGarch::rsnorm(n, mean = 1, sd = 1, xi = 1.2)),
-  abs(fGarch::rsnorm(n, mean = 3, sd = 3, xi = 1.2)),
+  abs(fGarch::rsnorm(n, mean = 1.2, sd = 1, xi = 1.2)),
   abs(fGarch::rsnorm(n, mean = 5, sd = 2, xi = 1.2)) 
 )
 
@@ -162,7 +162,7 @@ y4 <- c(
 
 data <- tibble(
   x = as.factor(rep(c("A", "B", "C"), each = n)),
-  y = y1   # TODO1: try swapping dataset here: y1, y2, or y3  (defined above)
+  y = y3   # TODO1: try swapping dataset here: y1, y2, or y3  (defined above)
 )
 ```
 
@@ -183,21 +183,122 @@ p_fit <-
   geom_beeswarm() +
   geom_point(aes(y = pred), color = "red", shape = 18, size = 3)
   
-
 p_resid <- 
   data_aug %>%   
   ggplot(aes(x = x, y = resid)) +
   geom_beeswarm() +
   geom_hline(yintercept = 0, color = "red", linetype = "dashed")
-  
 
 plot_grid(p_fit, p_resid, nrow = 1)
-```
-```{r}
-# normality assumption
+
+# test the normality assumption
 car::qqPlot(data_aug$resid)
 nortest::lillie.test(data_aug$resid)
 ```
+
+```{r with log transformation}
+# define our transformation and inverse-transformation functions
+my_log <- function(y){ log(y + 2) }
+my_inv_log <- function(log_y){exp(log_y) - 2}
+
+# notice the modifications in the NOTE comments below
+data_log <- 
+  data %>%
+  mutate(log_y = my_log(y + 2))
+
+# model
+m1_log <- lm(log_y ~ x, data = data_log)  # NOTE: modified the data and the left hand side of the model.
+
+# add residuals and prediction to the data
+data_log %>%
+  modelr::add_predictions(m1_log) %>% 
+  modelr::add_residuals(m1_log) ->
+  data_log_aug
+
+# plot model and residuals
+p_log_fit <-
+  data_log_aug %>%   
+  ggplot(aes(x = x, y = log_y)) +       # NOTE: modified value of y parameter
+  geom_beeswarm() +
+  geom_point(aes(y = pred), color = "red", shape = 18, size = 3)
+  
+
+p_log_resid <- 
+  data_log_aug %>%   
+  ggplot(aes(x = x, y = resid)) +
+  geom_beeswarm() +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed")
+  
+plot_grid(p_log_fit, p_log_resid, nrow = 1)
+
+
+# test the normality assumption
+car::qqPlot(data_log_aug$resid)
+nortest::lillie.test(data_log_aug$resid)
+```
+
+```{r multiple comparison with log transformation}
+# TODO: best with "y3" (see "TODO1" above)
+
+# multiple comparision without transformation
+m1_mc_nolog <- glht(m1, linfct = mcp(x = "Tukey"))
+m1_nolog_ci <- tidy(confint(m1_mc_nolog))
+
+# multiple comparision with transformation
+m1_log_mc <- glht(m1_log, linfct = mcp(x = "Tukey"))
+m1_log_ci <- tidy(confint(m1_log_mc))
+
+# rewrite the hypotheses from "A - B" to "log(A + 2) - log(B + 2)" for readability
+rewrite_hypothesis <- function(h){ str_c("log(", str_replace(h, " - ", " + 2) - log("), " + 2)") }
+m1_log_ci_plot <-
+  m1_log_ci %>% 
+  mutate(lhs = rewrite_hypothesis(lhs))
+
+# inverse-tranformation
+m1_invlog_ci <-
+  m1_log_ci %>% 
+  
+  # inverse-transform the results
+  # NOTE: we don't use "exp(log_y) - 2" because -2 is already accounted in the difference operator (in log unit)
+  mutate(estimate = exp(estimate),
+         conf.low = exp(conf.low),
+         conf.high = exp(conf.high)) %>% 
+  
+  # rewrite the hypothesis
+  mutate(
+    lhs = str_replace(lhs, "-", "/"),
+    rhs = "1"
+  )
+
+# plot effect size for comparison
+plot_effect <- function(ci_df, ylab, ref_intercept) {
+  ci_df %>% 
+    mutate(hypothesis = str_c(lhs, "=", rhs)) %>%  
+    mutate(hypothesis = fct_rev(hypothesis)) %>% # reverse order of the factor for plotting
+    ggplot(aes(x = hypothesis)) +
+    geom_hline(yintercept = ref_intercept, color = "red") +     # reference line
+    geom_point(aes(y = estimate)) +                  # point estimate of the difference
+    geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+    expand_limits(y = ref_intercept) +
+    coord_flip() +
+    # xlab("Hypothesis") +
+    ylab(ylab) +
+    theme(axis.title.y = element_blank())
+}
+
+p_mc_nolog <- plot_effect(m1_nolog_ci, "Estimate of the difference (without log transformation)", 0)
+p_mc_log <- plot_effect(m1_log_ci_plot, "Estimate of the difference (in log unit)", 0)
+p_mc_inv_log <- plot_effect(m1_invlog_ci, "Estimated \"ratio\" of the difference (in original unit)", 1)
+
+plot_grid(
+  p_fit,
+  plot_grid(p_mc_nolog, p_mc_log, p_mc_inv_log, ncol = 1),
+  ncol = 2,
+  rel_widths = c(1,4))
+  
+```
+
+
 
 ```{r}
 # equal variance assumption
@@ -224,7 +325,7 @@ p_median_diff <-
 
 plot_grid(p_median, p_median_diff, nrow = 1)
 
-lawstat::levene.test(data$y, data$x, location="median")
+lawstat::levene.test(data$y, data$x, location = "median")
 ```
 
 **TODO:** Try changing the y to be skewed or unequal variance (see "TODO1" in the code above)
