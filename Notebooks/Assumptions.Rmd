@@ -90,14 +90,18 @@ n <- 40
 x1 <- rnorm(n, mean = 5, sd = 2)
 x2 <- rnorm(n, mean = 10, sd = 2)
 
-# calculate the difference
-diff <- x1 - x2
+# model 
+my_model <- mean(my_diff)
+
+# residuals
+my_diff <- x1 - x2
+my_residual <- my_model - my_diff
 ```
 
 QQ plot:
 
 ```{r}
-car::qqPlot(diff)
+car::qqPlot(my_residual)
 ```
 
 * The vertical axis is the same as the horizontal axis in the plot of (x1 - x2) above.
@@ -109,7 +113,7 @@ car::qqPlot(diff)
 
 Kolmogorov-Smirnov test:
 ```{r}
-nortest::lillie.test(diff)
+nortest::lillie.test(my_residual)
 ```
 
 * H0: (x1 - x2) are normally distributed.
@@ -196,17 +200,15 @@ nortest::lillie.test(data_aug$resid)
 ```
 
 ```{r with log transformation}
-# define our transformation and inverse-transformation functions
-my_log <- function(y){ log(y + 2) }
-my_inv_log <- function(log_y){exp(log_y) - 2}
-
-# notice the modifications in the NOTE comments below
+# add a column to log-transform the data
+# since there're some data points equal to zero, we add a constant "+ 2" below
+# any constant that make all data points more than zero will do
 data_log <- 
   data %>%
-  mutate(log_y = my_log(y + 2))
+  mutate(log_y = log(y + 2))
 
 # model
-m1_log <- lm(log_y ~ x, data = data_log)  # NOTE: modified the data and the left hand side of the model.
+m1_log <- lm(log_y ~ x, data = data_log)  # NOTE: we use the "log_y" column instead of "y"
 
 # add residuals and prediction to the data
 data_log %>%
@@ -217,7 +219,7 @@ data_log %>%
 # plot model and residuals
 p_log_fit <-
   data_log_aug %>%   
-  ggplot(aes(x = x, y = log_y)) +       # NOTE: modified value of y parameter
+  ggplot(aes(x = x, y = log_y)) +       # NOTE: we plot x against log_y
   geom_beeswarm() +
   geom_point(aes(y = pred), color = "red", shape = 18, size = 3)
   
@@ -237,7 +239,7 @@ nortest::lillie.test(data_log_aug$resid)
 ```
 
 ```{r multiple comparison with log transformation}
-# TODO: best with "y3" (see "TODO1" above)
+# TODO: This section is best explored with with "y3" (see "TODO1" above)
 
 # multiple comparision without transformation
 m1_mc_nolog <- glht(m1, linfct = mcp(x = "Tukey"))
