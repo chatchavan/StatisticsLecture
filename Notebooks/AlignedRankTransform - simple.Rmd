@@ -189,7 +189,7 @@ Comparing the error count between the two interfaces, the differences of the ali
 wilcox_result <- wilcox.test(
   data %>% dplyr::filter(Interface == "2") %>% .[["Errors"]], 
   data %>% dplyr::filter(Interface == "1") %>% .[["Errors"]], 
-  paired = TRUE, conf.int = TRUE, conf.level = .95)
+  paired = FALSE, conf.int = TRUE, conf.level = .95)
 
 wilcox_result_t <- tidy(wilcox_result)
 wilcox_result_t
