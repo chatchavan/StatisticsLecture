@@ -1,0 +1,247 @@
+---
+title: "Aligned Rank Transform - simple"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 15.04.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+p_load_gh(
+   "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+)
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+
+library(ARTool) # for art() and art.lm()
+```
+
+Load the data
+```{r}
+# data adapted from PS4HCI "nonparam.xlsx" sheet E
+data <- read_csv("../data/ps4hci-e.csv", col_types = "ccci")
+data$Subject <- as.factor(data$Subject)
+data$Interface <- as.factor(data$Interface)
+data$Technique <- as.factor(data$Technique)
+```
+
+Inspect the experimental design
+```{r}
+data %>% 
+  group_by(Interface, Technique) %>% 
+  summarise(SubjectCount = length(Subject), SubjectIDs = str_c(unique(Subject), collapse=", "))
+```
+
+From the data, the design of this experiment is: <span style="color:red;">TODO</span>
+
+From the experimental design, the linear model can be written in R formula as:
+
+*Hint:*  `dependent_variable ~ fix_effects + (1|random_effect)`
+```
+TODO
+```
+
+
+
+Plot the data for visual inspection
+```{r, fig.height=3, fig.width=8}
+pd <- position_dodge(width = 0.2)
+p_interface <- data %>% 
+  ggplot(aes(x = Interface, y = Errors, color = Technique, group = Technique)) +
+  geom_point(alpha = 0.2, position = pd) +
+  stat_summary(fun.y = "mean", geom = "line", position = pd) +
+  stat_summary(fun.data = "mean_cl_normal", geom = "pointrange", position = pd)
+
+p_technique <- data %>% 
+  ggplot(aes(x = Technique, y = Errors, color = Interface, group = Interface)) +
+  geom_point(alpha = 0.2, position = pd) +
+  stat_summary(fun.y = "mean", geom = "line", position = pd) +
+  stat_summary(fun.data = "mean_cl_normal", geom = "pointrange", position = pd)
+
+plot_grid(p_interface, p_technique, nrow = 1)
+```
+
+From the plots, which independent variable(s) would you anticipate to have a signficant effect?: <span style="color:red;">TODO</span>
+
+
+# Parametric comparison
+(assumptions are violated, but provided here for comparison)
+```{r}
+m_param <- lmer(Errors ~ Interface * Technique + (1|Subject), data=data)
+
+# ANOVA
+anova(m_param)
+
+# pairwise comparison
+mc_param_interface <- multcomp::glht(
+  update(m_param, . ~  Interface + (1|Subject)),
+  linfct = mcp(Interface = "Tukey"))
+ci_param_interface <- tidy(confint(mc_param_interface))
+
+
+# effect size Cohen's d (and CIs)
+ci_param_interface$d <- ci_param_interface$estimate / sigmaHat(m_param)
+ci_param_interface$d.conf.high <- ci_param_interface$conf.high / sigmaHat(m_param)
+ci_param_interface$d.conf.low <- ci_param_interface$conf.low / sigmaHat(m_param)
+
+
+# confidence interval
+ci_param_interface
+```
+
+
+
+# Aligned Rank Transform
+1. Run ART and verify appropriateness of ART (all values should be close to zero):
+```{r}
+m_art <- art(Errors ~ Interface * Technique + (1|Subject), data=data)
+summary(m_art)
+```
+
+2. ANOVA
+```{r}
+anova_art <- anova(m_art)
+anova_art
+```
+
+Mixed effect ANOVA on the aligned rank transform (using subjects as random effect) shows signficant effect of <span style="color:red;">TODO</span>, F( <span style="color:red;">...TODO...</span>
+
+
+3. Pairwise comparison with ART results (in aligned ranks and in Cohen's d)
+
+```{r}
+m_art_interface <- artlm(m_art, "Interface")
+mc_art_interface <- multcomp::glht(m_art_interface,
+  linfct = mcp(Interface = "Tukey"))
+
+# effect size of aligned rank (and CIs)
+ci_art_interface <- tidy(confint(mc_art_interface))
+
+# effect size Cohen's d (and CIs)
+ci_art_interface$d <- ci_art_interface$estimate / sigmaHat(m_art_interface)
+ci_art_interface$d.conf.high <- ci_art_interface$conf.high / sigmaHat(m_art_interface)
+ci_art_interface$d.conf.low <- ci_art_interface$conf.low / sigmaHat(m_art_interface)
+
+ci_art_interface
+```
+
+Comparing the error count between the two interfaces, the differences of the aligned rank is `r ci_art_interface[["estimate"]]`, 95% CI [`r ci_art_interface[["conf.low"]]`, `r ci_art_interface[["conf.high"]]`] ranks. This difference yields the standardized effect size Cohen's *d* of `r ci_art_interface[["d"]]`, 95% CI [`r ci_art_interface[["d.conf.low"]]`, `r ci_art_interface[["d.conf.high"]]`] (no unit).
+
+
+
+# Pairwise comparison with Wilcoxon signed rank test
+```{r}
+wilcox_result <- wilcox.test(
+  data %>% dplyr::filter(Interface == "2") %>% .[["Errors"]], 
+  data %>% dplyr::filter(Interface == "1") %>% .[["Errors"]], 
+  paired = TRUE, conf.int = TRUE, conf.level = .95)
+
+wilcox_result_t <- tidy(wilcox_result)
+wilcox_result_t
+```
+
+
+Between the two interfaces, the median of the differences in error count is `r wilcox_result_t[["estimate"]]`, 95% CI [`r wilcox_result_t[["conf.low"]]`, `r wilcox_result_t[["conf.high"]]`] errors.
+
+# Graphical summary
+```{r}
+# common plot function
+plot_ci <- function(ci_tidy, y_str, ymin_str, ymax_str, ylab_str) {
+  ci_tidy %>% 
+    ggplot(aes_string(
+      x = 1, 
+      y = y_str,
+      ymin = ymin_str, 
+      ymax = ymax_str
+      )) +
+    geom_hline(yintercept = 0, color = "red") +
+    geom_point() +
+    geom_errorbar(width = 0) +
+    expand_limits(y = 0) +
+    coord_flip() +
+    ylab(ylab_str) +
+    theme(
+      axis.title.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank())
+}
+```
+```{r}
+plot_grid(
+  # parametric mean difference
+  plot_ci(ci_param_interface, "estimate", "conf.low", "conf.high", "Mean differences (errors)"),
+  plot_ci(ci_param_interface, "d", "d.conf.low", "d.conf.high", "Cohen's d of mean differences"),
+  
+  # ART (semi-parametric)
+  plot_ci(ci_art_interface,   "estimate", "conf.low", "conf.high", "Aligned rank differences"),
+  plot_ci(ci_art_interface,   "d", "d.conf.low", "d.conf.high", "Cohen's d of aligned rank differences"),
+  
+  # Wilcoxon signed-rank test (non-parametric)
+  plot_ci(wilcox_result_t,    "estimate", "conf.low", "conf.high", "Median of the differences (errors)"),
+  ncol = 1
+)
+  
+```
+
+
+ART, being a semi-parametric method is slightly more powerful than Wilcoxon in detecting the effect. The drawback is that the effect size in aligned rank differences are hard to interpret. Usually, we standardize the effect size by calculating Cohen's *d*. This allows us to compare between different ART results.
+
+# Your turn
+
+Copy this file, modify the code to analyze this dataset: `"../data/interface_error.csv"`

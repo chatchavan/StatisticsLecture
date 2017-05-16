@@ -1,0 +1,386 @@
+---
+title: "Statistical assumptions"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 15.04.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+p_load_gh(
+   "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+)
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+
+p_load(
+  nortest, # for lillie.test(): The Kolmogorov-Smirnov test with a correct p-value
+  fGarch,  # for rsnorm(): generating skewed distributions
+  lawstat  # for Brown-Forsythe test: levene.test(location = "median")
+  )
+
+# unload packages to prevent name clashes
+p_unload(nortest, fGarch, lawstat)
+
+```
+
+
+# Normality assumption
+The residuals are normally distributed.
+
+## Two samples (e.g., in t-test)
+```{r}
+# example data
+n <- 40
+x1 <- rnorm(n, mean = 5, sd = 2)
+x2 <- rnorm(n, mean = 10, sd = 2)
+
+# model 
+my_model <- mean(my_diff)
+
+# residuals
+my_diff <- x1 - x2
+my_residual <- my_model - my_diff
+```
+
+QQ plot:
+
+```{r}
+car::qqPlot(my_residual)
+```
+
+* The vertical axis is the same as the horizontal axis in the plot of (x1 - x2) above.
+* The points are sorted residuals.
+* The horizontal axis is the quantile.
+* The line indicates perfect normal distribution.
+* The points should stay near the line.
+
+
+Kolmogorov-Smirnov test:
+```{r}
+nortest::lillie.test(my_residual)
+```
+
+* H0: (x1 - x2) are normally distributed.
+* p-value more than .05 means the assumption is not violated.
+
+## Linear model (categorical independent variable)
+Fit the model and analyze the residuals (of the whole model altogether) with the procedure above.
+```{r}
+# example data
+n <- 100
+
+# Alternative data sets
+set.seed(15)
+y1 <- c( # mixed between normal and skewed data
+  rnorm(n, mean = 5),  # normally distributed
+    
+  # fGarch: xi parameter is a positive value.
+  # xi = 1: normal distribution (equal tail)
+  # 0 < xi < 1: negative skew (left tail is longer)
+  # 1 < xi: positive skew (right tail is longer)
+  fGarch::rsnorm(n, mean = 8, sd = 1, xi = 0.1),
+  fGarch::rsnorm(n, mean = 10, sd = 1, xi = 20) 
+  
+  )
+
+# consistently skewed data
+set.seed(15)
+y2 <- c(
+  fGarch::rsnorm(n, mean = 5, sd = 1, xi = 20),
+  fGarch::rsnorm(n, mean = 8, sd = 1, xi = 20),
+  fGarch::rsnorm(n, mean = 10, sd = 1, xi = 20) 
+)
+
+# slightly skewed data with min = 0
+set.seed(15)
+y3 <- c(
+  abs(fGarch::rsnorm(n, mean = 1, sd = 1, xi = 1.2)),
+  abs(fGarch::rsnorm(n, mean = 1.2, sd = 1, xi = 1.2)),
+  abs(fGarch::rsnorm(n, mean = 5, sd = 2, xi = 1.2)) 
+)
+
+# unequal variance
+set.seed(15)
+y4 <- c(
+  rnorm(n, mean = 5, sd = 1),
+  rnorm(n, mean = 5, sd = 3),
+  rnorm(n, mean = 5, sd = 5)
+)
+
+data <- tibble(
+  x = as.factor(rep(c("A", "B", "C"), each = n)),
+  y = y3   # TODO1: try swapping dataset here: y1, y2, or y3  (defined above)
+)
+```
+
+```{r}
+# model
+m1 <- lm(y ~ x, data = data)
+
+# add residuals and prediction to the data
+data %>%
+  modelr::add_predictions(m1) %>% 
+  modelr::add_residuals(m1) ->
+  data_aug
+
+# plot model and residuals
+p_fit <-
+  data_aug %>%   
+  ggplot(aes(x = x, y = y)) +
+  geom_beeswarm() +
+  geom_point(aes(y = pred), color = "red", shape = 18, size = 3)
+  
+p_resid <- 
+  data_aug %>%   
+  ggplot(aes(x = x, y = resid)) +
+  geom_beeswarm() +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed")
+
+plot_grid(p_fit, p_resid, nrow = 1)
+
+# test the normality assumption
+car::qqPlot(data_aug$resid)
+nortest::lillie.test(data_aug$resid)
+```
+
+```{r with log transformation}
+# add a column to log-transform the data
+# since there're some data points equal to zero, we add a constant "+ 2" below
+# any constant that make all data points more than zero will do
+data_log <- 
+  data %>%
+  mutate(log_y = log(y + 2))
+
+# model
+m1_log <- lm(log_y ~ x, data = data_log)  # NOTE: we use the "log_y" column instead of "y"
+
+# add residuals and prediction to the data
+data_log %>%
+  modelr::add_predictions(m1_log) %>% 
+  modelr::add_residuals(m1_log) ->
+  data_log_aug
+
+# plot model and residuals
+p_log_fit <-
+  data_log_aug %>%   
+  ggplot(aes(x = x, y = log_y)) +       # NOTE: we plot x against log_y
+  geom_beeswarm() +
+  geom_point(aes(y = pred), color = "red", shape = 18, size = 3)
+  
+
+p_log_resid <- 
+  data_log_aug %>%   
+  ggplot(aes(x = x, y = resid)) +
+  geom_beeswarm() +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed")
+  
+plot_grid(p_log_fit, p_log_resid, nrow = 1)
+
+
+# test the normality assumption
+car::qqPlot(data_log_aug$resid)
+nortest::lillie.test(data_log_aug$resid)
+```
+
+```{r multiple comparison with log transformation}
+# TODO: This section is best explored with with "y3" (see "TODO1" above)
+
+# multiple comparision without transformation
+m1_mc_nolog <- glht(m1, linfct = mcp(x = "Tukey"))
+m1_nolog_ci <- tidy(confint(m1_mc_nolog))
+
+# multiple comparision with transformation
+m1_log_mc <- glht(m1_log, linfct = mcp(x = "Tukey"))
+m1_log_ci <- tidy(confint(m1_log_mc))
+
+# rewrite the hypotheses from "A - B" to "log(A + 2) - log(B + 2)" for readability
+rewrite_hypothesis <- function(h){ str_c("log(", str_replace(h, " - ", " + 2) - log("), " + 2)") }
+m1_log_ci_plot <-
+  m1_log_ci %>% 
+  mutate(lhs = rewrite_hypothesis(lhs))
+
+# inverse-tranformation
+m1_invlog_ci <-
+  m1_log_ci %>% 
+  
+  # inverse-transform the results
+  # NOTE: we don't use "exp(log_y) - 2" because -2 is already accounted in the difference operator (in log unit)
+  mutate(estimate = exp(estimate),
+         conf.low = exp(conf.low),
+         conf.high = exp(conf.high)) %>% 
+  
+  # rewrite the hypothesis
+  mutate(
+    lhs = str_replace(lhs, "-", "/"),
+    rhs = "1"
+  )
+
+# plot effect size for comparison
+plot_effect <- function(ci_df, ylab, ref_intercept) {
+  ci_df %>% 
+    mutate(hypothesis = str_c(lhs, "=", rhs)) %>%  
+    mutate(hypothesis = fct_rev(hypothesis)) %>% # reverse order of the factor for plotting
+    ggplot(aes(x = hypothesis)) +
+    geom_hline(yintercept = ref_intercept, color = "red") +     # reference line
+    geom_point(aes(y = estimate)) +                  # point estimate of the difference
+    geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # 95% CI of the difference
+    expand_limits(y = ref_intercept) +
+    coord_flip() +
+    ylab(ylab) +
+    theme(axis.title.y = element_blank())
+}
+
+p_mc_nolog <- plot_effect(m1_nolog_ci, "Estimate of the difference (without log transformation)", 0)
+p_mc_log <- plot_effect(m1_log_ci_plot, "Estimate of the difference (in log unit)", 0)
+p_mc_inv_log <- plot_effect(m1_invlog_ci, "Estimated \"ratio\" of the difference (in original unit)", 1)
+
+plot_grid(
+  p_fit,
+  plot_grid(p_mc_nolog, p_mc_log, p_mc_inv_log, ncol = 1),
+  ncol = 2,
+  rel_widths = c(1,4))
+  
+```
+
+
+
+```{r}
+# equal variance assumption
+data %>% 
+  group_by(x) %>% 
+  summarise(Median = median(y)) %>% 
+  ungroup() %>% 
+  inner_join(data, by = "x") ->
+  data_median
+
+p_median <-
+  data_median %>% 
+  ggplot(aes(x = x, y = y)) +
+  geom_beeswarm() +
+  geom_point(aes(y = Median), color = "green", shape = 18, size = 3)
+
+p_median_diff <-
+  data_median %>% 
+  mutate(yMedDiff = y - Median) %>% 
+  ggplot(aes(x = x, y = yMedDiff)) +
+  geom_boxplot() +
+  geom_hline(yintercept = 0, color = "green") +
+  ylab("y - Median(y)")
+
+plot_grid(p_median, p_median_diff, nrow = 1)
+
+lawstat::levene.test(data$y, data$x, location = "median")
+```
+
+**TODO:** Try changing the y to be skewed or unequal variance (see "TODO1" in the code above)
+
+## Linear model (continous independent variable)
+Same procedure as above, except that the test for heteroskedasticity (equal variance for continuous regressor) is different
+```{r}
+# example data
+n <- 100
+data_cont <- tibble(
+  x = rnorm(n, mean = 5),
+  y = 2 + x * fGarch::rsnorm(n, mean = 8, sd = 0.5, xi = -3)
+)
+
+# TODO2: uncomment the line below for an alternative data
+# data_cont <- read_csv("../data//diverging.csv", col_types = "dd")
+
+# model
+m_cont <- lm(y ~ x, data = data_cont)
+
+# add residuals and prediction to the data
+data_cont %>%
+  modelr::add_predictions(m_cont) %>% 
+  modelr::add_residuals(m_cont) ->
+  data_cont_aug
+
+# plot model and residuals
+p_fit_cont <-
+  data_cont_aug %>%   
+  ggplot(aes(x = x, y = y)) +
+  geom_point() +
+  geom_line(aes(y = pred), color = "red")
+
+p_resid_cont <-
+  data_cont_aug %>%   
+  ggplot(aes(x = x, y = resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red")
+  
+
+plot_grid(p_fit_cont, p_resid_cont, nrow = 1)
+```
+
+```{r}
+# normality assumption
+car::qqPlot(data_aug$resid)
+nortest::lillie.test(data_aug$resid)
+```
+
+```{r}
+# test heteroscedasticity (equal variance in the continous regressor)
+car::ncvTest(m_cont)
+
+# H0: the error term has constant variance
+# p < .05 indicates unequal variance
+```
+
+**TODO:** Try evaluating the assumptions using an alternative dataset. See the TODO2 in the code above.

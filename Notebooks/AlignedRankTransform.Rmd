@@ -1,0 +1,190 @@
+---
+title: "Aligned Rank Transform"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 15.04.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+p_load_gh(
+   "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+)
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+
+p_load(
+  ARTool   # for Aligned Rank Transform art()
+  )
+
+# unload packages to prevent name clashes
+p_unload(ARTool)
+```
+
+```{r}
+set.seed(0)
+n_per_group <- 150
+df <- tibble(
+    X1 = factor(c(rep("A", n_per_group), rep("B", n_per_group))),
+    X2 = factor(rep(c("C","D","E"), n_per_group*2/3)),
+    Y = rnorm(n_per_group*2, 
+        (X1 == "B")
+        + 2 * (X2 == "D")
+        + 2 * (X1 == "B" & X2 == "D")
+        - 2 * (X1 == "A" & X2 == "D")
+        + 2 * (X2 == "E")) 
+)
+
+palette = c("#1b9e77", "#d95f02", "#7570b3")
+names(palette) = c("C", "D", "E")
+ggplot(df, aes(x = X1, y = Y, color = X2)) + 
+    geom_beeswarm() +
+    # geom_violin(trim = FALSE, adjust = 1.5) + 
+    # geom_point(pch = "-", size = 4) +
+    stat_summary(fun.y = mean, geom = "point", size = 4) + 
+    stat_summary(fun.y = mean, geom = "line", size = 1, mapping = aes(group = X2)) +
+    stat_summary(fun.y = mean, geom = "point", size = 9, mapping = aes(x = 1.5, group = NA), pch = "+") +
+    scale_y_continuous(breaks = seq(-6, 10, by = 2), minor_breaks = -6:10) +
+    scale_color_manual(guide = FALSE, values = palette) +
+    coord_cartesian(ylim = c(-6,10)) + 
+    facet_grid(. ~ X2)
+```
+
+* The line connects mean of A and B within each group of X2
+* The "+" indicate mean of both groups in X1 in each level of X2
+
+## ART model fitting
+```{r}
+m_art = ARTool::art(Y ~ X1 * X2, data = df)
+anova(m_art)
+```
+
+## Contrasts
+Assuming between-subject design (`paired = FALSE`)
+```{r}
+# Bonferroni correction: divide alpha (.05) by the number of hypotheses
+my_conf <- 1 - (.05 / 7)
+
+my_wilcox <- function(hypothesis, group1, group2) {
+  wilcox.test(group1, group2, paired = FALSE, conf.int = TRUE, conf.level = my_conf) %>%    
+    tidy() %>% 
+    mutate(Hypothesis = hypothesis) %>% 
+    select(Hypothesis, everything())
+}
+
+# Contrast X1: A vs. B
+mc_A_B <- my_wilcox("A vs. B",
+  df %>% dplyr::filter(X1 == "A") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "B") %>% .[["Y"]]
+)
+# NOTE: .[["Y"]] unpack the column Y of the input tibble (".") to a vector
+
+
+# Contrast X2 within each level of X1
+mc_A_C_D <- my_wilcox("A: C vs. D",
+  df %>% dplyr::filter(X1 == "A" & X2 == "C") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "A" & X2 == "D") %>% .[["Y"]]
+)
+mc_A_C_E <- my_wilcox("A: C vs. E",
+  df %>% dplyr::filter(X1 == "A" & X2 == "C") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "A" & X2 == "E") %>% .[["Y"]]
+)
+mc_A_D_E <- my_wilcox("A: D vs. E",
+  df %>% dplyr::filter(X1 == "A" & X2 == "D") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "A" & X2 == "E") %>% .[["Y"]]
+)
+
+mc_B_C_D <- my_wilcox("B: C vs. D",
+  df %>% dplyr::filter(X1 == "B" & X2 == "C") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "B" & X2 == "D") %>% .[["Y"]]
+)
+mc_B_C_E <- my_wilcox("B: C vs. E",
+  df %>% dplyr::filter(X1 == "B" & X2 == "C") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "B" & X2 == "E") %>% .[["Y"]]
+)
+mc_B_D_E <- my_wilcox("B: D vs. E",
+  df %>% dplyr::filter(X1 == "B" & X2 == "D") %>% .[["Y"]],   
+  df %>% dplyr::filter(X1 == "B" & X2 == "E") %>% .[["Y"]]
+)
+
+mc_results <- 
+  bind_rows(
+  mc_A_B,
+  mc_A_C_D,
+  mc_A_C_E,
+  mc_A_D_E,
+  mc_B_C_D,
+  mc_B_C_E,
+  mc_B_D_E
+  )
+
+
+mc_results %>% 
+  mutate(Hypothesis = fct_rev(Hypothesis)) %>%    # reverse order for plotting
+  ggplot(aes(x = Hypothesis)) +
+    geom_hline(yintercept = 0, color = "red") +     # reference line
+    geom_point(aes(y = estimate)) +                  # point estimate of the difference
+    geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) + # adjusted CI of the difference
+    expand_limits(y = 0) +
+    coord_flip() +
+    ylab("Rank difference (CIs are adjusted for multiple comparison)")
+
+# NOTE: For unpaired, the estimate is the rank difference. For paired: (pseudo)median
+#    print the result of wilcox.test to see details
+```
+
