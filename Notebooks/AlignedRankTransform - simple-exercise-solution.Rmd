@@ -88,7 +88,7 @@ data <- tibble(
   ))
 ) %>% 
   dplyr::arrange(Subject, Interface, Technique)
-
+data$Errors <- as.integer(data$Errors)
 write_csv(data, "../data/interface_error.csv")
 
 ```
@@ -108,16 +108,6 @@ data %>%
   summarise(SubjectCount = length(Subject), SubjectIDs = str_c(unique(Subject), collapse=", "))
 ```
 
-From the data, the design of this experiment is: <span style="color:red;">TODO</span>
-
-From the experimental design, the linear model can be written in R formula as:
-
-*Hint:*  `dependent_variable ~ fix_effects + (1|random_effect)`
-```
-TODO
-```
-
-
 
 Plot the data for visual inspection
 ```{r, fig.height=3, fig.width=8}
@@ -136,8 +126,6 @@ p_technique <- data %>%
 
 plot_grid(p_interface, p_technique, nrow = 1)
 ```
-
-From the plots, which independent variable(s) would you anticipate to have a signficant effect?: <span style="color:red;">TODO</span>
 
 
 # Parametric comparison
@@ -209,10 +197,11 @@ err_A <- data %>% dplyr::filter(Technique == "A") %>% .[["Errors"]]
 err_B <- data %>% dplyr::filter(Technique == "B") %>% .[["Errors"]]
 err_C <- data %>% dplyr::filter(Technique == "C") %>% .[["Errors"]]
 
+my_conf <- 1 - (.05 / 3)
 wilcox_result_t <- bind_rows(
-  tidy(wilcox.test(err_B, err_A, paired = TRUE, conf.int = TRUE, conf.level = .95)),
-  tidy(wilcox.test(err_C, err_A, paired = TRUE, conf.int = TRUE, conf.level = .95)),
-  tidy(wilcox.test(err_C, err_B, paired = TRUE, conf.int = TRUE, conf.level = .95))
+  tidy(wilcox.test(err_B, err_A, paired = TRUE, conf.int = TRUE, conf.level = my_conf)),
+  tidy(wilcox.test(err_C, err_A, paired = TRUE, conf.int = TRUE, conf.level = my_conf)),
+  tidy(wilcox.test(err_C, err_B, paired = TRUE, conf.int = TRUE, conf.level = my_conf))
 )
   
 wilcox_result_t$lhs <- c("B - A", "C - A", "C - B")
