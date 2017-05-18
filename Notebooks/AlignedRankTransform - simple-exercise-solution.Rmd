@@ -199,9 +199,9 @@ err_C <- data %>% dplyr::filter(Technique == "C") %>% .[["Errors"]]
 
 my_conf <- 1 - (.05 / 3)
 wilcox_result_t <- bind_rows(
-  tidy(wilcox.test(err_B, err_A, paired = TRUE, conf.int = TRUE, conf.level = my_conf)),
-  tidy(wilcox.test(err_C, err_A, paired = TRUE, conf.int = TRUE, conf.level = my_conf)),
-  tidy(wilcox.test(err_C, err_B, paired = TRUE, conf.int = TRUE, conf.level = my_conf))
+  tidy(wilcox.test(err_B, err_A, paired = FALSE, conf.int = TRUE, conf.level = my_conf)),
+  tidy(wilcox.test(err_C, err_A, paired = FALSE, conf.int = TRUE, conf.level = my_conf)),
+  tidy(wilcox.test(err_C, err_B, paired = FALSE, conf.int = TRUE, conf.level = my_conf))
 )
   
 wilcox_result_t$lhs <- c("B - A", "C - A", "C - B")
@@ -245,7 +245,7 @@ plot_grid(
   
   # Wilcoxon signed-rank test (non-parametric)
   plot_ci(wilcox_result_t,    "estimate", "conf.low", "conf.high", "Median of the differences (errors)"),
-  ncol = 1
+  ncol = 2
 )
   
 ```
