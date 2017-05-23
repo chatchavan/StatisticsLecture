@@ -1,0 +1,155 @@
+---
+title: "Generalized linear model"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 22.05.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+   modelr,     #   - utility functions for interacting with models in pipe
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+# p_load_gh(
+#    "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+# )
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+# packages
+p_load(nnet) # for multinom
+p_load(car) # for Anova with Type II test (see below)
+
+```
+
+# Categorical variable with more than two levels (multinomial regression)
+
+The following dataset tracks the usage of social media application by the type of device. Each row of the data denotes the app that is used most frequently and the user's primary device (Phone or Tablet).
+```{r}
+data <- read_csv("../data/sns_device.csv", col_types = "ccc")
+
+p_data <- 
+  data %>% 
+  ggplot(aes(x = App, fill = Device)) +
+  geom_histogram(stat = "count") +
+  facet_grid(. ~ Device) +
+  theme(legend.position="none")
+p_data
+```
+
+We fit a multinomial regression model using device type as the regressor and the app as the outcome variable. Here, the `multinom` function creates two models. The first model compares Facebook (chosen as the baseline) with Instagram. The second model compares Facebook with Twitter.
+```{r}
+# Set *both* regressor and outcome variable as factor. 
+# This tells R to treat both of them as categorical variables.
+data$Device <- as.factor(data$Device)
+data$App <- as.factor(data$App)
+
+# Tell R to code the variable such that the first level is the baseline, and others are comparison.
+# (This is optional since R's default is already contr.treatment.)
+# Printing `contrasts(data$Device)` would show that "Phone" is the baseline
+contrasts(data$Device) <- "contr.treatment"   
+
+# Specify baseline cateogry of the dependent variable
+data$App <- relevel(data$App, ref = "Facebook")
+
+# create a multinomial regression model
+m1 <- multinom(App ~ Device, data = data)
+
+# analyze the effect with goodness of fit 
+# car::Anova() useType II test by default
+# Each row in the type II test compare all-term model vs. all-except-one-term model.
+# Each time, it account for variance that comes from other terms that are not of interest.
+# This will be more useful when we have more independent variables
+anova_t <- Anova(m1)
+anova_t
+```
+
+Multinomial logistic regression suggests a significant effect of device to app $\chi^2$(`r anova_t$Df`, N = `r nrow(data)`) = `r anova_t[["LR Chisq"]]`, p = `r anova_t[["Pr(>Chisq)"]]`
+
+
+```{r}
+# Extract coefficients and their confidence interval. 
+# The exp(coefficient) is odds ratio. 
+# The odd ratio = 1 means same odds regardless of the predictor value.
+# Possible range of odds ratio: 0 to Inifinity.
+m1_oddsratio <- tidy(m1, conf.int = TRUE, exponentiate = TRUE)
+m1_oddsratio
+```
+
+```{r}
+# plot the odds ratio
+p_oddsratio <- m1_oddsratio %>% 
+  mutate(
+    term = fct_recode(term, Phone = "(Intercept)", Tablet = "DeviceTablet"),
+    Label = str_c(term, ": odds of ", y.level, " times of Facebook"),
+    Label = fct_rev(Label)
+    ) %>% 
+  ggplot(aes( x = Label, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, color = "red") +
+  xlab("") +
+  ylab("Odds ratio") +
+  coord_flip()
+
+plot_grid(p_data, p_oddsratio, nrow = 2)
+```
+
+```{r}
+o_phone_instagram <- m1_oddsratio %>% filter(y.level == "Instagram", term == "(Intercept)")
+o_tablet_instagram <- m1_oddsratio %>% filter(y.level == "Instagram", term == "DeviceTablet")
+```
+
+
+Phone users are more likey to use Instagram than Facebook. The odds of using Instagram is `r o_phone_instagram[["estimate"]]` times of Facebook (95% CI: [`r o_phone_instagram[["conf.low"]]`, `r o_phone_instagram[["conf.high"]]`]). In contrast, for tablet users, Instagram is less popular, with the odds `r o_tablet_instagram[["estimate"]]` times of Facebook (95% CI: [`r o_tablet_instagram[["conf.low"]]`, `r o_tablet_instagram[["conf.high"]]`]).
