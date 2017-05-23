@@ -1,0 +1,339 @@
+---
+title: "Logistic regression"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 22.05.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+   modelr,     #   - utility functions for interacting with models in pipe
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+# p_load_gh(
+#    "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+# )
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+# additional packages
+p_load(car) # for Anova with Type II test (see below)
+p_load(ggmosaic) # for Mosaic plot
+```
+# Continuous independent variable
+
+Scenario: We conducted a survey of social network app preference (Facebook or Instagram).
+
+* Independent variable: Age (ratio)
+* Dependent variable: App (categorical: either "Instagram" or "Facebook")
+
+Null hypothesis: The coefficient of Age term == 0. (Meaning: age doesn't explain the app preference.)
+
+```{r}
+# data generator
+set.seed(12)
+n <- 40
+sns_age_df <- tibble(
+  Age = c(round(rnorm(n, mean = 15, sd = 8)),
+          round(rnorm(n, mean = 35, sd = 8))),
+  App = c(rep("Instagram", n),
+          rep("Facebook", n))
+)
+sns_age_df <-
+  sns_age_df %>% 
+  mutate(Age = if_else(Age < 10, Age + 10, Age))
+write_csv(sns_age_df, "../data/sns_age.csv")
+```
+
+```{r}
+sns_age_df <- read_csv("../data/sns_age.csv", col_types = "dc")
+
+p_stackdots <- sns_age_df %>% 
+  ggplot(aes(x = Age, fill = App, color = App)) +
+  geom_dotplot(method = "histodot", binwidth = 1) +
+  facet_grid(App ~ .) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(legend.position = "none")
+p_stackdots
+```
+
+We prepare the dependent variable (setting the baseline level).
+```{r}
+sns_age_df <- 
+  sns_age_df %>% 
+  mutate(
+    
+    # ensure that R treat App_fct as a categorical variable (used in model fitting)
+    App_fct = factor(App, levels = c("Instagram", "Facebook")),  # "Instagram": 1, "Facebook": 2
+    
+    # represent the App_fct as probability (ranging from 0 to 1); used in plotting
+    Prob_Facebook = as.numeric(App_fct) - 1  # "Instagram": 0, "Facebook": 1
+  )
+```
+
+
+Fit logistic regression model and perform Type II ANOVA.
+```{r}
+m_logit <- glm(App_fct ~ Age, data = sns_age_df, family = binomial(link = "logit"))
+anova_t <- Anova(m_logit)  # from package "car". Performs Type II ANOVA by default
+anova_t
+```
+
+Extract coefficients from the model. Note that we specify `exponentiate = TRUE` to take the odds out of the log-odds.
+```{r}
+m_logit_coeff <- tidy(m_logit, conf.int = TRUE, exponentiate = TRUE)
+m_logit_coeff
+
+# for in-line results in the following paragraph.
+coeff_age <- m_logit_coeff %>% filter(term == "Age")
+```
+
+A logistic regression shows statistically significant effect of age to the app preference, $\chi^2$(`r anova_t$Df`, N = `r nrow(sns_age_df)`) = `r anova_t[["LR Chisq"]]`, p = `r anova_t[["Pr(>Chisq)"]]`. The odds in favor of Facebook is `r coeff_age[["estimate"]]` times per a year of age (95% confidence interval [`r coeff_age[["conf.low"]]`, `r coeff_age[["conf.high"]]`])
+
+
+The logistic regression can be visualized as follow:
+```{r}
+p_prediction <- 
+  sns_age_df %>% 
+  
+  # adds prediction from the model, then
+  # calculate probability of the predicted value based on logistic regression
+  add_predictions(m_logit) %>%  
+  mutate(Prob = plogis(pred)) %>% 
+  
+  # plotting function
+  ggplot(aes(x = Age, color = App)) +
+  geom_point(aes(y = Prob_Facebook)) +
+  geom_line(aes(y = Prob), color = "blue") +
+  ylab("Probability of using Facebook") + 
+  theme(legend.position = "none")
+
+plot_grid(p_prediction, p_stackdots, ncol = 1)
+```
+
+For comparison, we fit and plot a linear model.
+```{r}
+m_linear <- lm(Prob_Facebook ~ Age, data = sns_age_df)
+p_linear <- 
+  sns_age_df %>% 
+  add_predictions(m_linear) %>%
+  ggplot(aes(x = Age, color = App)) +
+  geom_point(aes(y = Prob_Facebook)) +
+  geom_line(aes(y = pred), color = "blue") +
+  ylab("Probability of Facebook")
+plot_grid(p_prediction, p_linear, nrow = 1)
+```
+We can clearly see that logistic regression fits the data much better than the linear model.
+
+
+
+# Discrete independent variable
+
+We use the same data above, but partition age into two groups (cut at the median)
+
+* Independent variable: AgeGroup (categorical: either "Younger" or "Older")
+* Dependent variable: App (categorical: either "Instagram" or "Facebook")
+
+The hypothesis is the same as above.
+
+```{r}
+sns_age_df <- read_csv("../data/sns_age.csv", col_types = "dc")
+
+# adding the AgeGroup variable
+age_median <- median(sns_age_df$Age)
+sns_age_df <- 
+  sns_age_df %>% 
+  mutate(
+    AgeGroup = if_else(Age > age_median, "Older", "Younger")
+  )
+```
+
+Set the baseline level of the dependent variable (same as above).
+```{r}
+sns_age_df <- 
+  sns_age_df %>% 
+  mutate(
+    
+    # ensure that R treat App_fct as a categorical variable (used in model fitting)
+    App_fct = factor(App, levels = c("Instagram", "Facebook")),  # "Instagram": 1, "Facebook": 2
+    
+    # represent the App_fct as probability (ranging from 0 to 1); used in plotting
+    Prob_Facebook = as.numeric(App_fct) - 1  # "Instagram": 0, "Facebook": 1
+  )
+```
+
+**New:** Prepare the independent variable. We ensure that the `AgeGroup` is treated as a factor type and that the first level is "Younger".
+
+```{r}
+sns_age_df <-
+  sns_age_df %>% 
+  mutate(AgeGroup = factor(AgeGroup, levels = c("Younger", "Older")))
+
+contrasts(sns_age_df$AgeGroup) <- "contr.treatment"  # This line is optional, unless you change R's default contrast option.
+```
+
+Fit logistic regression, ANOVA, and extract coefficients.
+```{r}
+m_logit2 <- glm(App_fct ~ AgeGroup, data = sns_age_df, family = binomial(link = "logit"))
+anova2_t <- Anova(m_logit2)  # from package "car". Performs Type II ANOVA by default
+anova2_t
+
+m_logit2_coeff <- tidy(m_logit2, conf.int = TRUE, exponentiate = TRUE)
+m_logit2_coeff
+
+# for in-line results in the following paragraph.
+coeff_age2 <- m_logit2_coeff %>% filter(term == "AgeGroupOlder")
+```
+
+A logistic regression shows statistically significant effect of age to the app preference, $\chi^2$(`r anova2_t$Df`, N = `r nrow(sns_age_df)`) = `r anova2_t[["LR Chisq"]]`, p = `r anova2_t[["Pr(>Chisq)"]]`. The odds in favor of Facebook is `r coeff_age2[["estimate"]]` times *in the older user group* (95% confidence interval [`r coeff_age2[["conf.low"]]`, `r coeff_age2[["conf.high"]]`])
+
+We can visualize the data with Mosaic plot.
+```{r}
+ggplot(data = sns_age_df) +
+  geom_mosaic(aes(x = product(App, AgeGroup), fill = App))
+```
+
+
+
+# Multiple independent variables
+
+```{r}
+set.seed(12)
+n <- 40
+sns_age_df2 <- tibble(
+  Age = c(round(rnorm(n/2, mean = 18, sd = 8)),  # Instagram, Phone
+          round(rnorm(n/2, mean = 10, sd = 8)),  # Instagram, Tablet
+          round(rnorm(n/2, mean = 25, sd = 8)),  # Facebook, Phone
+          round(rnorm(n/2, mean = 35, sd = 8))),  # Facebook, Tablet
+  App = c(rep("Instagram", n),
+          rep("Facebook", n)),
+  Device = rep(c("Phone", "Tablet"), each = n/2, times = 2)
+)
+
+write_csv(sns_age_df2, "../data/sns_age_device.csv")
+sns_age_df2 <- read_csv("../data/sns_age_device.csv", col_types = "dcc")
+```
+
+Set the baseline level of the independent and the dependent variables.
+```{r}
+sns_age_df2 <- 
+  sns_age_df2 %>% 
+  mutate(
+    # For the model: "Instagram": 1, "Facebook": 2
+    App_fct = factor(App, levels = c("Instagram", "Facebook")),
+    
+    # For the plot: "Instagram": 0, "Facebook": 1
+    Prob_Facebook = as.numeric(App_fct) - 1, 
+    
+    # Independent variable: Device
+    Device = factor(Device, levels = c("Phone", "Tablet"))
+  )
+
+contrasts(sns_age_df2$Device) <- "contr.treatment"
+```
+
+Fit logistic regression, ANOVA, and extract coefficients.
+```{r}
+m_logit3 <- glm(App_fct ~ Age + Device + Age:Device, data = sns_age_df2, family = binomial(link = "logit"))
+anova3_t <- Anova(m_logit3)
+anova3_t
+
+m_logit3_coeff <- tidy(m_logit3, conf.int = TRUE, exponentiate = TRUE)
+m_logit3_coeff
+
+# for in-line results in the following paragraph.
+coeff_age3 <- m_logit3_coeff %>% filter(term == "Age")
+```
+
+
+A logistic regression shows statistically significant effect of age to the app preference, $\chi^2$(`r anova3_t["Age", "Df"]`, N = `r nrow(sns_age_df)`) = `r anova3_t["Age", "LR Chisq"]`, p = `r anova3_t["Age", "Pr(>Chisq)"]`. The odds in favor of Facebook is `r coeff_age3[["estimate"]]` times per a year of age (95% confidence interval [`r coeff_age3[["conf.low"]]`, `r coeff_age3[["conf.high"]]`]). 
+
+The effect of device is not statistically significant, $\chi^2$(`r anova3_t["Device", "Df"]`, N = `r nrow(sns_age_df)`) = `r anova3_t["Device", "LR Chisq"]`, p = `r anova3_t["Device", "Pr(>Chisq)"]`.
+
+We can see the logistic regression:
+```{r}
+p_prediction3 <- 
+  sns_age_df2 %>% 
+  
+  # adds prediction from the model, then
+  # calculate probability of the predicted value based on logistic regression
+  add_predictions(m_logit3) %>%  
+  mutate(Prob = plogis(pred)) %>% 
+  
+  # plotting function
+  ggplot(aes(x = Age, color = App, shape = Device)) +
+  geom_point(aes(y = Prob_Facebook)) +
+  geom_line(aes(y = Prob, color = Device, group = Device)) +
+  ylab("Probability of using Facebook") 
+  # theme(legend.position = "none")
+p_prediction3
+```
+
+Alternatively, we can plot the odds of each effect:
+
+```{r, fig.height=2, fig.width=6}
+# plot the odds ratio
+p_odds <- 
+  m_logit3_coeff %>% 
+  filter(term != "(Intercept)") %>% 
+  ggplot(aes( x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, color = "red") +
+  xlab("") +
+  ylab("Odds of Facebook over Instagram") +
+  coord_flip()
+p_odds
+```
+

@@ -1,0 +1,154 @@
+---
+title: "Logistic regression"
+output: 
+  html_notebook: 
+    code_folding: hide
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+####
+# BEGIN: Chat's R header (revision: 22.05.17)
+####
+
+# The "pacman" package allows p_load() and p_load_gh() which
+# automatically install missing packages and load them
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(
+   car,        # grab bag of useful functions for NHST
+   multcomp,   # for glht (planned comparison, post-hoc test)
+   lme4,       # for multilevel linear model
+   lmerTest,   # provides p-values for lmer()
+   tidyverse,  # collection of the tidyverse packages (this automatically load the following):
+   #dplyr,     #   - for data wrangling
+   #tibble,    #   - a stricter alternative to data.frame
+   #readr,     #   - a stricter alternative to read.csv
+   #ggplot2,   #   - for plotting
+   #tidyr,     #   - for data tidying
+   #purrr,     #   - for functional programming
+               # other packages in tidyverse that are non-core
+   stringr,    #   - for string functions
+   forcats,    #   - utility functions for working with factor levels
+   broom,      #   - for cleaing output from models, e.g., lm()
+   lubridate,  #   - utility for parsing and performing arithematic on dates 
+   modelr,     #   - utility functions for interacting with models in pipe
+               # extensions of tidyverse
+   cowplot,    #   - adds plot_grid() to put multiple ggplot()'s togeter
+   GGally,     #   - adds ggpairs() which is a smarter scatterplot matrix
+               # 
+               # visualization & interactivity
+   Hmisc,      #   - for plotting mean and CI in ggplot
+   rafalib,    #   - for imagemat function (visualize contrast codings)
+   DT,         #   - for showing data table with navigation/search controls
+               # testing:
+   assertthat  #   - unit-testing functions
+)
+
+# p_load_gh(
+#    "eclarke/ggbeeswarm" # beeswarm plot extension for ggplot2
+# )
+
+# ggplot2 config (plot theme)
+myTheme <- theme(
+   panel.background = element_blank(), 
+   panel.grid.major = element_line(color = "lightgrey", size = 0.2)
+)
+
+# DT config
+options(DT.options = list(pageLength = 10))
+options(DT.autoHideNavigation = TRUE)
+
+# Hints:
+# string interpolation: str_interp("${var}")
+# options(digits=2)  # Decimal output readability, but may be problematic with rounding (default value = 7)
+
+####
+# END: Chat's R header
+####
+
+# additional packages
+p_load(car) # for Anova with Type II test (see below)
+p_load(ggmosaic) # for Mosaic plot
+```
+
+Scenario: We asked the participants two questions:
+
+* How frequent do you *read* information on social media?
+* How frequent do you *post* information on social media?
+
+The responses are from 1 (very seldom) -- 7 (very frequent)
+We wish to know whether the self-perception of social media behavior and their age influences their preference of social media (Facebook vs. Twitter).
+
+Load and visualize the data
+```{r}
+sns_behavior_df <- read_csv("../data/sns_behavior.csv", col_types = "iiic")
+
+p_scatter <- 
+  sns_behavior_df %>% 
+  ggplot(aes(x = Reading, y = Posting, shape = App, fill = Age, color = Age)) +
+  geom_point(position = position_dodge(width = 0.2))
+p_scatter
+```
+
+Prepare the dependent variable (setting the baseline level).
+```{r}
+# TODO
+```
+
+# Model 1: Age only
+
+Fit logistic regression model and perform Type II ANOVA.
+
+```{r}
+# m_logit <- glm( (formula here) , data = sns_behavior_df, family = binomial(link = "logit"))
+# TODO
+```
+
+Extract coefficients and calculate confidence interval
+```{r}
+# m_logit_coeff <- tidy(m_logit, TODO) # some additional parameters needed
+```
+
+Plot the data and prediction
+
+```{r}
+# TODO
+```
+
+Plot the odds of each effect:
+
+```{r}
+# TODO plot the odds
+```
+TODO: Interpret the ANOVA results and the odds results
+
+
+# Model 2: Age, Reading, and Posting rates
+
+Fit logistic regression model and perform Type II ANOVA.
+
+```{r}
+# m_logit <- glm( (formula here) , data = sns_behavior_df, family = binomial(link = "logit"))
+# TODO
+```
+
+Extract coefficients and calculate confidence interval
+```{r}
+# m_logit_coeff <- tidy(m_logit, TODO) # some additional parameters needed
+```
+
+Plot the data and prediction
+
+```{r}
+# TODO
+```
+
+Plot the odds of each effect:
+
+```{r}
+# TODO plot the odds
+```
+TODO: Interpret the ANOVA results and the odds results
+
