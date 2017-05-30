@@ -1,0 +1,191 @@
+---
+title: "QuantHCI Capstone Self-test"
+output: html_notebook
+---
+
+# Exercise description
+This exercise is designed for you to self-test your knowledge in QuantHCI. You will do this exercise in two passes. On the first pass, try answering all questions without any aids. Add notes to the sections that you need aids or unsure about.
+
+On the second pass, you may consult hinted course materials, Google search, or ask your partner classmate. Only stop at the checkpoints to discuss with your partner on the second pass.
+
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# TODO: Add your own header here as you proceed through the exercise. Only load the packages that you need.
+if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
+
+p_load(tidyverse)
+```
+
+
+# Study description
+
+Source: *The data and study description is adapted from Jacob Wobbrock's [PS4HCI](http://depts.washington.edu/madlab/proj/ps4hci/), of which data is from JMP statistical software's `cholesterol.jmp`.*
+
+
+> In this fictitious study, 20 trainee pilots were tested six times on one of four cockpit user interfaces for how long (in minutes) it took them to complete a challenging dogfight in a flight simulator during day and night conditions. Pilots trained daily and were tested on the first day of three months. The A and B interfaces were novel cockpit designs created by two competing Navy human factors teams. The Control interface was the de facto cockpit interface currently in use. The Placebo interface was one the pilots were led to believe was novel, but which actually was not, as it exhibited only trivial alterations from the Control interface. (This data is actually that of JMP's sample file cholesterol.jmp, changed here to be a study relevant to human-computer interaction.)
+
+# Sketch your expectation about the data
+
+* Describe the experimental design of this study (independent variables, dependent variables, within- vs. between-subjects, the scales of each variable).
+
+**Answer:** TODO
+
+* From the description of the study, write down how do you expect the data table to look like. For example, what would be column headers? What should each row represent? How many cells in total should this dataset have?
+
+**Answer:** TODO
+
+* Describe at least two hypotheses about this data.
+
+**Answer:** TODO
+
+* For each of your hypothesis, predict the outcome by sketching a graph on a piece of paper. Make sure to explicitly write the labels of axes. Be specific about the choice of statistics you wish to plot.
+
+**Answer:** TODO (sketch on a piece of paper)
+
+* Checkpoint #1 (second pass): Discuss with your partner on your expectations. 
+   * Do you formulated similar or different hypotheses? Why? 
+   * Do you have similar or different expectation? How differ? Why? 
+   * Do you choose the similar types of plot and data to plot? Why?
+Note these findings down below. You may make minor adjustments to your hypotheses. No need to make your hypothesis matches those of your partner.
+
+**Answer:** TODO
+
+## Hints
+* Lecture 1--3: Research methods overview and experimental research
+* Lecture 4: Exploratory data analysis
+* Lecture 5: 05 Introduction to frequentist statistics
+----
+
+# Data wrangling
+
+* Load the dataset from `data/cockpits.csv` print the data in table format below
+
+**Answer:**
+```{r}
+# TODO
+```
+**Hint:** 
+
+* Which aspect of this table matches your expectation? Which are not?
+
+**Answer:** TODO
+
+* Write code to change the data to the format you needed for plotting
+
+**Answer:**
+```{r}
+# TODO
+```
+
+## Hints
+* [Data Import (R4DS)](http://r4ds.had.co.nz/data-import.html)
+* [Data transformation (R4DS)](http://r4ds.had.co.nz/transform.html)
+* [Strings (R4DS)](http://r4ds.had.co.nz/strings.html)
+* [Factors (R4DS)](http://r4ds.had.co.nz/factors.html)
+* [Tidy data (R4DS)](http://r4ds.had.co.nz/tidy-data.html)
+* [Data Wrangling Cheat Cheat](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+* [R Cheat Sheet](http://nicolascampione.weebly.com/uploads/1/9/4/1/19411255/r_cheat_sheet.pdf)
+----
+
+# Exploratory analysis
+
+* Plot your data based on your sketches.
+
+**Answer:**
+```{r}
+# TODO
+```
+
+* How does the plots match/differ from your expectation?
+
+**Answer:** TODO
+
+* Checkpoint #2 (second pass): Present your charts to your classmates and try to describe how this chart support or refute your hypotheses. Comment on the chart presented by partner. How could it be improved to convey the message about your data? Note comments from your parter about your chart below.
+
+**Answer:** TODO
+
+## Hints
+* [Data visualization (R4DS)](http://r4ds.had.co.nz/data-visualisation.html)
+* Lecture 4: Exploratory data analysis
+
+
+----
+
+# Statistical assumptions
+
+* Describe what models and planned comparisons that you will perform to check your hypotheses above. For each analysis, name the model, variables, and expected statistical results. 
+
+**Answer:** TODO
+
+* Describe what statistical assumptions you need to check to perform these analyses.
+
+**Answer:** TODO
+
+* Write code to check these statistical assumptions.
+
+**Answer:**
+```{r}
+# TODO
+```
+
+* If statistical assumptions are unmet, how would you revise your analyis?
+
+**Answer:** TODO
+
+* Checkpoint #3 (second pass): Check with your partner if you covered all statistical assumptions you need. List the missed assumptions below. Revise your code above to include new assumptions accordingly
+
+**Answer:** TODO
+
+## Hints
+* Lecture 9: 09 Statistical assumptions and data transformations (`Assumptions.Rmd`)
+
+----
+
+# Confirmatory analysis
+
+
+* Write code to perform confirmatory analysis
+
+**Answer:**
+```{r}
+# TODO
+```
+
+* How would you report your analysis? 
+
+  * In the first chunk of code below, print out variables that you need for your report.
+
+  **Answer:**
+```{r}
+# TODO
+```
+
+  * In below write your results in RMarkdown and plot necessary charts
+  
+  **Answer:**
+```{r}
+# TODO
+```
+
+
+* Checkpoint #4 (second pass): Show your results to your partner. First, have your partner read the result in silence. Then, listen to suggestions for improving your results. Note down the suggestions below.
+
+**Answer:** TODO
+
+## Hints
+* Lecture 6: Linear regression (`ANOVA.Rmd`)
+* Lecture 7: Categorical independent variable (`Categorical.Rmd`)
+* Lecture 8: Contrasts and multilevel models (`Categorical.Rmd`, `Categorical - Interaction.Rmd`, `RepeatedMeasures.Rmd`)
+* Lecture 10: Generalized Linear Models (`GZLM - logistic.Rmd` and `GZLM - multinomial.Rmd`)
+* [R Markdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+
+----
+
+# Reproducibility
+
+
+* Checkpoint #5 (second pass): Use menu "Session → Restart R and Run all chunks". Can your result be reproduced? Give this file to your partner. Can it be run on his/her computer?
+
+
+* Checkpoint #6 (second pass): Send this file to `chat@ifi.uzh.ch` for feedback. Use the subject `(QuantHCI) Capstone Self-test`.
