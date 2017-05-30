@@ -124,6 +124,7 @@ sns_age_df <-
 ```
 
 
+
 Fit logistic regression model and perform Type II ANOVA.
 ```{r}
 m_logit <- glm(App_fct ~ Age, data = sns_age_df, family = binomial(link = "logit"))
@@ -237,7 +238,7 @@ m_logit2_coeff
 coeff_age2 <- m_logit2_coeff %>% filter(term == "AgeGroupOlder")
 ```
 
-A logistic regression shows statistically significant effect of age to the app preference, $\chi^2$(`r anova2_t$Df`, N = `r nrow(sns_age_df)`) = `r anova2_t[["LR Chisq"]]`, p = `r anova2_t[["Pr(>Chisq)"]]`. The odds in favor of Facebook is `r coeff_age2[["estimate"]]` times *in the older user group* (95% confidence interval [`r coeff_age2[["conf.low"]]`, `r coeff_age2[["conf.high"]]`])
+A logistic regression shows statistically significant effect of age to the app preference, $\chi^2$(`r anova2_t$Df`, N = `r nrow(sns_age_df)`) = `r anova2_t[["LR Chisq"]]`, p = `r anova2_t[["Pr(>Chisq)"]]`. The odds in favor of Facebook for older users is `r coeff_age2[["estimate"]]` times *the younger users* (95% confidence interval [`r coeff_age2[["conf.low"]]`, `r coeff_age2[["conf.high"]]`])
 
 We can visualize the data with Mosaic plot.
 ```{r}
@@ -295,6 +296,13 @@ m_logit3_coeff
 
 # for in-line results in the following paragraph.
 coeff_age3 <- m_logit3_coeff %>% filter(term == "Age")
+```
+```{r}
+Anova(m_logit3)
+```
+
+```{r}
+anova(m_logit3)
 ```
 
 
