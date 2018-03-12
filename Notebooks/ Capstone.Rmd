@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = FALSE)
 if (!require("pacman")) install.packages("pacman", repos = 'https://stat.ethz.ch/CRAN/'); library(pacman)
 
 p_load(tidyverse)
+p_load(stringr)
 ```
 
 
@@ -23,7 +24,7 @@ p_load(tidyverse)
 Source: *The data and study description is adapted from Jacob Wobbrock's [PS4HCI](http://depts.washington.edu/madlab/proj/ps4hci/), of which data is from JMP statistical software's `cholesterol.jmp`.*
 
 
-> In this fictitious study, 20 trainee pilots were tested six times on one of four cockpit user interfaces for how long (in minutes) it took them to complete a challenging dogfight in a flight simulator during day and night conditions. Pilots trained daily and were tested on the first day of three months. The A and B interfaces were novel cockpit designs created by two competing Navy human factors teams. The Control interface was the de facto cockpit interface currently in use. The Placebo interface was one the pilots were led to believe was novel, but which actually was not, as it exhibited only trivial alterations from the Control interface. (This data is actually that of JMP's sample file cholesterol.jmp, changed here to be a study relevant to human-computer interaction.)
+> In this fictitious study, 20 trainee pilots were tested six times on one of four cockpit user interfaces for how long (in minutes) it took them to complete a challenging dogfight in a flight simulator during day and night conditions. Pilots trained daily and were tested on the first day of three months. The A and B interfaces were novel cockpit designs created by two competing Navy human factors teams. The Control interface was the de facto cockpit interface currently in use. The Placebo interface was one the pilots were led to believe was novel, but which actually was not, as it exhibited only trivial alterations from the Control interface.
 
 # Sketch your expectation about the data
 
@@ -64,6 +65,7 @@ Note these findings down below. You may make minor adjustments to your hypothese
 **Answer:**
 ```{r}
 # TODO
+data <- read_csv("../data/cockpits.csv")
 ```
 **Hint:** 
 
@@ -76,6 +78,14 @@ Note these findings down below. You may make minor adjustments to your hypothese
 **Answer:**
 ```{r}
 # TODO
+
+p_load(stringr)
+data %>% 
+  gather(`April day`, `April night`, `May day`, `May night`, `June day`, `June night`, key = "Key", value = "Time") %>% 
+  mutate(
+    Period = str_match(Key, ".+ (.+)")[,2],
+    Month = str_match(Key, "(.+) ")[,1]
+  )
 ```
 
 ## Hints
@@ -94,7 +104,24 @@ Note these findings down below. You may make minor adjustments to your hypothese
 
 **Answer:**
 ```{r}
-# TODO
+data1 <- data %>% 
+ gather(`April day`, `April night`, `May day`, `May night`, `June day`, `June night`, key = "Key", value = "Time") %>% 
+ mutate(
+   Period = str_match(Key, ".+ (.+)")[,2],
+   Month = str_match(Key, "(.+) ")[,1]
+ )
+data1$Period <- as.factor(data1$Period)
+data1$Month <- as.factor(data1$Month)
+data1$CockpitUI <- as.factor(data1$CockpitUI)
+
+pd <- position_dodge(0.5)
+data1 %>% 
+    ggplot(aes(x = Month, y = Time, color = CockpitUI)) +
+    facet_grid(Period  ~ .) +
+    stat_summary(fun.y = mean, geom = "point", shape = 18, size = 3, position = pd) + 
+    stat_summary(aes(x = as.numeric(Month)), fun.y = mean, geom = "line", position = pd) + 
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0, position = pd)
+    
 ```
 
 * How does the plots match/differ from your expectation?
