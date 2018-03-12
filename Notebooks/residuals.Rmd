@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # The "pacman" package automatically install missing packages and load them
 if (!require("pacman")) install.packages("pacman", repos='https://stat.ethz.ch/CRAN/'); library(pacman)
 p_load(
+       shiny,
        DT,         # for showing data table with navigation/search controls
        tidyr,      # collection of the tidyverse packages:
        dplyr,      #   - for data wrangling
