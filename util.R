@@ -9,16 +9,18 @@ rmarkdownOutput <- function(rmdPath) {
   )
 }
 
-# calculate descriptive statistics
+# calculate mode
 findModes <- function(x){
   xtab <- table(x)
-  modes <- xtab[max(xtab)==xtab]
+  if (max(xtab) == 1) {
+    return("") # no duplicate data points
+  }
+  modes <- xtab[max(xtab) == xtab]
   themodes <- names(modes)
   mode(themodes)  <-  typeof(x[1])
-  mout <- list(values=themodes)
-  return(mout)
+  mode_out <- paste(themodes, sep = ", ")
+  return(mode_out)
 }
-
 # Create a data frame with rectangle coordinates 
 # from the given data frame of mean and sample ID.
 # Margin of error (moes) may vary
