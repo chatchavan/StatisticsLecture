@@ -105,7 +105,7 @@ server <- function(input, output,session) {
     val$statMean <- mean(histData$x)
     val$statSD <- sd(histData$x)
     val$statMedian <- median(histData$x)
-    val$statMode <- findModes(histData$x)$values
+    val$statMode <- 0 # TODO: update this line to the new mode function findModes(histData$x)$values
     
     # pack descriptive statistics for plotting
     statData <- data.frame(
